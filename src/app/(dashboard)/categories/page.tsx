@@ -3,11 +3,11 @@
 import React, { useState } from 'react';
 import { useFinance } from '@/context/FinanceContext';
 import { ExpenseCategory } from '@/lib/types';
-import { 
-  Tag, 
-  Edit3, 
-  AlertTriangle, 
-  CheckCircle2, 
+import {
+  Tag,
+  Edit3,
+  AlertTriangle,
+  CheckCircle2,
   HelpCircle,
   TrendingUp,
   Receipt,
@@ -73,7 +73,7 @@ export default function CategoriesPage() {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -84,11 +84,11 @@ export default function CategoriesPage() {
 
       {/* Overview Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        
+
         {/* Total Budgeted */}
         <div className="bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 rounded-2xl p-4 shadow-sm flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-wider">Total Allocated Budget</span>
+            <span className="text-sm font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider">Total Allocated Budget</span>
             <h3 className="text-xl font-extrabold text-slate-900 dark:text-zinc-100 mt-1">{currency}{totalBudgets.toLocaleString()}</h3>
           </div>
           <span className="p-2 bg-primary/10 text-primary dark:bg-primary/10 dark:text-primary rounded-xl"><Scale className="h-5 w-5" /></span>
@@ -97,7 +97,7 @@ export default function CategoriesPage() {
         {/* Total Spent */}
         <div className="bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 rounded-2xl p-4 shadow-sm flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-wider">Spend this month (June)</span>
+            <span className="text-sm font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider">Spend this month (June)</span>
             <h3 className="text-xl font-extrabold text-slate-900 dark:text-zinc-100 mt-1">{currency}{totalSpendThisMonth.toLocaleString()}</h3>
           </div>
           <span className="p-2 bg-rose-50 text-rose-600 dark:bg-rose-950/20 dark:text-rose-400 rounded-xl"><Receipt className="h-5 w-5" /></span>
@@ -105,20 +105,19 @@ export default function CategoriesPage() {
 
         {/* Global Usage Bar */}
         <div className="bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 rounded-2xl p-4 shadow-sm">
-          <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500 mb-2">
+          <div className="flex justify-between items-center text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 mb-2">
             <span>Overall Budget Usage</span>
             <span className={budgetUsageRate > 90 ? 'text-rose-500' : 'text-slate-700 dark:text-zinc-300'}>{budgetUsageRate.toFixed(0)}% Used</span>
           </div>
-          
+
           <div className="w-full bg-slate-100 dark:bg-zinc-950 rounded-full h-2 overflow-hidden mt-1.5">
-            <div 
-              className={`h-full transition-all duration-300 ${
-                budgetUsageRate > 100 
-                  ? 'bg-rose-600' 
-                  : budgetUsageRate > 80 
-                    ? 'bg-amber-500' 
-                    : 'bg-primary'
-              }`}
+            <div
+              className={`h-full transition-all duration-300 ${budgetUsageRate > 100
+                ? 'bg-rose-600'
+                : budgetUsageRate > 80
+                  ? 'bg-amber-500'
+                  : 'bg-primary'
+                }`}
               style={{ width: `${Math.min(100, budgetUsageRate)}%` }}
             />
           </div>
@@ -128,7 +127,7 @@ export default function CategoriesPage() {
 
       {/* Visual Category List Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        
+
         {budgets.map((b) => {
           const spent = getCategorySpend(b.category);
           const limit = b.limit;
@@ -141,7 +140,7 @@ export default function CategoriesPage() {
               layout
               className={`bg-white dark:bg-zinc-900 border ${meta.border} rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-all`}
             >
-              
+
               {/* Card Header (Category Title + Lucide Icon) */}
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
@@ -150,7 +149,7 @@ export default function CategoriesPage() {
                   </span>
                   <div>
                     <h3 className="text-xs font-black text-slate-800 dark:text-zinc-200">{b.category}</h3>
-                    <p className="text-[9px] text-slate-400 dark:text-zinc-500 font-semibold uppercase mt-0.5">Budget Allocation</p>
+                    <p className="text-[9px] text-slate-400 dark:text-slate-400 font-semibold uppercase mt-0.5">Budget Allocation</p>
                   </div>
                 </div>
 
@@ -169,7 +168,7 @@ export default function CategoriesPage() {
 
               {/* Progress and Spending Details */}
               <div className="space-y-3.5">
-                
+
                 <div className="flex justify-between items-end">
                   <div>
                     <span className="text-[9px] text-slate-400 font-bold uppercase block leading-none">Spent</span>
@@ -184,27 +183,25 @@ export default function CategoriesPage() {
                 {/* Progress bar */}
                 <div>
                   <div className="w-full bg-slate-50 dark:bg-zinc-950 rounded-full h-1.5 overflow-hidden">
-                    <div 
-                      className={`h-full transition-all duration-300 ${
-                        usagePercent > 100 
-                          ? 'bg-rose-600' 
-                          : usagePercent > 80 
-                            ? 'bg-amber-500' 
-                            : meta.color
-                      }`}
+                    <div
+                      className={`h-full transition-all duration-300 ${usagePercent > 100
+                        ? 'bg-rose-600'
+                        : usagePercent > 80
+                          ? 'bg-amber-500'
+                          : meta.color
+                        }`}
                       style={{ width: `${Math.min(100, usagePercent)}%` }}
                     />
                   </div>
-                  
+
                   {/* Status alert text */}
                   <div className="flex items-center justify-between mt-2.5">
-                    <span className={`text-[9px] font-bold flex items-center gap-1 ${
-                      usagePercent > 100 
-                        ? 'text-rose-500' 
-                        : usagePercent > 80 
-                          ? 'text-amber-500' 
-                          : 'text-emerald-500'
-                    }`}>
+                    <span className={`text-[9px] font-bold flex items-center gap-1 ${usagePercent > 100
+                      ? 'text-rose-500'
+                      : usagePercent > 80
+                        ? 'text-amber-500'
+                        : 'text-emerald-500'
+                      }`}>
                       {usagePercent > 100 ? (
                         <>
                           <AlertTriangle className="h-3 w-3 shrink-0" /> Over budget
@@ -219,7 +216,7 @@ export default function CategoriesPage() {
                         </>
                       )}
                     </span>
-                    <span className="text-[9px] font-bold text-slate-400 dark:text-zinc-500">{usagePercent.toFixed(0)}% utilized</span>
+                    <span className="text-[9px] font-bold text-slate-400 dark:text-slate-400">{usagePercent.toFixed(0)}% utilized</span>
                   </div>
 
                 </div>
@@ -241,20 +238,20 @@ export default function CategoriesPage() {
         {editModalOpen && selectedCategory && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.5 }} exit={{ opacity: 0 }} onClick={() => setEditModalOpen(false)} className="absolute inset-0 bg-black" />
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }} 
-              animate={{ scale: 1, opacity: 1 }} 
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-6 w-full max-w-sm shadow-2xl relative z-10 m-4"
             >
               <h3 className="text-base font-extrabold text-slate-900 dark:text-zinc-100">Adjust Category Budget</h3>
-              <p className="text-xs text-slate-400 dark:text-zinc-500 mt-1">Set monthly allocation thresholds for <span className="font-bold">{selectedCategory}</span>.</p>
+              <p className="text-xs text-slate-400 dark:text-slate-400 mt-1">Set monthly allocation thresholds for <span className="font-bold">{selectedCategory}</span>.</p>
 
               <form onSubmit={handleEditSubmit} className="mt-4 space-y-4">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Allocation Cap Limit ({currency})</label>
-                  <input 
-                    type="number" 
+                  <label className="block text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">Allocation Cap Limit ({currency})</label>
+                  <input
+                    type="number"
                     placeholder="0.00"
                     required
                     value={editLimit}

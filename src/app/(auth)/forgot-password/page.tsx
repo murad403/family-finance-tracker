@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
                     Email Address
                   </label>
                   <div className="relative mt-1.5 flex items-center">
-                    <Mail className="absolute left-3 h-4 w-4 text-slate-400 dark:text-zinc-500" />
+                    <Mail className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
                     <input
                       {...register('email')}
                       type="email"
@@ -125,7 +125,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="button"
                 onClick={() => setIsSubmitted(false)}
-                className="mt-6 text-xs text-slate-400 hover:text-slate-600 dark:text-zinc-500 dark:hover:text-zinc-300"
+                className="mt-6 text-xs text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-zinc-300"
               >
                 Didn't receive email? Try again
               </button>

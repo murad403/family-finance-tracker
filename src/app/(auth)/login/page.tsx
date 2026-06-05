@@ -97,7 +97,7 @@ export default function LoginPage() {
                 Email Address
               </label>
               <div className="relative mt-1.5 flex items-center">
-                <Mail className="absolute left-3 h-4 w-4 text-slate-400 dark:text-zinc-500" />
+                <Mail className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
                 <input
                   {...register('email')}
                   type="email"
@@ -125,7 +125,7 @@ export default function LoginPage() {
                 </Link>
               </div>
               <div className="relative mt-1.5 flex items-center">
-                <Lock className="absolute left-3 h-4 w-4 text-slate-400 dark:text-zinc-500" />
+                <Lock className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
                 <input
                   {...register('password')}
                   type={showPassword ? 'text' : 'password'}
@@ -135,7 +135,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 text-slate-400 hover:text-slate-600 dark:text-zinc-500 dark:hover:text-zinc-300"
+                  className="absolute right-3 text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-zinc-300"
                 >
                   {showPassword ? (
                     <EyeOff className="h-4 w-4" />
@@ -168,7 +168,7 @@ export default function LoginPage() {
 
           {/* Demo Details info */}
           <div className="mt-6 rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-3.5 dark:border-zinc-800 dark:bg-zinc-900/30">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
               Demo Credentials
             </span>
             <p className="mt-1 text-xs text-slate-500 dark:text-zinc-400">

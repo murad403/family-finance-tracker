@@ -4,23 +4,23 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useFinance } from '@/context/FinanceContext';
-import { 
-  LayoutDashboard, 
-  Users, 
-  TrendingUp, 
-  Receipt, 
-  FileText, 
-  Tag, 
-  BarChart3, 
-  Settings, 
-  Menu, 
-  X, 
-  Bell, 
-  Search, 
-  LogOut, 
-  Sun, 
-  Moon, 
-  ChevronDown, 
+import {
+  LayoutDashboard,
+  Users,
+  TrendingUp,
+  Receipt,
+  FileText,
+  Tag,
+  BarChart3,
+  Settings,
+  Menu,
+  X,
+  Bell,
+  Search,
+  LogOut,
+  Sun,
+  Moon,
+  ChevronDown,
   AlertTriangle,
   Info,
   CheckCircle2,
@@ -31,12 +31,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { 
-    isAuthenticated, 
-    logout, 
-    notifications, 
-    markNotificationAsRead, 
-    markAllNotificationsAsRead, 
+  const {
+    isAuthenticated,
+    logout,
+    notifications,
+    markNotificationAsRead,
+    markAllNotificationsAsRead,
     settings,
     members,
     expenses,
@@ -63,28 +63,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   // Load and apply theme
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
-    
-    setTheme(initialTheme);
-    if (initialTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.add('dark');
+    setTheme('dark');
   }, []);
-
-  const toggleTheme = () => {
-    const nextTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(nextTheme);
-    localStorage.setItem('theme', nextTheme);
-    if (nextTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
 
   // Close dropdowns on click outside
   useEffect(() => {
@@ -110,7 +91,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (!isAuthenticated) {
     return (
-      <div className="flex flex-1 min-h-screen items-center justify-center bg-slate-50 dark:bg-zinc-950">
+      <div className="flex flex-1 min-h-screen items-center justify-center bg-zinc-950">
         <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
       </div>
     );
@@ -132,7 +113,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const searchResults = (() => {
     if (!searchQuery.trim()) return { members: [], expenses: [], incomes: [] };
     const query = searchQuery.toLowerCase();
-    
+
     return {
       members: members.filter(m => m.name.toLowerCase().includes(query) || m.relationship.toLowerCase().includes(query)),
       expenses: expenses.filter(e => e.productName.toLowerCase().includes(query) || e.category.toLowerCase().includes(query)).slice(0, 3),
@@ -144,17 +125,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const unreadNotifications = notifications.filter(n => !n.read);
 
   return (
-    <div className="min-h-screen flex bg-slate-50/50 dark:bg-zinc-950 font-sans transition-colors duration-300">
-      
+    <div className="min-h-screen flex bg-zinc-950 font-sans transition-colors duration-300">
+
       {/* 1. Desktop Sidebar */}
-      <aside className="hidden lg:flex flex-col w-64 border-r border-slate-200/60 bg-white/70 backdrop-blur-md dark:bg-zinc-900/50 dark:border-zinc-800/60 sticky top-0 h-screen overflow-y-auto">
-        <div className="p-6 border-b border-slate-200/60 dark:border-zinc-800/60 flex items-center gap-3">
+      <aside className="hidden lg:flex flex-col w-64 border-r border-zinc-800 bg-zinc-900/50 backdrop-blur-md sticky top-0 h-screen overflow-y-auto">
+        <div className="p-6 border-b border-zinc-800 flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white text-lg font-bold shadow-lg shadow-primary/10">
             📊
           </div>
           <div>
-            <h1 className="font-bold text-slate-800 dark:text-zinc-50 leading-tight">Finance Tracker</h1>
-            <span className="text-[10px] text-slate-400 font-medium tracking-wide uppercase dark:text-zinc-500">{settings.familyInfo.familyName}</span>
+            <h1 className="font-bold text-zinc-50 leading-tight">Finance Tracker</h1>
+            <span className="text-sm text-zinc-400 font-medium tracking-wide uppercase">{settings.familyInfo.familyName}</span>
           </div>
         </div>
 
@@ -167,13 +148,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200 group ${
-                  isActive 
-                    ? 'bg-primary text-white shadow-md shadow-primary/15' 
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800/50'
-                }`}
+                className={`flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200 group ${isActive
+                  ? 'bg-primary text-white shadow-md shadow-primary/15'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                  }`}
               >
-                <Icon className={`h-4.5 w-4.5 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-600 dark:group-hover:text-zinc-300'}`} />
+                <Icon className={`h-4.5 w-4.5 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-300'}`} />
                 {item.name}
               </Link>
             );
@@ -181,20 +161,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </nav>
 
         {/* Profile / Logout Footer */}
-        <div className="p-4 border-t border-slate-200/60 dark:border-zinc-800/60 bg-slate-50/20 dark:bg-zinc-900/20">
-          <div className="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 shadow-sm">
+        <div className="p-4 border-t border-zinc-800 bg-zinc-900/20">
+          <div className="flex items-center justify-between p-2 rounded-xl bg-zinc-900 border border-zinc-800 shadow-sm">
             <div className="flex items-center gap-2.5">
-              <span className="text-xl bg-slate-100 dark:bg-zinc-800 h-9 w-9 rounded-lg flex items-center justify-center">
+              <span className="text-xl bg-zinc-800 h-9 w-9 rounded-lg flex items-center justify-center">
                 {settings.profile.avatar}
               </span>
               <div className="overflow-hidden">
-                <p className="text-xs font-bold text-slate-800 dark:text-zinc-200 truncate">{settings.profile.name}</p>
-                <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Owner</span>
+                <p className="text-xs font-bold text-zinc-200 truncate">{settings.profile.name}</p>
+                <span className="text-sm font-semibold text-emerald-400 uppercase tracking-wider">Owner</span>
               </div>
             </div>
-            <button 
+            <button
               onClick={() => logout()}
-              className="text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors p-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-zinc-800"
+              className="text-slate-400 hover:text-rose-400 transition-colors p-1.5 rounded-lg hover:bg-zinc-800"
               title="Sign Out"
             >
               <LogOut className="h-4 w-4" />
@@ -205,23 +185,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* 2. Main Page Container */}
       <div className="flex-1 flex flex-col min-w-0">
-        
+
         {/* Top Header */}
-        <header className="h-16 border-b border-slate-200/60 bg-white/70 backdrop-blur-md dark:bg-zinc-900/50 dark:border-zinc-800/60 flex items-center justify-between px-6 sticky top-0 z-40">
-          
+        <header className="h-16 border-b border-zinc-800 bg-zinc-900/50 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-40">
+
           {/* Header Left (Mobile menu trigger + Breadcrumb) */}
           <div className="flex items-center gap-4">
-            <button 
+            <button
               onClick={() => setMobileMenuOpen(true)}
-              className="lg:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+              className="lg:hidden p-2 rounded-lg text-zinc-400 hover:bg-zinc-800"
             >
               <Menu className="h-5 w-5" />
             </button>
             <div className="hidden sm:block">
-              <p className="text-xs font-semibold text-slate-400 dark:text-zinc-500 uppercase tracking-wider">
+              <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
                 {pathname === '/dashboard' ? 'Welcome Back' : 'Management'}
               </p>
-              <h2 className="text-sm font-bold text-slate-800 dark:text-zinc-200 capitalize">
+              <h2 className="text-sm font-bold text-zinc-200 capitalize">
                 {pathname.split('/')[1] || 'Dashboard'}
               </h2>
             </div>
@@ -229,11 +209,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
           {/* Header Right */}
           <div className="flex items-center gap-3">
-            
+
             {/* Global Search Bar */}
             <div className="relative" ref={searchRef}>
               <div className="relative hidden md:flex items-center">
-                <Search className="absolute left-3 h-4 w-4 text-slate-400 dark:text-zinc-500" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
                 <input
                   type="text"
                   placeholder="Global search..."
@@ -243,12 +223,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     setSearchOpen(true);
                   }}
                   onFocus={() => setSearchOpen(true)}
-                  className="w-56 lg:w-64 rounded-xl border border-slate-200 bg-slate-50/50 py-1.5 pl-9 pr-4 text-xs outline-none transition-all placeholder:text-slate-400 focus:border-primary focus:bg-white focus:w-72 dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-200 dark:focus:border-primary-hover dark:focus:bg-zinc-900"
+                  className="w-56 lg:w-64 rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 pl-9 pr-4 text-sm outline-none transition-all placeholder:text-zinc-400 focus:border-primary focus:bg-zinc-900 focus:w-72 text-zinc-200"
                 />
               </div>
-              <button 
+              <button
                 onClick={() => setSearchOpen(true)}
-                className="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                className="md:hidden p-2 rounded-lg text-zinc-400 hover:bg-zinc-800"
               >
                 <Search className="h-5 w-5" />
               </button>
@@ -263,25 +243,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     className="absolute right-0 mt-2 w-80 max-h-100 overflow-y-auto rounded-xl border border-slate-200 bg-white p-4 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 z-50"
                   >
                     <div className="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-zinc-800 mb-2">
-                      <span className="text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-wider">Search Results ({totalResults})</span>
-                      <button onClick={() => setSearchQuery('')} className="text-[10px] font-semibold text-slate-400 hover:text-slate-600">Clear</button>
+                      <span className="text-sm font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider">Search Results ({totalResults})</span>
+                      <button onClick={() => setSearchQuery('')} className="text-sm font-semibold text-slate-400 hover:text-slate-600">Clear</button>
                     </div>
 
                     {totalResults === 0 ? (
-                      <p className="text-center text-xs text-slate-400 dark:text-zinc-500 py-6">No matches found for "{searchQuery}"</p>
+                      <p className="text-center text-xs text-slate-400 dark:text-slate-400 py-6">No matches found for "{searchQuery}"</p>
                     ) : (
                       <div className="space-y-3">
                         {/* Members section */}
                         {searchResults.members.length > 0 && (
                           <div>
-                            <span className="text-[9px] font-bold text-slate-400 dark:text-zinc-500 uppercase">Members</span>
+                            <span className="text-xs font-bold text-zinc-400 uppercase">Members</span>
                             <div className="mt-1 space-y-1">
                               {searchResults.members.map(m => (
-                                <Link 
-                                  key={m.id} 
-                                  href={`/members/${m.id}`} 
+                                <Link
+                                  key={m.id}
+                                  href={`/members/${m.id}`}
                                   onClick={() => setSearchOpen(false)}
-                                  className="flex items-center gap-2 p-1.5 hover:bg-slate-50 dark:hover:bg-zinc-800 rounded-lg text-xs font-semibold text-slate-800 dark:text-zinc-200"
+                                  className="flex items-center gap-2 p-1.5 hover:bg-zinc-800 rounded-lg text-sm font-semibold text-zinc-200"
                                 >
                                   <span>{m.avatar}</span>
                                   <span>{m.name} ({m.relationship})</span>
@@ -294,17 +274,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         {/* Incomes section */}
                         {searchResults.incomes.length > 0 && (
                           <div>
-                            <span className="text-[9px] font-bold text-slate-400 dark:text-zinc-500 uppercase">Incomes</span>
+                            <span className="text-xs font-bold text-zinc-400 uppercase">Incomes</span>
                             <div className="mt-1 space-y-1">
                               {searchResults.incomes.map(i => (
-                                <Link 
-                                  key={i.id} 
-                                  href="/income" 
+                                <Link
+                                  key={i.id}
+                                  href="/income"
                                   onClick={() => setSearchOpen(false)}
-                                  className="flex justify-between items-center p-1.5 hover:bg-slate-50 dark:hover:bg-zinc-800 rounded-lg text-xs text-slate-700 dark:text-zinc-300"
+                                  className="flex justify-between items-center p-1.5 hover:bg-zinc-800 rounded-lg text-sm text-zinc-300"
                                 >
                                   <span className="truncate max-w-40 font-medium">{i.description}</span>
-                                  <span className="font-bold text-emerald-600 dark:text-emerald-400">+{settings.familyInfo.currency}{i.amount}</span>
+                                  <span className="font-bold text-emerald-400">+{settings.familyInfo.currency}{i.amount}</span>
                                 </Link>
                               ))}
                             </div>
@@ -314,17 +294,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         {/* Expenses section */}
                         {searchResults.expenses.length > 0 && (
                           <div>
-                            <span className="text-[9px] font-bold text-slate-400 dark:text-zinc-500 uppercase">Expenses</span>
+                            <span className="text-xs font-bold text-zinc-400 uppercase">Expenses</span>
                             <div className="mt-1 space-y-1">
                               {searchResults.expenses.map(e => (
-                                <Link 
-                                  key={e.id} 
-                                  href="/expenses" 
+                                <Link
+                                  key={e.id}
+                                  href="/expenses"
                                   onClick={() => setSearchOpen(false)}
-                                  className="flex justify-between items-center p-1.5 hover:bg-slate-50 dark:hover:bg-zinc-800 rounded-lg text-xs text-slate-700 dark:text-zinc-300"
+                                  className="flex justify-between items-center p-1.5 hover:bg-zinc-800 rounded-lg text-sm text-zinc-300"
                                 >
                                   <span className="truncate max-w-40 font-medium">{e.productName}</span>
-                                  <span className="font-bold text-rose-600 dark:text-rose-400">-{settings.familyInfo.currency}{e.amount}</span>
+                                  <span className="font-bold text-rose-400">-{settings.familyInfo.currency}{e.amount}</span>
                                 </Link>
                               ))}
                             </div>
@@ -337,24 +317,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </AnimatePresence>
             </div>
 
-            {/* Theme Toggle */}
-            <button 
-              onClick={toggleTheme}
-              className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:text-zinc-400 dark:hover:bg-zinc-800 transition-colors"
-              title={theme === 'light' ? 'Dark Mode' : 'Light Mode'}
-            >
-              {theme === 'light' ? <Moon className="h-4.5 w-4.5" /> : <Sun className="h-4.5 w-4.5" />}
-            </button>
-
             {/* Notification Dropdown */}
             <div className="relative" ref={notificationsRef}>
-              <button 
+              <button
                 onClick={() => setNotificationsOpen(!notificationsOpen)}
-                className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:text-zinc-400 dark:hover:bg-zinc-800 relative transition-colors"
+                className="p-2 rounded-lg text-zinc-400 hover:bg-zinc-800 relative transition-colors"
               >
                 <Bell className="h-4.5 w-4.5" />
                 {unreadNotifications.length > 0 && (
-                  <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-zinc-900"></span>
+                  <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-zinc-900"></span>
                 )}
               </button>
 
@@ -364,13 +335,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute right-0 mt-2 w-80 rounded-xl border border-slate-200 bg-white p-4 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 z-50"
+                    className="absolute right-0 mt-2 w-80 rounded-xl border border-zinc-800 bg-zinc-900 p-4 shadow-xl z-50"
                   >
-                    <div className="flex justify-between items-center pb-2.5 border-b border-slate-100 dark:border-zinc-800 mb-2">
-                      <span className="text-xs font-bold text-slate-800 dark:text-zinc-200">Notifications ({unreadNotifications.length} unread)</span>
-                      <button 
+                    <div className="flex justify-between items-center pb-2.5 border-b border-zinc-800 mb-2">
+                      <span className="text-xs font-bold text-zinc-200">Notifications ({unreadNotifications.length} unread)</span>
+                      <button
                         onClick={() => markAllNotificationsAsRead()}
-                        className="text-[10px] font-semibold text-primary hover:underline dark:text-primary"
+                        className="text-sm font-semibold text-primary hover:underline"
                       >
                         Mark all read
                       </button>
@@ -378,17 +349,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                     <div className="max-h-70 overflow-y-auto space-y-2.5 pr-0.5">
                       {notifications.length === 0 ? (
-                        <p className="text-center text-xs text-slate-400 dark:text-zinc-500 py-6">No notifications</p>
+                        <p className="text-center text-xs text-zinc-400 py-6">No notifications</p>
                       ) : (
                         notifications.map((n) => (
-                          <div 
-                            key={n.id} 
+                          <div
+                            key={n.id}
                             onClick={() => markNotificationAsRead(n.id)}
-                            className={`flex gap-3 p-2 rounded-lg cursor-pointer transition-all ${
-                              n.read 
-                                ? 'opacity-65 hover:opacity-100' 
-                                : 'bg-primary/5 border-l-2 border-primary dark:bg-primary/10 dark:border-primary'
-                            }`}
+                            className={`flex gap-3 p-2 rounded-lg cursor-pointer transition-all ${n.read
+                              ? 'opacity-65 hover:opacity-100'
+                              : 'bg-primary/10 border-l-2 border-primary dark:bg-primary/10 dark:border-primary'
+                              }`}
                           >
                             <span className="mt-0.5">
                               {n.type === 'warning' && <AlertTriangle className="h-4 w-4 text-amber-500" />}
@@ -396,9 +366,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                               {n.type === 'success' && <CheckCircle2 className="h-4 w-4 text-emerald-500" />}
                             </span>
                             <div className="flex-1">
-                              <h4 className="text-xs font-bold text-slate-800 dark:text-zinc-200 leading-tight">{n.title}</h4>
-                              <p className="text-[11px] text-slate-500 dark:text-zinc-400 mt-0.5 leading-normal">{n.message}</p>
-                              <span className="text-[9px] text-slate-400 dark:text-zinc-500 mt-1 block">
+                              <h4 className="text-xs font-bold text-zinc-200 leading-tight">{n.title}</h4>
+                              <p className="text-xs text-zinc-350 mt-0.5 leading-normal">{n.message}</p>
+                              <span className="text-[10px] text-zinc-450 mt-1 block">
                                 {new Date(n.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </span>
                             </div>
@@ -413,7 +383,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
             {/* Profile Menu Dropdown */}
             <div className="relative" ref={profileRef}>
-              <button 
+              <button
                 onClick={() => setProfileOpen(!profileOpen)}
                 className="flex items-center gap-1.5 p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
               >
@@ -433,9 +403,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   >
                     <div className="px-2 pb-2 mb-2 border-b border-slate-100 dark:border-zinc-800">
                       <p className="text-xs font-bold text-slate-800 dark:text-zinc-200 truncate">{settings.profile.name}</p>
-                      <p className="text-[10px] text-slate-400 dark:text-zinc-500 truncate leading-none mt-0.5">{settings.profile.email}</p>
+                      <p className="text-sm text-slate-400 dark:text-slate-400 truncate leading-none mt-0.5">{settings.profile.email}</p>
                     </div>
-                    
+
                     <Link
                       href="/settings"
                       onClick={() => setProfileOpen(false)}
@@ -443,7 +413,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     >
                       <Settings className="h-3.5 w-3.5" /> Settings
                     </Link>
-                    
+
                     <button
                       onClick={() => {
                         setProfileOpen(false);
@@ -472,7 +442,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {mobileMenuOpen && (
           <>
             {/* Backdrop */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.5 }}
               exit={{ opacity: 0 }}
@@ -480,7 +450,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               className="fixed inset-0 bg-black z-50 lg:hidden"
             />
             {/* Slide-out Menu */}
-            <motion.div 
+            <motion.div
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
@@ -494,10 +464,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   </div>
                   <div>
                     <h1 className="font-bold text-slate-800 dark:text-zinc-50 text-sm">Finance Tracker</h1>
-                    <span className="text-[9px] text-slate-400 font-semibold tracking-wide uppercase dark:text-zinc-500">{settings.familyInfo.familyName}</span>
+                    <span className="text-[9px] text-slate-400 font-semibold tracking-wide uppercase dark:text-slate-400">{settings.familyInfo.familyName}</span>
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800"
                 >
@@ -514,11 +484,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`flex items-center gap-3 px-4 py-2.5 text-xs font-bold rounded-xl transition-all duration-200 ${
-                        isActive 
-                          ? 'bg-primary text-white shadow-md shadow-primary/15' 
-                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800/50'
-                      }`}
+                      className={`flex items-center gap-3 px-4 py-2.5 text-xs font-bold rounded-xl transition-all duration-200 ${isActive
+                        ? 'bg-primary text-white shadow-md shadow-primary/15'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800/50'
+                        }`}
                     >
                       <Icon className="h-4 w-4" />
                       {item.name}
@@ -535,10 +504,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       {settings.profile.avatar}
                     </span>
                     <div className="overflow-hidden">
-                      <p className="text-[10px] font-bold text-slate-800 dark:text-zinc-200 truncate">{settings.profile.name}</p>
+                      <p className="text-sm font-bold text-slate-800 dark:text-zinc-200 truncate">{settings.profile.name}</p>
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={() => {
                       setMobileMenuOpen(false);
                       logout();

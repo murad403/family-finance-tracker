@@ -94,7 +94,7 @@ export default function RegisterPage() {
                 Admin Full Name
               </label>
               <div className="relative mt-1.5 flex items-center">
-                <User className="absolute left-3 h-4 w-4 text-slate-400 dark:text-zinc-500" />
+                <User className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
                 <input
                   {...register('name')}
                   type="text"
@@ -114,7 +114,7 @@ export default function RegisterPage() {
                 Family Tracker Name
               </label>
               <div className="relative mt-1.5 flex items-center">
-                <Users className="absolute left-3 h-4 w-4 text-slate-400 dark:text-zinc-500" />
+                <Users className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
                 <input
                   {...register('familyName')}
                   type="text"
@@ -134,7 +134,7 @@ export default function RegisterPage() {
                 Email Address
               </label>
               <div className="relative mt-1.5 flex items-center">
-                <Mail className="absolute left-3 h-4 w-4 text-slate-400 dark:text-zinc-500" />
+                <Mail className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
                 <input
                   {...register('email')}
                   type="email"
@@ -154,7 +154,7 @@ export default function RegisterPage() {
                 Password
               </label>
               <div className="relative mt-1.5 flex items-center">
-                <Lock className="absolute left-3 h-4 w-4 text-slate-400 dark:text-zinc-500" />
+                <Lock className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
                 <input
                   {...register('password')}
                   type={showPassword ? 'text' : 'password'}
@@ -164,7 +164,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 text-slate-400 hover:text-slate-600 dark:text-zinc-500 dark:hover:text-zinc-300"
+                  className="absolute right-3 text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-zinc-300"
                 >
                   {showPassword ? (
                     <EyeOff className="h-4 w-4" />
@@ -185,7 +185,7 @@ export default function RegisterPage() {
                 Confirm Password
               </label>
               <div className="relative mt-1.5 flex items-center">
-                <Lock className="absolute left-3 h-4 w-4 text-slate-400 dark:text-zinc-500" />
+                <Lock className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
                 <input
                   {...register('confirmPassword')}
                   type={showPassword ? 'text' : 'password'}

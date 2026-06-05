@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { useFinance } from '@/context/FinanceContext';
 import { ExpenseCategory, IncomeCategory } from '@/lib/types';
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  HelpCircle, 
-  BarChart3, 
+import {
+  TrendingUp,
+  TrendingDown,
+  HelpCircle,
+  BarChart3,
   Calendar,
   Sparkles,
   PieChart as IconPie,
@@ -114,7 +114,7 @@ export default function AnalyticsPage() {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Header */}
       <div>
         <h1 className="text-2xl font-black text-slate-800 dark:text-zinc-50 tracking-tight">Advanced Analytics</h1>
@@ -123,15 +123,15 @@ export default function AnalyticsPage() {
 
       {/* Row 1: Savings Trend (2/3) & Contribution Rankings (1/3) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         {/* Savings Trend */}
         <div className="lg:col-span-2 bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 rounded-2xl p-6 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-sm font-bold text-slate-800 dark:text-zinc-100">Savings Rate Progression</h2>
-              <p className="text-[11px] text-slate-400 dark:text-zinc-500">Monthly net savings (Income minus Expenses)</p>
+              <p className="text-[11px] text-slate-400 dark:text-slate-400">Monthly net savings (Income minus Expenses)</p>
             </div>
-            <span className="p-1 rounded bg-primary/10 text-primary text-[10px] font-bold">Line Area Tracker</span>
+            <span className="p-1 rounded bg-primary/10 text-primary text-sm font-bold">Line Area Tracker</span>
           </div>
           <SavingsTrendArea data={savingsChartData} currency={currency} />
         </div>
@@ -140,7 +140,7 @@ export default function AnalyticsPage() {
         <div className="bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 rounded-2xl p-6 shadow-sm">
           <div className="mb-6">
             <h2 className="text-sm font-bold text-slate-800 dark:text-zinc-100">Family Contributions</h2>
-            <p className="text-[11px] text-slate-400 dark:text-zinc-500">Total earned revenues by family member</p>
+            <p className="text-[11px] text-slate-400 dark:text-slate-400">Total earned revenues by family member</p>
           </div>
           <FamilyContributionBar data={contributionData} currency={currency} />
         </div>
@@ -149,12 +149,12 @@ export default function AnalyticsPage() {
 
       {/* Row 2: Distribution Mix */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
+
         {/* Income Sources (Overall) */}
         <div className="bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
           <div>
             <h2 className="text-sm font-bold text-slate-800 dark:text-zinc-100">Income Stream Categories</h2>
-            <p className="text-[11px] text-slate-400 dark:text-zinc-500">Allocation breakdown of overall family cash inputs</p>
+            <p className="text-[11px] text-slate-400 dark:text-slate-400">Allocation breakdown of overall family cash inputs</p>
           </div>
           <div className="flex-1 mt-4">
             <ExpenseCategoryPie data={incomePieData} currency={currency} />
@@ -165,7 +165,7 @@ export default function AnalyticsPage() {
         <div className="bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
           <div>
             <h2 className="text-sm font-bold text-slate-800 dark:text-zinc-100">June Expense Categories share</h2>
-            <p className="text-[11px] text-slate-400 dark:text-zinc-500">Relative allocation percentages for monthly expenses</p>
+            <p className="text-[11px] text-slate-400 dark:text-slate-400">Relative allocation percentages for monthly expenses</p>
           </div>
           <div className="flex-1 mt-4">
             <ExpenseCategoryPie data={expensePieData} currency={currency} />
@@ -176,7 +176,7 @@ export default function AnalyticsPage() {
 
       {/* Row 3: Visual Heatmap Calendar */}
       <div className="bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 rounded-2xl p-6 shadow-sm">
-        
+
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-100 dark:border-zinc-800">
           <div className="flex items-center gap-2">
             <Sparkles className="h-4.5 w-4.5 text-primary dark:text-primary" />
@@ -185,9 +185,9 @@ export default function AnalyticsPage() {
               <p className="text-[11px] text-slate-400">Spending intensity levels for June 2026. Hover or tap cells to inspect daily cash outs.</p>
             </div>
           </div>
-          
+
           {/* Heatmap Legend */}
-          <div className="flex items-center gap-3.5 text-[10px] font-bold text-slate-400">
+          <div className="flex items-center gap-3.5 text-sm font-bold text-slate-400">
             <span>Spend levels:</span>
             <div className="flex items-center gap-1">
               <span className="h-3 w-3 rounded bg-slate-100 border border-slate-200/80 dark:bg-zinc-800/50 dark:border-zinc-700/60 block" /> <span>0</span>
@@ -206,10 +206,10 @@ export default function AnalyticsPage() {
 
         {/* Heatmap Grid */}
         <div className="grid grid-cols-7 gap-2 max-w-xl mx-auto text-center font-bold">
-          
+
           {/* Weekday labels */}
           {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, idx) => (
-            <div key={idx} className="text-[10px] font-bold text-slate-400 dark:text-zinc-500 py-1.5">{day}</div>
+            <div key={idx} className="text-sm font-bold text-slate-400 dark:text-slate-400 py-1.5">{day}</div>
           ))}
 
           {/* Grid Cells */}
@@ -217,16 +217,16 @@ export default function AnalyticsPage() {
             if (cell.day === null) {
               return <div key={cell.key} className="aspect-square bg-transparent rounded-lg"></div>;
             }
-            
+
             return (
-              <div 
+              <div
                 key={cell.key}
                 className={`aspect-square rounded-lg flex flex-col items-center justify-center text-xs relative group cursor-pointer transition-all shadow-sm ${getHeatmapColor(cell.amount)}`}
               >
                 <span>{cell.day}</span>
-                
+
                 {/* Tooltip on Hover */}
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-28 bg-zinc-950 text-white rounded-lg p-1.5 text-[10px] opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 text-center font-bold shadow-lg">
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-28 bg-zinc-950 text-white rounded-lg p-1.5 text-sm opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 text-center font-bold shadow-lg">
                   <p>{cell.dateStr}</p>
                   <p className="text-indigo-400 mt-0.5">Spent: {currency}{cell.amount.toLocaleString()}</p>
                 </div>

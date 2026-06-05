@@ -3,14 +3,14 @@
 import React, { useState } from 'react';
 import { useFinance } from '@/context/FinanceContext';
 import { FamilyMember, RelationshipType } from '@/lib/types';
-import { 
-  Search, 
-  UserPlus, 
-  Edit, 
-  Trash2, 
-  Eye, 
-  ChevronRight, 
-  UserCheck, 
+import {
+  Search,
+  UserPlus,
+  Edit,
+  Trash2,
+  Eye,
+  ChevronRight,
+  UserCheck,
   ChevronLeft,
   SlidersHorizontal
 } from 'lucide-react';
@@ -18,11 +18,11 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function MembersPage() {
-  const { 
-    members, 
-    addMember, 
-    updateMember, 
-    deleteMember, 
+  const {
+    members,
+    addMember,
+    updateMember,
+    deleteMember,
     settings,
     expenses,
     incomes
@@ -43,7 +43,7 @@ export default function MembersPage() {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  
+
   const [selectedMember, setSelectedMember] = useState<FamilyMember | null>(null);
 
   // Forms state
@@ -124,12 +124,12 @@ export default function MembersPage() {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-slate-800 dark:text-zinc-50 tracking-tight">Family Members</h1>
-          <p className="text-slate-500 dark:text-zinc-400 text-sm">Add and organize your family directory & check individual balances</p>
+          <h1 className="text-2xl font-black text-zinc-50 tracking-tight">Family Members</h1>
+          <p className="text-zinc-400 text-sm">Add and organize your family directory & check individual balances</p>
         </div>
         <button
           onClick={() => setAddModalOpen(true)}
@@ -140,31 +140,31 @@ export default function MembersPage() {
       </div>
 
       {/* Filter / Search Bar */}
-      <div className="bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-        
+      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+
         {/* Search */}
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 h-4 w-4 text-slate-400 dark:text-zinc-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
           <input
             type="text"
             placeholder="Search member name or phone..."
             value={searchQuery}
             onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-            className="w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2 pl-9 pr-4 text-xs outline-none transition-all placeholder:text-slate-400 focus:border-primary focus:bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:focus:border-primary-hover"
+            className="w-full rounded-xl border border-zinc-800 bg-zinc-950 py-2.5 pl-10 pr-4 text-sm text-zinc-100 outline-none transition-all placeholder:text-zinc-500 focus:border-primary focus:bg-zinc-900/50"
           />
         </div>
 
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-            <SlidersHorizontal className="h-3.5 w-3.5 text-slate-400" /> Filter:
+          <div className="flex items-center gap-2 text-sm font-semibold text-zinc-400">
+            <SlidersHorizontal className="h-4 w-4 text-zinc-400" /> Filter:
           </div>
-          
+
           {/* Relationship Filter */}
           <select
             value={relFilter}
             onChange={(e) => { setRelFilter(e.target.value); setCurrentPage(1); }}
-            className="rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-600 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+            className="rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary focus:bg-zinc-900/50"
           >
             <option value="All">All Relationships</option>
             {relationships.map(rel => (
@@ -176,7 +176,7 @@ export default function MembersPage() {
           <select
             value={statusFilter}
             onChange={(e) => { setStatusFilter(e.target.value); setCurrentPage(1); }}
-            className="rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-600 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+            className="rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary focus:bg-zinc-900/50"
           >
             <option value="All">All Statuses</option>
             <option value="Active">Active</option>
@@ -191,7 +191,7 @@ export default function MembersPage() {
               setSortField(field as 'name' | 'joinDate');
               setSortOrder(order as 'asc' | 'desc');
             }}
-            className="rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-600 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+            className="rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary focus:bg-zinc-900/50"
           >
             <option value="name-asc">Name: A-Z</option>
             <option value="name-desc">Name: Z-A</option>
@@ -203,11 +203,11 @@ export default function MembersPage() {
       </div>
 
       {/* Members Table */}
-      <div className="bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 rounded-2xl shadow-sm overflow-hidden">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-100 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-900/40 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+              <tr className="border-b border-zinc-800 bg-zinc-900/40 text-sm font-bold uppercase tracking-wider text-zinc-400">
                 <th className="py-4 px-6">Profile</th>
                 <th className="py-4 px-4">Relationship</th>
                 <th className="py-4 px-4">Status</th>
@@ -218,7 +218,7 @@ export default function MembersPage() {
                 <th className="py-4 px-6 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-zinc-800/50">
+            <tbody className="divide-y divide-zinc-800/50">
               {paginatedMembers.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="py-12 text-center text-xs font-semibold text-slate-400">
@@ -229,55 +229,54 @@ export default function MembersPage() {
                 paginatedMembers.map((m) => {
                   const bal = getMemberBalances(m.id);
                   return (
-                    <tr key={m.id} className="hover:bg-slate-50/30 dark:hover:bg-zinc-900/30 transition-colors">
+                    <tr key={m.id} className="hover:bg-zinc-800/40 transition-colors">
                       {/* Name & Avatar */}
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-3">
-                          <span className="text-xl bg-slate-100 dark:bg-zinc-800 h-10 w-10 rounded-xl flex items-center justify-center">
+                          <span className="text-xl bg-zinc-800 h-10 w-10 rounded-xl flex items-center justify-center">
                             {m.avatar}
                           </span>
                           <div>
-                            <h4 className="text-xs font-bold text-slate-800 dark:text-zinc-200 leading-tight">{m.name}</h4>
-                            <span className="text-[9px] text-slate-400 dark:text-zinc-500 font-semibold mt-1 block">Joined: {m.joinDate}</span>
+                            <h4 className="text-sm font-bold text-zinc-100 leading-tight">{m.name}</h4>
+                            <span className="text-xs text-zinc-400 font-semibold mt-1 block">Joined: {m.joinDate}</span>
                           </div>
                         </div>
                       </td>
 
                       {/* Relationship */}
                       <td className="py-4 px-4">
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary">
+                        <span className="text-sm font-bold px-2 py-0.5 rounded-full bg-primary/20 text-primary">
                           {m.relationship}
                         </span>
                       </td>
 
                       {/* Status */}
                       <td className="py-4 px-4">
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                          m.status === 'Active' 
-                            ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/20 dark:text-emerald-400' 
-                            : 'bg-slate-50 text-slate-500 dark:bg-zinc-800 dark:text-zinc-400'
-                        }`}>
+                        <span className={`text-sm font-bold px-2 py-0.5 rounded-full ${m.status === 'Active'
+                          ? 'bg-emerald-950/20 text-emerald-400'
+                          : 'bg-zinc-800 text-zinc-400'
+                          }`}>
                           {m.status}
                         </span>
                       </td>
 
                       {/* Phone */}
-                      <td className="py-4 px-4 text-xs font-semibold text-slate-500 dark:text-zinc-400">
+                      <td className="py-4 px-4 text-xs font-semibold text-zinc-300">
                         {m.phone || 'No phone logged'}
                       </td>
 
                       {/* Income */}
-                      <td className="py-4 px-4 text-right text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                      <td className="py-4 px-4 text-right text-xs font-bold text-emerald-400">
                         +{currency}{bal.income.toLocaleString()}
                       </td>
 
                       {/* Expense */}
-                      <td className="py-4 px-4 text-right text-xs font-bold text-rose-600 dark:text-rose-400">
+                      <td className="py-4 px-4 text-right text-xs font-bold text-rose-400">
                         -{currency}{bal.expense.toLocaleString()}
                       </td>
 
                       {/* Balance */}
-                      <td className="py-4 px-4 text-right text-xs font-bold text-slate-900 dark:text-zinc-200">
+                      <td className="py-4 px-4 text-right text-xs font-bold text-zinc-200">
                         {currency}{bal.balance.toLocaleString()}
                       </td>
 
@@ -326,25 +325,25 @@ export default function MembersPage() {
 
         {/* Pagination Toolbar */}
         {totalPages > 1 && (
-          <div className="px-6 py-4 border-t border-slate-100 dark:border-zinc-800 flex items-center justify-between">
-            <span className="text-[11px] font-semibold text-slate-400 dark:text-zinc-500">
+          <div className="px-6 py-4 border-t border-zinc-800 flex items-center justify-between">
+            <span className="text-xs font-semibold text-zinc-400">
               Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredMembers.length)} of {filteredMembers.length} members
             </span>
             <div className="flex items-center gap-1.5">
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                className="p-1.5 rounded-lg border border-slate-200/80 hover:bg-slate-50 dark:border-zinc-800 dark:hover:bg-zinc-800 disabled:opacity-40"
+                className="p-1.5 rounded-lg border border-zinc-800 hover:bg-zinc-800 disabled:opacity-40"
               >
-                <ChevronLeft className="h-4 w-4 text-slate-500 dark:text-zinc-400" />
+                <ChevronLeft className="h-4 w-4 text-zinc-400" />
               </button>
-              <span className="text-xs font-bold text-slate-700 dark:text-zinc-300 px-3">{currentPage} / {totalPages}</span>
+              <span className="text-xs font-bold text-zinc-200 px-3">{currentPage} / {totalPages}</span>
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                className="p-1.5 rounded-lg border border-slate-200/80 hover:bg-slate-50 dark:border-zinc-800 dark:hover:bg-zinc-800 disabled:opacity-40"
+                className="p-1.5 rounded-lg border border-zinc-800 hover:bg-zinc-800 disabled:opacity-40"
               >
-                <ChevronRight className="h-4 w-4 text-slate-500 dark:text-zinc-400" />
+                <ChevronRight className="h-4 w-4 text-zinc-400" />
               </button>
             </div>
           </div>
@@ -360,42 +359,42 @@ export default function MembersPage() {
       <AnimatePresence>
         {addModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 0.5 }} 
-              exit={{ opacity: 0 }} 
-              onClick={() => setAddModalOpen(false)} 
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setAddModalOpen(false)}
               className="absolute inset-0 bg-black"
             />
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }} 
-              animate={{ scale: 1, opacity: 1 }} 
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-6 w-full max-w-md shadow-2xl relative z-10 m-4"
+              className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 w-full max-w-md shadow-2xl relative z-10 m-4"
             >
-              <h3 className="text-base font-extrabold text-slate-900 dark:text-zinc-100">Add Family Member</h3>
-              <p className="text-xs text-slate-400 dark:text-zinc-500 mt-1">Assign budget allocations and track spending activity.</p>
+              <h3 className="text-base font-extrabold text-zinc-100">Add Family Member</h3>
+              <p className="text-xs text-zinc-400 mt-1">Assign budget allocations and track spending activity.</p>
 
               <form onSubmit={handleAddSubmit} className="mt-4 space-y-3.5">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Name</label>
-                  <input 
-                    type="text" 
+                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Name</label>
+                  <input
+                    type="text"
                     placeholder="Full name"
                     required
                     value={newMemberForm.name}
                     onChange={(e) => setNewMemberForm(prev => ({ ...prev, name: e.target.value }))}
-                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none focus:border-primary focus:bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50 placeholder:text-zinc-500"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Relationship</label>
-                    <select 
+                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Relationship</label>
+                    <select
                       value={newMemberForm.relationship}
                       onChange={(e) => setNewMemberForm(prev => ({ ...prev, relationship: e.target.value as RelationshipType }))}
-                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
                     >
                       {relationships.map(rel => (
                         <option key={rel} value={rel}>{rel}</option>
@@ -404,11 +403,11 @@ export default function MembersPage() {
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Emoji Avatar</label>
-                    <select 
+                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Emoji Avatar</label>
+                    <select
                       value={newMemberForm.avatar}
                       onChange={(e) => setNewMemberForm(prev => ({ ...prev, avatar: e.target.value }))}
-                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
                     >
                       {['👨', '👩', '👦', '👧', '👴', '👵', '🧑', '👶'].map(emoji => (
                         <option key={emoji} value={emoji}>{emoji}</option>
@@ -418,22 +417,22 @@ export default function MembersPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Phone Number</label>
-                  <input 
-                    type="text" 
+                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Phone Number</label>
+                  <input
+                    type="text"
                     placeholder="e.g. +880 1819-000000"
                     value={newMemberForm.phone}
                     onChange={(e) => setNewMemberForm(prev => ({ ...prev, phone: e.target.value }))}
-                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none focus:border-primary focus:bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50 placeholder:text-zinc-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Status</label>
-                  <select 
+                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Status</label>
+                  <select
                     value={newMemberForm.status}
                     onChange={(e) => setNewMemberForm(prev => ({ ...prev, status: e.target.value as 'Active' | 'Inactive' }))}
-                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
                   >
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
@@ -441,16 +440,16 @@ export default function MembersPage() {
                 </div>
 
                 <div className="flex gap-2.5 pt-2">
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     onClick={() => setAddModalOpen(false)}
-                    className="flex-1 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 py-2.5 text-xs font-bold text-slate-700 dark:text-zinc-200 transition-colors"
+                    className="flex-1 rounded-xl bg-zinc-800 hover:bg-zinc-700 py-2.5 text-sm font-bold text-zinc-200 transition-colors"
                   >
                     Cancel
                   </button>
-                  <button 
-                    type="submit" 
-                    className="flex-1 rounded-xl bg-primary hover:bg-primary-hover py-2.5 text-xs font-bold text-white transition-colors"
+                  <button
+                    type="submit"
+                    className="flex-1 rounded-xl bg-primary hover:bg-primary-hover py-2.5 text-sm font-bold text-white transition-colors"
                   >
                     Create Profile
                   </button>
@@ -465,41 +464,41 @@ export default function MembersPage() {
       <AnimatePresence>
         {editModalOpen && editMemberForm && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 0.5 }} 
-              exit={{ opacity: 0 }} 
-              onClick={() => setEditModalOpen(false)} 
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setEditModalOpen(false)}
               className="absolute inset-0 bg-black"
             />
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }} 
-              animate={{ scale: 1, opacity: 1 }} 
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-6 w-full max-w-md shadow-2xl relative z-10 m-4"
+              className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 w-full max-w-md shadow-2xl relative z-10 m-4"
             >
-              <h3 className="text-base font-extrabold text-slate-900 dark:text-zinc-100">Edit Family Member</h3>
-              <p className="text-xs text-slate-400 dark:text-zinc-500 mt-1">Modify profile settings and status levels.</p>
+              <h3 className="text-base font-extrabold text-zinc-100">Edit Family Member</h3>
+              <p className="text-xs text-zinc-400 mt-1">Modify profile settings and status levels.</p>
 
               <form onSubmit={handleEditSubmit} className="mt-4 space-y-3.5">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Name</label>
-                  <input 
-                    type="text" 
+                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Name</label>
+                  <input
+                    type="text"
                     required
                     value={editMemberForm.name}
                     onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
-                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none focus:border-primary focus:bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Relationship</label>
-                    <select 
+                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Relationship</label>
+                    <select
                       value={editMemberForm.relationship}
                       onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, relationship: e.target.value as RelationshipType }) : null)}
-                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
                     >
                       {relationships.map(rel => (
                         <option key={rel} value={rel}>{rel}</option>
@@ -508,11 +507,11 @@ export default function MembersPage() {
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Emoji Avatar</label>
-                    <select 
+                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Emoji Avatar</label>
+                    <select
                       value={editMemberForm.avatar}
                       onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, avatar: e.target.value }) : null)}
-                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
                     >
                       {['👨', '👩', '👦', '👧', '👴', '👵', '🧑', '👶'].map(emoji => (
                         <option key={emoji} value={emoji}>{emoji}</option>
@@ -522,21 +521,21 @@ export default function MembersPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Phone Number</label>
-                  <input 
-                    type="text" 
+                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Phone Number</label>
+                  <input
+                    type="text"
                     value={editMemberForm.phone}
                     onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, phone: e.target.value }) : null)}
-                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none focus:border-primary focus:bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Status</label>
-                  <select 
+                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Status</label>
+                  <select
                     value={editMemberForm.status}
                     onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, status: e.target.value as 'Active' | 'Inactive' }) : null)}
-                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
                   >
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
@@ -544,16 +543,16 @@ export default function MembersPage() {
                 </div>
 
                 <div className="flex gap-2.5 pt-2">
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     onClick={() => { setEditModalOpen(false); setSelectedMember(null); }}
-                    className="flex-1 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 py-2.5 text-xs font-bold text-slate-700 dark:text-zinc-200 transition-colors"
+                    className="flex-1 rounded-xl bg-zinc-800 hover:bg-zinc-700 py-2.5 text-sm font-bold text-zinc-200 transition-colors"
                   >
                     Cancel
                   </button>
-                  <button 
-                    type="submit" 
-                    className="flex-1 rounded-xl bg-primary hover:bg-primary-hover py-2.5 text-xs font-bold text-white transition-colors"
+                  <button
+                    type="submit"
+                    className="flex-1 rounded-xl bg-primary hover:bg-primary-hover py-2.5 text-sm font-bold text-white transition-colors"
                   >
                     Save Changes
                   </button>
@@ -568,39 +567,39 @@ export default function MembersPage() {
       <AnimatePresence>
         {deleteModalOpen && selectedMember && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 0.5 }} 
-              exit={{ opacity: 0 }} 
-              onClick={() => setDeleteModalOpen(false)} 
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setDeleteModalOpen(false)}
               className="absolute inset-0 bg-black"
             />
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }} 
-              animate={{ scale: 1, opacity: 1 }} 
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-6 w-full max-w-sm shadow-2xl relative z-10 m-4 text-center"
+              className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 w-full max-w-sm shadow-2xl relative z-10 m-4 text-center"
             >
-              <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-rose-50 text-rose-600 dark:bg-rose-950/20 dark:text-rose-400">
+              <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-rose-950/20 text-rose-400">
                 <Trash2 className="h-5 w-5" />
               </div>
-              <h3 className="text-base font-extrabold text-slate-900 dark:text-zinc-100 mt-4">Delete Member Profile</h3>
-              <p className="text-xs text-slate-500 dark:text-zinc-400 mt-2">
-                Are you sure you want to remove <span className="font-bold">{selectedMember.name}</span>? This action is permanent and will cascade delete all associated income and expense records!
+              <h3 className="text-base font-extrabold text-zinc-100 mt-4">Delete Member Profile</h3>
+              <p className="text-xs text-zinc-400 mt-2">
+                Are you sure you want to remove <span className="font-bold text-zinc-200">{selectedMember.name}</span>? This action is permanent and will cascade delete all associated income and expense records!
               </p>
 
               <div className="flex gap-2.5 mt-5">
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => { setDeleteModalOpen(false); setSelectedMember(null); }}
-                  className="flex-1 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 py-2.5 text-xs font-bold text-slate-700 dark:text-zinc-200 transition-colors"
+                  className="flex-1 rounded-xl bg-zinc-800 hover:bg-zinc-700 py-2.5 text-sm font-bold text-zinc-200 transition-colors"
                 >
                   Cancel
                 </button>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={handleDeleteConfirm}
-                  className="flex-1 rounded-xl bg-rose-600 hover:bg-rose-500 py-2.5 text-xs font-bold text-white transition-colors"
+                  className="flex-1 rounded-xl bg-rose-600 hover:bg-rose-500 py-2.5 text-sm font-bold text-white transition-colors"
                 >
                   Confirm Delete
                 </button>
