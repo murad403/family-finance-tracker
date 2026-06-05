@@ -23,6 +23,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { ExpenseCategory, IncomeCategory, RelationshipType } from '@/lib/types';
 import CategoryBadge from '@/components/CategoryBadge';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 
 // Dynamically import charts to avoid hydration errors
 const IncomeExpenseComparison = dynamic(
@@ -277,7 +278,7 @@ export default function DashboardPage() {
           </button>
           <button
             onClick={() => setMemberModalOpen(true)}
-            className="flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-primary/10 active:scale-[0.98] transition-all dark:bg-primary/100 dark:hover:bg-primary"
+            className="flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-primary/10 active:scale-[0.98] transition-all dark:bg-primary dark:hover:bg-primary"
           >
             <PlusCircle className="h-4 w-4" /> Add Member
           </button>
@@ -559,15 +560,21 @@ export default function DashboardPage() {
               <form onSubmit={handleExpenseSubmit} className="mt-4 space-y-3.5">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Family Member</label>
-                  <select
-                    value={expenseForm.memberId}
-                    onChange={(e) => setExpenseForm(prev => ({ ...prev, memberId: e.target.value }))}
-                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary"
-                  >
-                    {members.map(m => (
-                      <option key={m.id} value={m.id}>{m.avatar} {m.name}</option>
-                    ))}
-                  </select>
+                  <div className="mt-1.5">
+                    <Select
+                      value={expenseForm.memberId}
+                      onValueChange={(val) => setExpenseForm(prev => ({ ...prev, memberId: val }))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Member" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {members.map(m => (
+                          <SelectItem key={m.id} value={m.id}>{m.avatar} {m.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div>
@@ -585,15 +592,21 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Category</label>
-                    <select
-                      value={expenseForm.category}
-                      onChange={(e) => setExpenseForm(prev => ({ ...prev, category: e.target.value as ExpenseCategory }))}
-                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary"
-                    >
-                      {categoriesList.map(cat => (
-                        <option key={cat} value={cat}>{cat}</option>
-                      ))}
-                    </select>
+                    <div className="mt-1.5">
+                      <Select
+                        value={expenseForm.category}
+                        onValueChange={(val) => setExpenseForm(prev => ({ ...prev, category: val as ExpenseCategory }))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {categoriesList.map(cat => (
+                            <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   <div>
@@ -689,29 +702,41 @@ export default function DashboardPage() {
               <form onSubmit={handleIncomeSubmit} className="mt-4 space-y-3.5">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Family Member</label>
-                  <select
-                    value={incomeForm.memberId}
-                    onChange={(e) => setIncomeForm(prev => ({ ...prev, memberId: e.target.value }))}
-                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary"
-                  >
-                    {members.map(m => (
-                      <option key={m.id} value={m.id}>{m.avatar} {m.name}</option>
-                    ))}
-                  </select>
+                  <div className="mt-1.5">
+                    <Select
+                      value={incomeForm.memberId}
+                      onValueChange={(val) => setIncomeForm(prev => ({ ...prev, memberId: val }))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Member" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {members.map(m => (
+                          <SelectItem key={m.id} value={m.id}>{m.avatar} {m.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Category</label>
-                    <select
-                      value={incomeForm.category}
-                      onChange={(e) => setIncomeForm(prev => ({ ...prev, category: e.target.value as IncomeCategory }))}
-                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary"
-                    >
-                      {['Salary', 'Business', 'Investment', 'Freelance', 'Pocket Money', 'Others'].map(cat => (
-                        <option key={cat} value={cat}>{cat}</option>
-                      ))}
-                    </select>
+                    <div className="mt-1.5">
+                      <Select
+                        value={incomeForm.category}
+                        onValueChange={(val) => setIncomeForm(prev => ({ ...prev, category: val as IncomeCategory }))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {['Salary', 'Business', 'Investment', 'Freelance', 'Pocket Money', 'Others'].map(cat => (
+                            <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   <div>
@@ -821,28 +846,40 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Relationship</label>
-                    <select
-                      value={memberForm.relationship}
-                      onChange={(e) => setMemberForm(prev => ({ ...prev, relationship: e.target.value as RelationshipType }))}
-                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary"
-                    >
-                      {['Spouse', 'Father', 'Mother', 'Son', 'Daughter', 'Sibling', 'Other'].map(rel => (
-                        <option key={rel} value={rel}>{rel}</option>
-                      ))}
-                    </select>
+                    <div className="mt-1.5">
+                      <Select
+                        value={memberForm.relationship}
+                        onValueChange={(val) => setMemberForm(prev => ({ ...prev, relationship: val as RelationshipType }))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Relationship" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {['Spouse', 'Father', 'Mother', 'Son', 'Daughter', 'Sibling', 'Other'].map(rel => (
+                            <SelectItem key={rel} value={rel}>{rel}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Emoji Avatar</label>
-                    <select
-                      value={memberForm.avatar}
-                      onChange={(e) => setMemberForm(prev => ({ ...prev, avatar: e.target.value }))}
-                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary"
-                    >
-                      {['👨', '👩', '👦', '👧', '👴', '👵', '🧑', '👶'].map(emoji => (
-                        <option key={emoji} value={emoji}>{emoji}</option>
-                      ))}
-                    </select>
+                    <div className="mt-1.5">
+                      <Select
+                        value={memberForm.avatar}
+                        onValueChange={(val) => setMemberForm(prev => ({ ...prev, avatar: val }))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Avatar" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {['👨', '👩', '👦', '👧', '👴', '👵', '🧑', '👶'].map(emoji => (
+                            <SelectItem key={emoji} value={emoji}>{emoji}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
 
@@ -859,14 +896,20 @@ export default function DashboardPage() {
 
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Status</label>
-                  <select
-                    value={memberForm.status}
-                    onChange={(e) => setMemberForm(prev => ({ ...prev, status: e.target.value as 'Active' | 'Inactive' }))}
-                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary"
-                  >
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
+                  <div className="mt-1.5">
+                    <Select
+                      value={memberForm.status}
+                      onValueChange={(val) => setMemberForm(prev => ({ ...prev, status: val as 'Active' | 'Inactive' }))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Active">Active</SelectItem>
+                        <SelectItem value="Inactive">Inactive</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div className="flex gap-2.5 pt-2">

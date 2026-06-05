@@ -16,6 +16,7 @@ import {
   User,
   Tags
 } from 'lucide-react';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 
 export default function ReportsPage() {
   const { members, incomes, expenses, settings } = useFinance();
@@ -173,17 +174,23 @@ export default function ReportsPage() {
           {/* Period Selector */}
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Report Period</label>
-            <select
-              value={period}
-              onChange={(e) => setPeriod(e.target.value as any)}
-              className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary focus:bg-zinc-900/50 font-semibold"
-            >
-              <option value="daily">Daily Report</option>
-              <option value="weekly">Weekly Report</option>
-              <option value="monthly">Monthly Report</option>
-              <option value="yearly">Yearly Report</option>
-              <option value="custom">Custom Date Range</option>
-            </select>
+            <div className="mt-1.5">
+              <Select
+                value={period}
+                onValueChange={(val) => setPeriod(val as any)}
+              >
+                <SelectTrigger className="font-semibold">
+                  <SelectValue placeholder="Select Period" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="daily">Daily Report</SelectItem>
+                  <SelectItem value="weekly">Weekly Report</SelectItem>
+                  <SelectItem value="monthly">Monthly Report</SelectItem>
+                  <SelectItem value="yearly">Yearly Report</SelectItem>
+                  <SelectItem value="custom">Custom Date Range</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           {/* Period Date Inputs */}
@@ -214,14 +221,20 @@ export default function ReportsPage() {
               />
             )}
             {period === 'yearly' && (
-              <select
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(e.target.value)}
-                className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary focus:bg-zinc-900/50 font-semibold"
-              >
-                <option value="2026">2026</option>
-                <option value="2025">2025</option>
-              </select>
+              <div className="mt-1.5">
+                <Select
+                  value={selectedYear}
+                  onValueChange={(val) => setSelectedYear(val)}
+                >
+                  <SelectTrigger className="font-semibold">
+                    <SelectValue placeholder="Select Year" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="2026">2026</SelectItem>
+                    <SelectItem value="2025">2025</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             )}
             {period === 'custom' && (
               <div className="flex gap-2 mt-1.5">
@@ -244,31 +257,43 @@ export default function ReportsPage() {
           {/* Member filter */}
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Family Member</label>
-            <select
-              value={memberId}
-              onChange={(e) => setMemberId(e.target.value)}
-              className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary focus:bg-zinc-900/50 font-semibold"
-            >
-              <option value="All">All Family</option>
-              {members.map(m => (
-                <option key={m.id} value={m.id}>{m.avatar} {m.name}</option>
-              ))}
-            </select>
+            <div className="mt-1.5">
+              <Select
+                value={memberId}
+                onValueChange={(val) => setMemberId(val)}
+              >
+                <SelectTrigger className="font-semibold">
+                  <SelectValue placeholder="Select Member" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All Family</SelectItem>
+                  {members.map(m => (
+                    <SelectItem key={m.id} value={m.id}>{m.avatar} {m.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           {/* Category filter */}
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Category Filter</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary focus:bg-zinc-900/50 font-semibold"
-            >
-              <option value="All">All Categories</option>
-              {expenseCategories.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
+            <div className="mt-1.5">
+              <Select
+                value={category}
+                onValueChange={(val) => setCategory(val)}
+              >
+                <SelectTrigger className="font-semibold">
+                  <SelectValue placeholder="Select Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All Categories</SelectItem>
+                  {expenseCategories.map(cat => (
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           {/* Prompt */}

@@ -13,6 +13,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 
 export default function SettingsPage() {
   const { settings, updateSettings } = useFinance();
@@ -123,15 +124,21 @@ export default function SettingsPage() {
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Avatar Emoji</label>
-                    <select
-                      value={profileForm.avatar}
-                      onChange={(e) => setProfileForm(prev => ({ ...prev, avatar: e.target.value }))}
-                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50 font-bold"
-                    >
-                      {['👨‍💻', '👩‍⚕️', '👨', '👩', '💼', '🏡'].map(emoji => (
-                        <option key={emoji} value={emoji}>{emoji} Avatar Emojis</option>
-                      ))}
-                    </select>
+                    <div className="mt-1.5">
+                      <Select
+                        value={profileForm.avatar}
+                        onValueChange={(val) => setProfileForm(prev => ({ ...prev, avatar: val }))}
+                      >
+                        <SelectTrigger className="font-bold">
+                          <SelectValue placeholder="Select Avatar" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {['👨‍💻', '👩‍⚕️', '👨', '👩', '💼', '🏡'].map(emoji => (
+                            <SelectItem key={emoji} value={emoji}>{emoji} Avatar Emojis</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
 
@@ -182,18 +189,24 @@ export default function SettingsPage() {
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Base Currency Symbol</label>
-                    <select
-                      value={familyForm.currency}
-                      onChange={(e) => setFamilyForm(prev => ({ ...prev, currency: e.target.value }))}
-                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50 font-bold"
-                    >
-                      <option value="$">USD ($)</option>
-                      <option value="€">EUR (€)</option>
-                      <option value="£">GBP (£)</option>
-                      <option value="₹">INR (₹)</option>
-                      <option value="¥">JPY (¥)</option>
-                      <option value="৳">BDT (৳)</option>
-                    </select>
+                    <div className="mt-1.5">
+                      <Select
+                        value={familyForm.currency}
+                        onValueChange={(val) => setFamilyForm(prev => ({ ...prev, currency: val }))}
+                      >
+                        <SelectTrigger className="font-bold">
+                          <SelectValue placeholder="Select Currency" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="$">USD ($)</SelectItem>
+                          <SelectItem value="€">EUR (€)</SelectItem>
+                          <SelectItem value="£">GBP (£)</SelectItem>
+                          <SelectItem value="₹">INR (₹)</SelectItem>
+                          <SelectItem value="¥">JPY (¥)</SelectItem>
+                          <SelectItem value="৳">BDT (৳)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
               </div>

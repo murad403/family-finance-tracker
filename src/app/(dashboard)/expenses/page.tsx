@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import CategoryBadge from '@/components/CategoryBadge';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 
 export default function ExpensesPage() {
   const {
@@ -359,59 +360,81 @@ export default function ExpensesPage() {
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2 text-sm font-semibold text-zinc-400">
               <Filter className="h-3.5 w-3.5 text-zinc-400" /> Filters:
+            </div>            {/* Member Filter */}
+            <div className="w-44">
+              <Select
+                value={memberFilter}
+                onValueChange={(val) => { setMemberFilter(val); setCurrentPage(1); }}
+              >
+                <SelectTrigger className="h-10">
+                  <SelectValue placeholder="All Members" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All Members</SelectItem>
+                  {members.map(m => (
+                    <SelectItem key={m.id} value={m.id}>{m.avatar} {m.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
-            {/* Member Filter */}
-            <select
-              value={memberFilter}
-              onChange={(e) => { setMemberFilter(e.target.value); setCurrentPage(1); }}
-              className="rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none"
-            >
-              <option value="All">All Members</option>
-              {members.map(m => (
-                <option key={m.id} value={m.id}>{m.avatar} {m.name}</option>
-              ))}
-            </select>
-
             {/* Category Filter */}
-            <select
-              value={categoryFilter}
-              onChange={(e) => { setCategoryFilter(e.target.value); setCurrentPage(1); }}
-              className="rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none"
-            >
-              <option value="All">All Categories</option>
-              {categories.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
+            <div className="w-44">
+              <Select
+                value={categoryFilter}
+                onValueChange={(val) => { setCategoryFilter(val); setCurrentPage(1); }}
+              >
+                <SelectTrigger className="h-10">
+                  <SelectValue placeholder="All Categories" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All Categories</SelectItem>
+                  {categories.map(cat => (
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
             {/* Month Filter */}
-            <select
-              value={monthFilter}
-              onChange={(e) => { setMonthFilter(e.target.value); setCurrentPage(1); }}
-              className="rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none"
-            >
-              <option value="All">All Months</option>
-              {uniqueMonths.map(m => (
-                <option key={m} value={m}>{getMonthName(m)}</option>
-              ))}
-            </select>
+            <div className="w-44">
+              <Select
+                value={monthFilter}
+                onValueChange={(val) => { setMonthFilter(val); setCurrentPage(1); }}
+              >
+                <SelectTrigger className="h-10">
+                  <SelectValue placeholder="All Months" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All Months</SelectItem>
+                  {uniqueMonths.map(m => (
+                    <SelectItem key={m} value={m}>{getMonthName(m)}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
             {/* Sorting */}
-            <select
-              value={`${sortField}-${sortOrder}`}
-              onChange={(e) => {
-                const [field, order] = e.target.value.split('-');
-                setSortField(field as 'date' | 'amount');
-                setSortOrder(order as 'desc' | 'asc');
-              }}
-              className="rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none"
-            >
-              <option value="date-desc">Date: Newest</option>
-              <option value="date-asc">Date: Oldest</option>
-              <option value="amount-desc">Amount: Highest</option>
-              <option value="amount-asc">Amount: Lowest</option>
-            </select>
+            <div className="w-44">
+              <Select
+                value={`${sortField}-${sortOrder}`}
+                onValueChange={(val) => {
+                  const [field, order] = val.split('-');
+                  setSortField(field as 'date' | 'amount');
+                  setSortOrder(order as 'desc' | 'asc');
+                }}
+              >
+                <SelectTrigger className="h-10">
+                  <SelectValue placeholder="Sort By" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="date-desc">Date: Newest</SelectItem>
+                  <SelectItem value="date-asc">Date: Oldest</SelectItem>
+                  <SelectItem value="amount-desc">Amount: Highest</SelectItem>
+                  <SelectItem value="amount-asc">Amount: Lowest</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
       )}
@@ -676,15 +699,21 @@ export default function ExpensesPage() {
               <form onSubmit={handleAddSubmit} className="mt-4 space-y-3.5">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Family Member</label>
-                  <select
-                    value={newExpenseForm.memberId}
-                    onChange={(e) => setNewExpenseForm(prev => ({ ...prev, memberId: e.target.value }))}
-                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary"
-                  >
-                    {members.map(m => (
-                      <option key={m.id} value={m.id}>{m.avatar} {m.name}</option>
-                    ))}
-                  </select>
+                  <div className="mt-1.5">
+                    <Select
+                      value={newExpenseForm.memberId}
+                      onValueChange={(val) => setNewExpenseForm(prev => ({ ...prev, memberId: val }))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Member" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {members.map(m => (
+                          <SelectItem key={m.id} value={m.id}>{m.avatar} {m.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div>
@@ -702,15 +731,21 @@ export default function ExpensesPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Category</label>
-                    <select
-                      value={newExpenseForm.category}
-                      onChange={(e) => setNewExpenseForm(prev => ({ ...prev, category: e.target.value as ExpenseCategory }))}
-                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary"
-                    >
-                      {categories.map(cat => (
-                        <option key={cat} value={cat}>{cat}</option>
-                      ))}
-                    </select>
+                    <div className="mt-1.5">
+                      <Select
+                        value={newExpenseForm.category}
+                        onValueChange={(val) => setNewExpenseForm(prev => ({ ...prev, category: val as ExpenseCategory }))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {categories.map(cat => (
+                            <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   <div>
@@ -787,15 +822,21 @@ export default function ExpensesPage() {
               <form onSubmit={handleEditSubmit} className="mt-4 space-y-3.5">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Family Member</label>
-                  <select
-                    value={editExpenseForm.memberId}
-                    onChange={(e) => setEditExpenseForm(prev => prev ? ({ ...prev, memberId: e.target.value }) : null)}
-                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary"
-                  >
-                    {members.map(m => (
-                      <option key={m.id} value={m.id}>{m.avatar} {m.name}</option>
-                    ))}
-                  </select>
+                  <div className="mt-1.5">
+                    <Select
+                      value={editExpenseForm.memberId}
+                      onValueChange={(val) => setEditExpenseForm(prev => prev ? ({ ...prev, memberId: val }) : null)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Member" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {members.map(m => (
+                          <SelectItem key={m.id} value={m.id}>{m.avatar} {m.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div>
@@ -812,15 +853,21 @@ export default function ExpensesPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Category</label>
-                    <select
-                      value={editExpenseForm.category}
-                      onChange={(e) => setEditExpenseForm(prev => prev ? ({ ...prev, category: e.target.value as ExpenseCategory }) : null)}
-                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary"
-                    >
-                      {categories.map(cat => (
-                        <option key={cat} value={cat}>{cat}</option>
-                      ))}
-                    </select>
+                    <div className="mt-1.5">
+                      <Select
+                        value={editExpenseForm.category}
+                        onValueChange={(val) => setEditExpenseForm(prev => prev ? ({ ...prev, category: val as ExpenseCategory }) : null)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {categories.map(cat => (
+                            <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   <div>

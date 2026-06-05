@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 
 export default function MembersPage() {
   const {
@@ -133,7 +134,7 @@ export default function MembersPage() {
         </div>
         <button
           onClick={() => setAddModalOpen(true)}
-          className="flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-primary/10 active:scale-[0.98] transition-all dark:bg-primary/100 dark:hover:bg-primary"
+          className="flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-primary/10 active:scale-[0.98] transition-all dark:bg-primary dark:hover:bg-primary"
         >
           <UserPlus className="h-4 w-4" /> Add Family Member
         </button>
@@ -161,43 +162,61 @@ export default function MembersPage() {
           </div>
 
           {/* Relationship Filter */}
-          <select
-            value={relFilter}
-            onChange={(e) => { setRelFilter(e.target.value); setCurrentPage(1); }}
-            className="rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary focus:bg-zinc-900/50"
-          >
-            <option value="All">All Relationships</option>
-            {relationships.map(rel => (
-              <option key={rel} value={rel}>{rel}</option>
-            ))}
-          </select>
+          <div className="w-44">
+            <Select
+              value={relFilter}
+              onValueChange={(val) => { setRelFilter(val); setCurrentPage(1); }}
+            >
+              <SelectTrigger className="h-10">
+                <SelectValue placeholder="All Relationships" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All">All Relationships</SelectItem>
+                {relationships.map(rel => (
+                  <SelectItem key={rel} value={rel}>{rel}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
           {/* Status Filter */}
-          <select
-            value={statusFilter}
-            onChange={(e) => { setStatusFilter(e.target.value); setCurrentPage(1); }}
-            className="rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary focus:bg-zinc-900/50"
-          >
-            <option value="All">All Statuses</option>
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
+          <div className="w-36">
+            <Select
+              value={statusFilter}
+              onValueChange={(val) => { setStatusFilter(val); setCurrentPage(1); }}
+            >
+              <SelectTrigger className="h-10">
+                <SelectValue placeholder="All Statuses" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All">All Statuses</SelectItem>
+                <SelectItem value="Active">Active</SelectItem>
+                <SelectItem value="Inactive">Inactive</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
           {/* Sort Order */}
-          <select
-            value={`${sortField}-${sortOrder}`}
-            onChange={(e) => {
-              const [field, order] = e.target.value.split('-');
-              setSortField(field as 'name' | 'joinDate');
-              setSortOrder(order as 'asc' | 'desc');
-            }}
-            className="rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none focus:border-primary focus:bg-zinc-900/50"
-          >
-            <option value="name-asc">Name: A-Z</option>
-            <option value="name-desc">Name: Z-A</option>
-            <option value="joinDate-asc">Join Date: Oldest</option>
-            <option value="joinDate-desc">Join Date: Newest</option>
-          </select>
+          <div className="w-44">
+            <Select
+              value={`${sortField}-${sortOrder}`}
+              onValueChange={(val) => {
+                const [field, order] = val.split('-');
+                setSortField(field as 'name' | 'joinDate');
+                setSortOrder(order as 'asc' | 'desc');
+              }}
+            >
+              <SelectTrigger className="h-10">
+                <SelectValue placeholder="Sort By" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="name-asc">Name: A-Z</SelectItem>
+                <SelectItem value="name-desc">Name: Z-A</SelectItem>
+                <SelectItem value="joinDate-asc">Join Date: Oldest</SelectItem>
+                <SelectItem value="joinDate-desc">Join Date: Newest</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
       </div>
@@ -391,28 +410,40 @@ export default function MembersPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Relationship</label>
-                    <select
-                      value={newMemberForm.relationship}
-                      onChange={(e) => setNewMemberForm(prev => ({ ...prev, relationship: e.target.value as RelationshipType }))}
-                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
-                    >
-                      {relationships.map(rel => (
-                        <option key={rel} value={rel}>{rel}</option>
-                      ))}
-                    </select>
+                    <div className="mt-1.5">
+                      <Select
+                        value={newMemberForm.relationship}
+                        onValueChange={(val) => setNewMemberForm(prev => ({ ...prev, relationship: val as RelationshipType }))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Relationship" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {relationships.map(rel => (
+                            <SelectItem key={rel} value={rel}>{rel}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Emoji Avatar</label>
-                    <select
-                      value={newMemberForm.avatar}
-                      onChange={(e) => setNewMemberForm(prev => ({ ...prev, avatar: e.target.value }))}
-                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
-                    >
-                      {['👨', '👩', '👦', '👧', '👴', '👵', '🧑', '👶'].map(emoji => (
-                        <option key={emoji} value={emoji}>{emoji}</option>
-                      ))}
-                    </select>
+                    <div className="mt-1.5">
+                      <Select
+                        value={newMemberForm.avatar}
+                        onValueChange={(val) => setNewMemberForm(prev => ({ ...prev, avatar: val }))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Avatar" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {['👨', '👩', '👦', '👧', '👴', '👵', '🧑', '👶'].map(emoji => (
+                            <SelectItem key={emoji} value={emoji}>{emoji}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
 
@@ -429,14 +460,20 @@ export default function MembersPage() {
 
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Status</label>
-                  <select
-                    value={newMemberForm.status}
-                    onChange={(e) => setNewMemberForm(prev => ({ ...prev, status: e.target.value as 'Active' | 'Inactive' }))}
-                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
-                  >
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
+                  <div className="mt-1.5">
+                    <Select
+                      value={newMemberForm.status}
+                      onValueChange={(val) => setNewMemberForm(prev => ({ ...prev, status: val as 'Active' | 'Inactive' }))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Active">Active</SelectItem>
+                        <SelectItem value="Inactive">Inactive</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div className="flex gap-2.5 pt-2">
@@ -495,28 +532,40 @@ export default function MembersPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Relationship</label>
-                    <select
-                      value={editMemberForm.relationship}
-                      onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, relationship: e.target.value as RelationshipType }) : null)}
-                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
-                    >
-                      {relationships.map(rel => (
-                        <option key={rel} value={rel}>{rel}</option>
-                      ))}
-                    </select>
+                    <div className="mt-1.5">
+                      <Select
+                        value={editMemberForm.relationship}
+                        onValueChange={(val) => setEditMemberForm(prev => prev ? ({ ...prev, relationship: val as RelationshipType }) : null)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Relationship" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {relationships.map(rel => (
+                            <SelectItem key={rel} value={rel}>{rel}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Emoji Avatar</label>
-                    <select
-                      value={editMemberForm.avatar}
-                      onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, avatar: e.target.value }) : null)}
-                      className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
-                    >
-                      {['👨', '👩', '👦', '👧', '👴', '👵', '🧑', '👶'].map(emoji => (
-                        <option key={emoji} value={emoji}>{emoji}</option>
-                      ))}
-                    </select>
+                    <div className="mt-1.5">
+                      <Select
+                        value={editMemberForm.avatar}
+                        onValueChange={(val) => setEditMemberForm(prev => prev ? ({ ...prev, avatar: val }) : null)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Avatar" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {['👨', '👩', '👦', '👧', '👴', '👵', '🧑', '👶'].map(emoji => (
+                            <SelectItem key={emoji} value={emoji}>{emoji}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
 
@@ -532,14 +581,20 @@ export default function MembersPage() {
 
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">Status</label>
-                  <select
-                    value={editMemberForm.status}
-                    onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, status: e.target.value as 'Active' | 'Inactive' }) : null)}
-                    className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-100 outline-none focus:border-primary focus:bg-zinc-900/50"
-                  >
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
+                  <div className="mt-1.5">
+                    <Select
+                      value={editMemberForm.status}
+                      onValueChange={(val) => setEditMemberForm(prev => prev ? ({ ...prev, status: val as 'Active' | 'Inactive' }) : null)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Active">Active</SelectItem>
+                        <SelectItem value="Inactive">Inactive</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div className="flex gap-2.5 pt-2">
