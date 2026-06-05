@@ -1,0 +1,615 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useFinance } from '@/context/FinanceContext';
+import { FamilyMember, RelationshipType } from '@/lib/types';
+import { 
+  Search, 
+  UserPlus, 
+  Edit, 
+  Trash2, 
+  Eye, 
+  ChevronRight, 
+  UserCheck, 
+  ChevronLeft,
+  SlidersHorizontal
+} from 'lucide-react';
+import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
+
+export default function MembersPage() {
+  const { 
+    members, 
+    addMember, 
+    updateMember, 
+    deleteMember, 
+    settings,
+    expenses,
+    incomes
+  } = useFinance();
+
+  const currency = settings.familyInfo.currency;
+
+  // Search & Filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [relFilter, setRelFilter] = useState<string>('All');
+  const [statusFilter, setStatusFilter] = useState<string>('All');
+  const [sortField, setSortField] = useState<'name' | 'joinDate'>('name');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  // Modals state
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  
+  const [selectedMember, setSelectedMember] = useState<FamilyMember | null>(null);
+
+  // Forms state
+  const [newMemberForm, setNewMemberForm] = useState({
+    name: '',
+    relationship: 'Spouse' as RelationshipType,
+    phone: '',
+    status: 'Active' as 'Active' | 'Inactive',
+    avatar: '👨'
+  });
+
+  const [editMemberForm, setEditMemberForm] = useState<FamilyMember | null>(null);
+
+  // Math helper: Get member details (Income/Expense sums)
+  const getMemberBalances = (memberId: string) => {
+    const memberIncomes = incomes.filter(i => i.memberId === memberId).reduce((sum, i) => sum + i.amount, 0);
+    const memberExpenses = expenses.filter(e => e.memberId === memberId).reduce((sum, e) => sum + e.amount, 0);
+    return {
+      income: memberIncomes,
+      expense: memberExpenses,
+      balance: memberIncomes - memberExpenses
+    };
+  };
+
+  // Handle CRUD submissions
+  const handleAddSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newMemberForm.name) return;
+    addMember(newMemberForm);
+    setNewMemberForm({
+      name: '',
+      relationship: 'Spouse',
+      phone: '',
+      status: 'Active',
+      avatar: '👨'
+    });
+    setAddModalOpen(false);
+  };
+
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editMemberForm || !editMemberForm.name) return;
+    updateMember(editMemberForm);
+    setEditModalOpen(false);
+    setSelectedMember(null);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (selectedMember) {
+      deleteMember(selectedMember.id);
+      setDeleteModalOpen(false);
+      setSelectedMember(null);
+    }
+  };
+
+  // Filter & Sort math
+  const filteredMembers = members.filter(m => {
+    const matchesSearch = m.name.toLowerCase().includes(searchQuery.toLowerCase()) || m.phone.includes(searchQuery);
+    const matchesRel = relFilter === 'All' || m.relationship === relFilter;
+    const matchesStatus = statusFilter === 'All' || m.status === statusFilter;
+    return matchesSearch && matchesRel && matchesStatus;
+  }).sort((a, b) => {
+    let comp = 0;
+    if (sortField === 'name') {
+      comp = a.name.localeCompare(b.name);
+    } else {
+      comp = a.joinDate.localeCompare(b.joinDate);
+    }
+    return sortOrder === 'asc' ? comp : -comp;
+  });
+
+  // Pagination
+  const totalPages = Math.ceil(filteredMembers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedMembers = filteredMembers.slice(startIndex, startIndex + itemsPerPage);
+
+  const relationships: RelationshipType[] = ['Self', 'Spouse', 'Father', 'Mother', 'Son', 'Daughter', 'Sibling', 'Other'];
+
+  return (
+    <div className="space-y-6">
+      
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-black text-slate-800 dark:text-zinc-50 tracking-tight">Family Members</h1>
+          <p className="text-slate-500 dark:text-zinc-400 text-sm">Add and organize your family directory & check individual balances</p>
+        </div>
+        <button
+          onClick={() => setAddModalOpen(true)}
+          className="flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-primary/10 active:scale-[0.98] transition-all dark:bg-primary/100 dark:hover:bg-primary"
+        >
+          <UserPlus className="h-4 w-4" /> Add Family Member
+        </button>
+      </div>
+
+      {/* Filter / Search Bar */}
+      <div className="bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        
+        {/* Search */}
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 h-4 w-4 text-slate-400 dark:text-zinc-500" />
+          <input
+            type="text"
+            placeholder="Search member name or phone..."
+            value={searchQuery}
+            onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+            className="w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2 pl-9 pr-4 text-xs outline-none transition-all placeholder:text-slate-400 focus:border-primary focus:bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:focus:border-primary-hover"
+          />
+        </div>
+
+        {/* Filters */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
+            <SlidersHorizontal className="h-3.5 w-3.5 text-slate-400" /> Filter:
+          </div>
+          
+          {/* Relationship Filter */}
+          <select
+            value={relFilter}
+            onChange={(e) => { setRelFilter(e.target.value); setCurrentPage(1); }}
+            className="rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-600 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+          >
+            <option value="All">All Relationships</option>
+            {relationships.map(rel => (
+              <option key={rel} value={rel}>{rel}</option>
+            ))}
+          </select>
+
+          {/* Status Filter */}
+          <select
+            value={statusFilter}
+            onChange={(e) => { setStatusFilter(e.target.value); setCurrentPage(1); }}
+            className="rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-600 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+          >
+            <option value="All">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+
+          {/* Sort Order */}
+          <select
+            value={`${sortField}-${sortOrder}`}
+            onChange={(e) => {
+              const [field, order] = e.target.value.split('-');
+              setSortField(field as 'name' | 'joinDate');
+              setSortOrder(order as 'asc' | 'desc');
+            }}
+            className="rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-600 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+          >
+            <option value="name-asc">Name: A-Z</option>
+            <option value="name-desc">Name: Z-A</option>
+            <option value="joinDate-asc">Join Date: Oldest</option>
+            <option value="joinDate-desc">Join Date: Newest</option>
+          </select>
+        </div>
+
+      </div>
+
+      {/* Members Table */}
+      <div className="bg-white dark:bg-zinc-900 border border-slate-200/50 dark:border-zinc-800/50 rounded-2xl shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-slate-100 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-900/40 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+                <th className="py-4 px-6">Profile</th>
+                <th className="py-4 px-4">Relationship</th>
+                <th className="py-4 px-4">Status</th>
+                <th className="py-4 px-4">Phone</th>
+                <th className="py-4 px-4 text-right">Lifetime Income</th>
+                <th className="py-4 px-4 text-right">Lifetime Spent</th>
+                <th className="py-4 px-4 text-right">Balance</th>
+                <th className="py-4 px-6 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 dark:divide-zinc-800/50">
+              {paginatedMembers.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="py-12 text-center text-xs font-semibold text-slate-400">
+                    No family members matched your criteria.
+                  </td>
+                </tr>
+              ) : (
+                paginatedMembers.map((m) => {
+                  const bal = getMemberBalances(m.id);
+                  return (
+                    <tr key={m.id} className="hover:bg-slate-50/30 dark:hover:bg-zinc-900/30 transition-colors">
+                      {/* Name & Avatar */}
+                      <td className="py-4 px-6">
+                        <div className="flex items-center gap-3">
+                          <span className="text-xl bg-slate-100 dark:bg-zinc-800 h-10 w-10 rounded-xl flex items-center justify-center">
+                            {m.avatar}
+                          </span>
+                          <div>
+                            <h4 className="text-xs font-bold text-slate-800 dark:text-zinc-200 leading-tight">{m.name}</h4>
+                            <span className="text-[9px] text-slate-400 dark:text-zinc-500 font-semibold mt-1 block">Joined: {m.joinDate}</span>
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* Relationship */}
+                      <td className="py-4 px-4">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary">
+                          {m.relationship}
+                        </span>
+                      </td>
+
+                      {/* Status */}
+                      <td className="py-4 px-4">
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          m.status === 'Active' 
+                            ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/20 dark:text-emerald-400' 
+                            : 'bg-slate-50 text-slate-500 dark:bg-zinc-800 dark:text-zinc-400'
+                        }`}>
+                          {m.status}
+                        </span>
+                      </td>
+
+                      {/* Phone */}
+                      <td className="py-4 px-4 text-xs font-semibold text-slate-500 dark:text-zinc-400">
+                        {m.phone || 'No phone logged'}
+                      </td>
+
+                      {/* Income */}
+                      <td className="py-4 px-4 text-right text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                        +{currency}{bal.income.toLocaleString()}
+                      </td>
+
+                      {/* Expense */}
+                      <td className="py-4 px-4 text-right text-xs font-bold text-rose-600 dark:text-rose-400">
+                        -{currency}{bal.expense.toLocaleString()}
+                      </td>
+
+                      {/* Balance */}
+                      <td className="py-4 px-4 text-right text-xs font-bold text-slate-900 dark:text-zinc-200">
+                        {currency}{bal.balance.toLocaleString()}
+                      </td>
+
+                      {/* Actions */}
+                      <td className="py-4 px-6 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <Link
+                            href={`/members/${m.id}`}
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-primary hover:bg-slate-50 dark:hover:bg-zinc-800/80 transition-colors"
+                            title="View Personal Dashboard"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Link>
+                          <button
+                            onClick={() => {
+                              setSelectedMember(m);
+                              setEditMemberForm({ ...m });
+                              setEditModalOpen(true);
+                            }}
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-zinc-800/80 transition-colors"
+                            title="Edit Member Info"
+                          >
+                            <Edit className="h-4 w-4" />
+                          </button>
+                          {m.relationship !== 'Self' && (
+                            <button
+                              onClick={() => {
+                                setSelectedMember(m);
+                                setDeleteModalOpen(true);
+                              }}
+                              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-slate-50 dark:hover:bg-zinc-800/80 transition-colors"
+                              title="Delete Profile"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Pagination Toolbar */}
+        {totalPages > 1 && (
+          <div className="px-6 py-4 border-t border-slate-100 dark:border-zinc-800 flex items-center justify-between">
+            <span className="text-[11px] font-semibold text-slate-400 dark:text-zinc-500">
+              Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredMembers.length)} of {filteredMembers.length} members
+            </span>
+            <div className="flex items-center gap-1.5">
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                className="p-1.5 rounded-lg border border-slate-200/80 hover:bg-slate-50 dark:border-zinc-800 dark:hover:bg-zinc-800 disabled:opacity-40"
+              >
+                <ChevronLeft className="h-4 w-4 text-slate-500 dark:text-zinc-400" />
+              </button>
+              <span className="text-xs font-bold text-slate-700 dark:text-zinc-300 px-3">{currentPage} / {totalPages}</span>
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                className="p-1.5 rounded-lg border border-slate-200/80 hover:bg-slate-50 dark:border-zinc-800 dark:hover:bg-zinc-800 disabled:opacity-40"
+              >
+                <ChevronRight className="h-4 w-4 text-slate-500 dark:text-zinc-400" />
+              </button>
+            </div>
+          </div>
+        )}
+
+      </div>
+
+      {/* ========================================================
+          MODALS SECTION - React-driven Dialog wrappers
+         ======================================================== */}
+
+      {/* 1. Add Member Modal */}
+      <AnimatePresence>
+        {addModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 0.5 }} 
+              exit={{ opacity: 0 }} 
+              onClick={() => setAddModalOpen(false)} 
+              className="absolute inset-0 bg-black"
+            />
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }} 
+              animate={{ scale: 1, opacity: 1 }} 
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-6 w-full max-w-md shadow-2xl relative z-10 m-4"
+            >
+              <h3 className="text-base font-extrabold text-slate-900 dark:text-zinc-100">Add Family Member</h3>
+              <p className="text-xs text-slate-400 dark:text-zinc-500 mt-1">Assign budget allocations and track spending activity.</p>
+
+              <form onSubmit={handleAddSubmit} className="mt-4 space-y-3.5">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Name</label>
+                  <input 
+                    type="text" 
+                    placeholder="Full name"
+                    required
+                    value={newMemberForm.name}
+                    onChange={(e) => setNewMemberForm(prev => ({ ...prev, name: e.target.value }))}
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none focus:border-primary focus:bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Relationship</label>
+                    <select 
+                      value={newMemberForm.relationship}
+                      onChange={(e) => setNewMemberForm(prev => ({ ...prev, relationship: e.target.value as RelationshipType }))}
+                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                    >
+                      {relationships.map(rel => (
+                        <option key={rel} value={rel}>{rel}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Emoji Avatar</label>
+                    <select 
+                      value={newMemberForm.avatar}
+                      onChange={(e) => setNewMemberForm(prev => ({ ...prev, avatar: e.target.value }))}
+                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                    >
+                      {['👨', '👩', '👦', '👧', '👴', '👵', '🧑', '👶'].map(emoji => (
+                        <option key={emoji} value={emoji}>{emoji}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Phone Number</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. +880 1819-000000"
+                    value={newMemberForm.phone}
+                    onChange={(e) => setNewMemberForm(prev => ({ ...prev, phone: e.target.value }))}
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none focus:border-primary focus:bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Status</label>
+                  <select 
+                    value={newMemberForm.status}
+                    onChange={(e) => setNewMemberForm(prev => ({ ...prev, status: e.target.value as 'Active' | 'Inactive' }))}
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                </div>
+
+                <div className="flex gap-2.5 pt-2">
+                  <button 
+                    type="button" 
+                    onClick={() => setAddModalOpen(false)}
+                    className="flex-1 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 py-2.5 text-xs font-bold text-slate-700 dark:text-zinc-200 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit" 
+                    className="flex-1 rounded-xl bg-primary hover:bg-primary-hover py-2.5 text-xs font-bold text-white transition-colors"
+                  >
+                    Create Profile
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* 2. Edit Member Modal */}
+      <AnimatePresence>
+        {editModalOpen && editMemberForm && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 0.5 }} 
+              exit={{ opacity: 0 }} 
+              onClick={() => setEditModalOpen(false)} 
+              className="absolute inset-0 bg-black"
+            />
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }} 
+              animate={{ scale: 1, opacity: 1 }} 
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-6 w-full max-w-md shadow-2xl relative z-10 m-4"
+            >
+              <h3 className="text-base font-extrabold text-slate-900 dark:text-zinc-100">Edit Family Member</h3>
+              <p className="text-xs text-slate-400 dark:text-zinc-500 mt-1">Modify profile settings and status levels.</p>
+
+              <form onSubmit={handleEditSubmit} className="mt-4 space-y-3.5">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Name</label>
+                  <input 
+                    type="text" 
+                    required
+                    value={editMemberForm.name}
+                    onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none focus:border-primary focus:bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Relationship</label>
+                    <select 
+                      value={editMemberForm.relationship}
+                      onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, relationship: e.target.value as RelationshipType }) : null)}
+                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                    >
+                      {relationships.map(rel => (
+                        <option key={rel} value={rel}>{rel}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Emoji Avatar</label>
+                    <select 
+                      value={editMemberForm.avatar}
+                      onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, avatar: e.target.value }) : null)}
+                      className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                    >
+                      {['👨', '👩', '👦', '👧', '👴', '👵', '🧑', '👶'].map(emoji => (
+                        <option key={emoji} value={emoji}>{emoji}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Phone Number</label>
+                  <input 
+                    type="text" 
+                    value={editMemberForm.phone}
+                    onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, phone: e.target.value }) : null)}
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none focus:border-primary focus:bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500">Status</label>
+                  <select 
+                    value={editMemberForm.status}
+                    onChange={(e) => setEditMemberForm(prev => prev ? ({ ...prev, status: e.target.value as 'Active' | 'Inactive' }) : null)}
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-700 outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                </div>
+
+                <div className="flex gap-2.5 pt-2">
+                  <button 
+                    type="button" 
+                    onClick={() => { setEditModalOpen(false); setSelectedMember(null); }}
+                    className="flex-1 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 py-2.5 text-xs font-bold text-slate-700 dark:text-zinc-200 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit" 
+                    className="flex-1 rounded-xl bg-primary hover:bg-primary-hover py-2.5 text-xs font-bold text-white transition-colors"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* 3. Delete Member Confirmation Modal */}
+      <AnimatePresence>
+        {deleteModalOpen && selectedMember && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 0.5 }} 
+              exit={{ opacity: 0 }} 
+              onClick={() => setDeleteModalOpen(false)} 
+              className="absolute inset-0 bg-black"
+            />
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }} 
+              animate={{ scale: 1, opacity: 1 }} 
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl p-6 w-full max-w-sm shadow-2xl relative z-10 m-4 text-center"
+            >
+              <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-rose-50 text-rose-600 dark:bg-rose-950/20 dark:text-rose-400">
+                <Trash2 className="h-5 w-5" />
+              </div>
+              <h3 className="text-base font-extrabold text-slate-900 dark:text-zinc-100 mt-4">Delete Member Profile</h3>
+              <p className="text-xs text-slate-500 dark:text-zinc-400 mt-2">
+                Are you sure you want to remove <span className="font-bold">{selectedMember.name}</span>? This action is permanent and will cascade delete all associated income and expense records!
+              </p>
+
+              <div className="flex gap-2.5 mt-5">
+                <button 
+                  type="button" 
+                  onClick={() => { setDeleteModalOpen(false); setSelectedMember(null); }}
+                  className="flex-1 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 py-2.5 text-xs font-bold text-slate-700 dark:text-zinc-200 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="button" 
+                  onClick={handleDeleteConfirm}
+                  className="flex-1 rounded-xl bg-rose-600 hover:bg-rose-500 py-2.5 text-xs font-bold text-white transition-colors"
+                >
+                  Confirm Delete
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+    </div>
+  );
+}
