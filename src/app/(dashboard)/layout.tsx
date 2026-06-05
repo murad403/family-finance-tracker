@@ -1,34 +1,18 @@
 'use client';
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useFinance } from '@/context/FinanceContext';
 import {
-  LayoutDashboard,
-  Users,
-  TrendingUp,
-  Receipt,
-  FileText,
-  Tag,
-  BarChart3,
-  Settings,
-  Menu,
-  X,
-  Bell,
-  Search,
-  LogOut,
-  Sun,
-  Moon,
-  ChevronDown,
-  AlertTriangle,
-  Info,
-  CheckCircle2,
-  DollarSign
+  LayoutDashboard, Users, TrendingUp, Receipt, FileText, Tag, BarChart3, Settings, Menu, X, Bell, Search, LogOut, ChevronDown, AlertTriangle, Info, CheckCircle2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import logo from "@/assets/logo/logo3.png"
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+
+
+const  DashboardLayout =({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
   const {
@@ -129,15 +113,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* 1. Desktop Sidebar */}
       <aside className="hidden lg:flex flex-col w-64 border-r border-zinc-800 bg-zinc-900/50 backdrop-blur-md sticky top-0 h-screen overflow-y-auto">
-        <div className="p-6 border-b border-zinc-800 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white text-lg font-bold shadow-lg shadow-primary/10">
-            📊
-          </div>
-          <div>
-            <h1 className="font-bold text-zinc-50 leading-tight">Finance Tracker</h1>
-            <span className="text-sm text-zinc-400 font-medium tracking-wide uppercase">{settings.familyInfo.familyName}</span>
-          </div>
-        </div>
+        <Link href={"/"} className="p-6 border-b border-zinc-800 flex items-center gap-3">
+          <Image src={logo} alt='logo' width={500} height={500} />
+        </Link>
 
         {/* Navigation List */}
         <nav className="flex-1 px-4 py-6 space-y-1.5">
@@ -187,7 +165,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="flex-1 flex flex-col min-w-0">
 
         {/* Top Header */}
-        <header className="h-16 border-b border-zinc-800 bg-zinc-900/50 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-40">
+        <header className="py-4 border-b border-zinc-800 bg-zinc-900/50 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-40">
 
           {/* Header Left (Mobile menu trigger + Breadcrumb) */}
           <div className="flex items-center gap-4">
@@ -198,10 +176,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Menu className="h-5 w-5" />
             </button>
             <div className="hidden sm:block">
-              <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+              <p className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">
                 {pathname === '/dashboard' ? 'Welcome Back' : 'Management'}
               </p>
-              <h2 className="text-sm font-bold text-zinc-200 capitalize">
+              <h2 className="text-lg font-bold text-zinc-200 capitalize">
                 {pathname.split('/')[1] || 'Dashboard'}
               </h2>
             </div>
@@ -525,3 +503,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     </div>
   );
 }
+
+
+export default DashboardLayout;
