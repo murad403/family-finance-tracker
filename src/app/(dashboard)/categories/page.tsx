@@ -11,7 +11,15 @@ import {
   HelpCircle,
   TrendingUp,
   Receipt,
-  Scale
+  Scale,
+  ShoppingBag,
+  Utensils,
+  Zap,
+  Activity,
+  BookOpen,
+  Car,
+  Film,
+  FolderOpen
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -52,15 +60,15 @@ export default function CategoriesPage() {
   const budgetUsageRate = totalBudgets > 0 ? (totalSpendThisMonth / totalBudgets) * 100 : 0;
 
   // Category Icons & Accent colors
-  const categoryMeta: { [key in ExpenseCategory]: { emoji: string; color: string; border: string; text: string } } = {
-    Grocery: { emoji: '🛒', color: 'bg-primary', border: 'border-primary/20 dark:border-indigo-950/20', text: 'text-primary' },
-    Food: { emoji: '🍔', color: 'bg-rose-500', border: 'border-rose-100 dark:border-rose-950/20', text: 'text-rose-600' },
-    Utilities: { emoji: '⚡', color: 'bg-cyan-500', border: 'border-cyan-100 dark:border-cyan-950/20', text: 'text-cyan-600' },
-    Medical: { emoji: '💊', color: 'bg-emerald-500', border: 'border-emerald-100 dark:border-emerald-950/20', text: 'text-emerald-600' },
-    Education: { emoji: '📚', color: 'bg-amber-500', border: 'border-amber-100 dark:border-amber-950/20', text: 'text-amber-600' },
-    Transportation: { emoji: '🚗', color: 'bg-purple-500', border: 'border-purple-100 dark:border-purple-950/20', text: 'text-purple-600' },
-    Entertainment: { emoji: '🎬', color: 'bg-pink-500', border: 'border-pink-100 dark:border-pink-950/20', text: 'text-pink-600' },
-    Others: { emoji: '📦', color: 'bg-slate-500', border: 'border-slate-100 dark:border-zinc-800/40', text: 'text-slate-600' }
+  const categoryMeta: { [key in ExpenseCategory]: { icon: React.ComponentType<any>; color: string; bg: string; border: string; text: string } } = {
+    Grocery: { icon: ShoppingBag, color: 'bg-primary', bg: 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary', border: 'border-primary/20 dark:border-indigo-950/20', text: 'text-primary' },
+    Food: { icon: Utensils, color: 'bg-rose-500', bg: 'bg-rose-50 text-rose-600 dark:bg-rose-950/20 dark:text-rose-450', border: 'border-rose-100 dark:border-rose-950/20', text: 'text-rose-600' },
+    Utilities: { icon: Zap, color: 'bg-cyan-500', bg: 'bg-cyan-50 text-cyan-600 dark:bg-cyan-950/20 dark:text-cyan-400', border: 'border-cyan-100 dark:border-cyan-950/20', text: 'text-cyan-600' },
+    Medical: { icon: Activity, color: 'bg-emerald-500', bg: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/20 dark:text-emerald-400', border: 'border-emerald-100 dark:border-emerald-950/20', text: 'text-emerald-600' },
+    Education: { icon: BookOpen, color: 'bg-amber-500', bg: 'bg-amber-50 text-amber-600 dark:bg-amber-950/20 dark:text-amber-400', border: 'border-amber-100 dark:border-amber-950/20', text: 'text-amber-600' },
+    Transportation: { icon: Car, color: 'bg-purple-500', bg: 'bg-purple-50 text-purple-600 dark:bg-purple-950/20 dark:text-purple-400', border: 'border-purple-100 dark:border-purple-950/20', text: 'text-purple-600' },
+    Entertainment: { icon: Film, color: 'bg-pink-500', bg: 'bg-pink-50 text-pink-600 dark:bg-pink-950/20 dark:text-pink-400', border: 'border-pink-100 dark:border-pink-950/20', text: 'text-pink-600' },
+    Others: { icon: FolderOpen, color: 'bg-slate-500', bg: 'bg-slate-100 text-slate-600 dark:bg-zinc-800 dark:text-zinc-350', border: 'border-slate-100 dark:border-zinc-800/40', text: 'text-slate-600' }
   };
 
   return (
@@ -134,11 +142,11 @@ export default function CategoriesPage() {
               className={`bg-white dark:bg-zinc-900 border ${meta.border} rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-all`}
             >
               
-              {/* Card Header (Category Title + Emoji Icon) */}
+              {/* Card Header (Category Title + Lucide Icon) */}
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
-                  <span className="text-xl bg-slate-50 dark:bg-zinc-950 h-9 w-9 rounded-xl flex items-center justify-center border border-slate-100 dark:border-zinc-800/60 shadow-sm shrink-0">
-                    {meta.emoji}
+                  <span className={`h-9 w-9 rounded-xl flex items-center justify-center border shadow-sm shrink-0 ${meta.bg} ${meta.border}`}>
+                    <meta.icon className="h-4.5 w-4.5 shrink-0" />
                   </span>
                   <div>
                     <h3 className="text-xs font-black text-slate-800 dark:text-zinc-200">{b.category}</h3>

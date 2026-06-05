@@ -19,6 +19,7 @@ import {
   Eye
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import CategoryBadge from '@/components/CategoryBadge';
 
 export default function ExpensesPage() {
   const { 
@@ -460,9 +461,7 @@ export default function ExpensesPage() {
                             </div>
                           </td>
                           <td className="py-4 px-4">
-                            <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 dark:bg-rose-950/20 dark:text-rose-400">
-                              {e.category}
-                            </span>
+                            <CategoryBadge category={e.category} type="expense" />
                           </td>
                           <td className="py-4 px-4 font-bold text-slate-800 dark:text-zinc-200">{e.productName}</td>
                           <td className="py-4 px-4 text-center font-bold">{e.quantity}</td>
@@ -554,7 +553,7 @@ export default function ExpensesPage() {
                       <div>
                         <h4 className="text-xs font-extrabold text-slate-800 dark:text-zinc-200">{e.productName}</h4>
                         <div className="flex flex-wrap items-center gap-2 mt-1.5">
-                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-50 text-rose-600 dark:bg-rose-950/20 dark:text-rose-400">{e.category}</span>
+                          <CategoryBadge category={e.category} type="expense" />
                           <span className="text-[10px] text-slate-400 font-semibold">{member?.name}</span>
                           <span className="h-1 w-1 bg-slate-350 dark:bg-zinc-700 rounded-full" />
                           <span className="text-[10px] text-slate-400 font-semibold">{e.date}</span>

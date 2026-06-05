@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useFinance } from '@/context/FinanceContext';
 import { ExpenseCategory, IncomeCategory } from '@/lib/types';
+import CategoryBadge from '@/components/CategoryBadge';
 import { 
   Printer, 
   TrendingUp, 
@@ -394,10 +395,8 @@ export default function ReportsPage() {
                       <tr key={item.id} className="hover:bg-slate-50/20 transition-colors">
                         <td className="py-2.5 px-3 font-semibold text-slate-700 dark:text-zinc-300">{item.date}</td>
                         <td className="py-2.5 px-3 font-bold text-slate-700 dark:text-zinc-300">{member?.avatar} {member?.name}</td>
-                        <td className="py-2.5 px-3 text-[10px]">
-                          <span className={`font-bold px-2 py-0.5 rounded ${isIncome ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                            {item.category}
-                          </span>
+                        <td className="py-2.5 px-3">
+                          <CategoryBadge category={item.category} type={item.type} />
                         </td>
                         <td className="py-2.5 px-3 font-medium text-slate-800 dark:text-zinc-150">
                           {isIncome ? (item as any).description : (item as any).productName}

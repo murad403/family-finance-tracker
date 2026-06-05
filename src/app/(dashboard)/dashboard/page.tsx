@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { ExpenseCategory, IncomeCategory, RelationshipType } from '@/lib/types';
+import CategoryBadge from '@/components/CategoryBadge';
 
 // Dynamically import charts to avoid hydration errors
 const IncomeExpenseComparison = dynamic(
@@ -507,9 +508,7 @@ export default function DashboardPage() {
                           {member?.name}
                         </span>
                         <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-zinc-700" />
-                        <span className="text-[9px] font-bold px-1.5 py-0.5 bg-slate-100 text-slate-500 dark:bg-zinc-800 dark:text-zinc-400 rounded-md">
-                          {tx.category}
-                        </span>
+                        <CategoryBadge category={tx.category} type={tx.type} />
                       </div>
                     </div>
                   </div>

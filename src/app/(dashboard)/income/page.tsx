@@ -17,6 +17,7 @@ import {
   CalendarDays
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import CategoryBadge from '@/components/CategoryBadge';
 
 export default function IncomePage() {
   const { 
@@ -290,9 +291,7 @@ export default function IncomePage() {
 
                       {/* Category */}
                       <td className="py-4 px-4">
-                        <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-950/20 dark:text-emerald-400">
-                          {i.category}
-                        </span>
+                        <CategoryBadge category={i.category} type="income" />
                       </td>
 
                       {/* Description */}

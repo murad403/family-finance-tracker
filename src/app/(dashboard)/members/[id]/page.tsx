@@ -18,6 +18,7 @@ import {
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { ExpenseCategory, IncomeCategory } from '@/lib/types';
+import CategoryBadge from '@/components/CategoryBadge';
 
 // Dynamically import charts
 const IncomeExpenseComparison = dynamic(
@@ -299,9 +300,7 @@ export default function MemberDetailsPage({ params }: PageProps) {
                       <td className="py-3.5 px-6 font-semibold">{e.date}</td>
                       <td className="py-3.5 px-4 font-bold text-slate-800 dark:text-zinc-200">{e.productName}</td>
                       <td className="py-3.5 px-4">
-                        <span className="text-[9px] font-bold px-1.5 py-0.5 bg-slate-100 text-slate-600 dark:bg-zinc-800 dark:text-zinc-400 rounded-md">
-                          {e.category}
-                        </span>
+                        <CategoryBadge category={e.category} type="expense" />
                       </td>
                       <td className="py-3.5 px-4 text-center font-semibold">{e.quantity}</td>
                       <td className="py-3.5 px-4 text-right">{currency}{(e.amount / e.quantity).toFixed(0)}</td>
@@ -335,9 +334,7 @@ export default function MemberDetailsPage({ params }: PageProps) {
                       <td className="py-3.5 px-6 font-semibold">{i.date}</td>
                       <td className="py-3.5 px-4 font-bold text-slate-800 dark:text-zinc-200">{i.description}</td>
                       <td className="py-3.5 px-4">
-                        <span className="text-[9px] font-bold px-1.5 py-0.5 bg-emerald-50 text-emerald-600 dark:bg-emerald-950/20 dark:text-emerald-400 rounded-md">
-                          {i.category}
-                        </span>
+                        <CategoryBadge category={i.category} type="income" />
                       </td>
                       <td className="py-3.5 px-4 text-slate-400 dark:text-zinc-500 max-w-50 truncate">{i.notes || '-'}</td>
                       <td className="py-3.5 px-6 text-right font-extrabold text-emerald-600 dark:text-emerald-400">+{currency}{i.amount.toLocaleString()}</td>
