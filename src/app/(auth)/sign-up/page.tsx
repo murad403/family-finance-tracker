@@ -49,7 +49,7 @@ export default function RegisterPage() {
       >
 
         {/* Card */}
-        <div className="glass-card rounded-2xl p-8 shadow-xl shadow-slate-100/50 dark:shadow-none">
+        <div className="rounded-2xl p-8 shadow-xl shadow-heading/50 hover:scale-105 transition-all duration-500">
           <div className='text-center'>
             <h2 className="text-xl md:text-2xl font-semibold text-title">
               Register account
