@@ -3,20 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useFinance } from '@/context/FinanceContext';
 import {
-  TrendingUp,
-  TrendingDown,
-  Wallet,
-  Users,
-  PlusCircle,
-  ArrowUpRight,
-  ArrowDownRight,
-  TrendingUp as IconIncome,
-  ArrowRight,
-  Calendar,
-  Sparkles,
-  ShoppingBag,
-  User,
-  Crown
+  TrendingUp, TrendingDown, Wallet, Users, PlusCircle, ArrowUpRight, ArrowDownRight, TrendingUp as IconIncome, ArrowRight, Calendar, Sparkles, ShoppingBag, User, Crown
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -24,6 +11,8 @@ import Link from 'next/link';
 import { ExpenseCategory, IncomeCategory, RelationshipType } from '@/lib/types';
 import CategoryBadge from '@/components/CategoryBadge';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import PageHeader from '@/components/shared/PageHeader';
+import SummaryCards from '@/components/dashboard/dashboard/SummaryCards';
 
 // Dynamically import charts to avoid hydration errors
 const IncomeExpenseComparison = dynamic(
@@ -254,13 +243,9 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-
       {/* Page Header Area */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-black text-slate-800 dark:text-zinc-50 tracking-tight">Family Dashboard</h1>
-          <p className="text-slate-500 dark:text-zinc-400 text-sm">Financial health overview for {settings.familyInfo.familyName}</p>
-        </div>
+        <PageHeader title="Family Dashboard" description={`Financial health overview for ${settings?.familyInfo?.familyName}`} />
 
         {/* Action Buttons */}
         <div className="flex flex-wrap items-center gap-2">
@@ -286,117 +271,7 @@ export default function DashboardPage() {
       </div>
 
       {/* 1. Summary Cards Matrix */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-
-        {/* Total Income */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 shadow-sm hover-glow"
-        >
-          <div className="flex justify-between items-start">
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Total Income</span>
-            <span className="p-1.5 rounded-lg bg-emerald-950/20 text-emerald-400"><TrendingUp className="h-4 w-4" /></span>
-          </div>
-          <div className="mt-3">
-            <h3 className="text-lg font-extrabold text-zinc-100">{currency}{totalIncome.toLocaleString()}</h3>
-            <span className="text-xs text-zinc-450 font-semibold block mt-0.5">Lifetime earnings</span>
-          </div>
-        </motion.div>
-
-        {/* Total Expenses */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.05 }}
-          className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 shadow-sm hover-glow"
-        >
-          <div className="flex justify-between items-start">
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Total Expenses</span>
-            <span className="p-1.5 rounded-lg bg-rose-950/20 text-rose-400"><TrendingDown className="h-4 w-4" /></span>
-          </div>
-          <div className="mt-3">
-            <h3 className="text-lg font-extrabold text-zinc-100">{currency}{totalExpense.toLocaleString()}</h3>
-            <span className="text-xs text-zinc-450 font-semibold block mt-0.5">Lifetime spending</span>
-          </div>
-        </motion.div>
-
-        {/* Remaining Balance */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 shadow-sm hover-glow"
-        >
-          <div className="flex justify-between items-start">
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Net Balance</span>
-            <span className="p-1.5 rounded-lg bg-primary/10 text-primary"><Wallet className="h-4 w-4" /></span>
-          </div>
-          <div className="mt-3">
-            <h3 className={`text-lg font-extrabold ${remainingBalance >= 0 ? 'text-zinc-100' : 'text-rose-400'}`}>
-              {currency}{remainingBalance.toLocaleString()}
-            </h3>
-            <span className="text-xs text-zinc-450 font-semibold block mt-0.5">Total net assets</span>
-          </div>
-        </motion.div>
-
-        {/* Total Family Members */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.15 }}
-          className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 shadow-sm hover-glow"
-        >
-          <div className="flex justify-between items-start">
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Family Members</span>
-            <span className="p-1.5 rounded-lg bg-violet-950/20 text-violet-400"><Users className="h-4 w-4" /></span>
-          </div>
-          <div className="mt-3">
-            <h3 className="text-lg font-extrabold text-zinc-100">{members.length}</h3>
-            <span className="text-xs text-zinc-450 font-semibold block mt-0.5">Active profiles</span>
-          </div>
-        </motion.div>
-
-        {/* This Month Income */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
-          className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 shadow-sm hover-glow"
-        >
-          <div className="flex justify-between items-start">
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">This Month Income</span>
-            <span className="text-emerald-400 text-sm font-bold flex items-center gap-0.5">
-              {incomeTrendPercentage >= 0 ? '+' : ''}{incomeTrendPercentage.toFixed(0)}%
-            </span>
-          </div>
-          <div className="mt-3">
-            <h3 className="text-lg font-extrabold text-zinc-100">{currency}{thisMonthIncomeSum.toLocaleString()}</h3>
-            <span className="text-xs text-zinc-450 font-semibold block mt-0.5">June 2026 earnings</span>
-          </div>
-        </motion.div>
-
-        {/* This Month Expenses */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.25 }}
-          className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 shadow-sm hover-glow"
-        >
-          <div className="flex justify-between items-start">
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">This Month Exp.</span>
-            <span className={`${expenseTrendPercentage > 0 ? 'text-rose-400' : 'text-emerald-400'} text-sm font-bold flex items-center gap-0.5`}>
-              {expenseTrendPercentage >= 0 ? '+' : ''}{expenseTrendPercentage.toFixed(0)}%
-            </span>
-          </div>
-          <div className="mt-3">
-            <h3 className="text-lg font-extrabold text-zinc-100">{currency}{thisMonthExpenseSum.toLocaleString()}</h3>
-            <span className="text-xs text-zinc-450 font-semibold block mt-0.5">June 2026 spending</span>
-          </div>
-        </motion.div>
-
-      </div>
+      <SummaryCards />
 
       {/* 2. Charts Section Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
