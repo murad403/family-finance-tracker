@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -9,6 +8,7 @@ import * as z from 'zod';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, Users, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { useFinance } from '@/context/FinanceContext';
+
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -218,7 +218,7 @@ export default function RegisterPage() {
           <div className="mt-6 text-center text-xs text-slate-500 dark:text-zinc-400">
             Already have an account?{' '}
             <Link
-              href="/login"
+              href="/sign-in"
               className="font-semibold text-primary hover:underline dark:text-primary"
             >
               Sign In

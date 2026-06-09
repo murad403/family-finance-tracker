@@ -1,21 +1,15 @@
 'use client';
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod'; // Wait, let's write simple react-hook-form validator or zod since zod is installed.
-import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { Mail, Lock, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { useFinance } from '@/context/FinanceContext';
+import { SignInFormData, signInSchema } from '@/validation/auth.validation';
 
-const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-});
 
-type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
@@ -24,19 +18,15 @@ export default function LoginPage() {
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+  const { register, handleSubmit, formState: { errors } } = useForm<SignInFormData>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: 'murad.alhassan@familyfinance.com',
       password: 'demopassword123',
     }
   });
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (data: SignInFormData) => {
     setIsLoading(true);
     setErrorMsg('');
     try {
@@ -56,32 +46,18 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-1 min-h-screen items-center justify-center bg-linear-to-tr from-slate-100 via-slate-50 to-indigo-50/50 p-6 dark:from-zinc-950 dark:via-zinc-950 dark:to-indigo-950/20">
+    <div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="w-full max-w-md"
       >
-        {/* Brand Logo */}
-        <div className="mb-8 flex flex-col items-center text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary shadow-lg shadow-primary/20 text-white text-xl font-bold dark:bg-primary/100">
-            📊
-          </div>
-          <h1 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-50">
-            Family Finance Tracker
-          </h1>
-          <p className="mt-1.5 text-sm text-slate-500 dark:text-zinc-400">
-            Private financial system for your family
-          </p>
-        </div>
-
-        {/* Card */}
         <div className="glass-card rounded-2xl p-8 shadow-xl shadow-slate-100/50 dark:shadow-none">
-          <h2 className="text-xl font-semibold text-slate-900 dark:text-zinc-50">
+          <h2 className="text-xl font-semibold text-white">
             Sign In
           </h2>
-          <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">
+          <p className="mt-1 text-sm text-slate-300">
             Enter your credentials to access your family dashboard.
           </p>
 

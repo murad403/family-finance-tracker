@@ -24,7 +24,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   // Authentication Guard
   useEffect(() => {
     if (!isAuthenticated) {
-      router.replace('/login');
+      router.replace('/sign-in');
     }
   }, [isAuthenticated, router]);
 
