@@ -5,44 +5,35 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Mail, Lock, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, User, Users, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { useFinance } from '@/context/FinanceContext';
-import { SignInFormData, signInSchema } from '@/validation/auth.validation';
+import { SignUpFormData, signUpSchema } from '@/validation/auth.validation';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
-  const { login } = useFinance();
+  const { register: registerContext } = useFinance();
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<SignInFormData>({
-    resolver: zodResolver(signInSchema),
-    defaultValues: {
-      email: 'murad.alhassan@familyfinance.com',
-      password: 'demopassword123',
-    }
+  const { register, handleSubmit, formState: { errors } } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema)
   });
 
-  const onSubmit = async (data: SignInFormData) => {
+  const onSubmit = async (data: SignUpFormData) => {
     setIsLoading(true);
     setErrorMsg('');
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      const success = login(data.email, data.password);
-      if (success) {
-        router.push('/dashboard');
-      } else {
-        setErrorMsg('Invalid email or password.');
-      }
+      registerContext(data.name, data.email, data.familyName);
+      router.push('/dashboard');
     } catch (err) {
-      setErrorMsg('An error occurred. Please try again.');
+      setErrorMsg('Failed to create account. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -56,13 +47,15 @@ export default function LoginPage() {
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="w-full"
       >
+
+        {/* Card */}
         <div className="glass-card rounded-2xl p-8 shadow-xl shadow-slate-100/50 dark:shadow-none">
           <div className='text-center'>
             <h2 className="text-xl md:text-2xl font-semibold text-title">
-              Sign In
+              Register account
             </h2>
             <p className="mt-1 text-sm md:text-base text-description">
-              Enter your credentials to access your family dashboard.
+              Set up your family administrative account.
             </p>
           </div>
 
@@ -74,7 +67,41 @@ export default function LoginPage() {
             )}
 
             <div>
-              <Label htmlFor="email">Email address</Label>
+              <Label>Admin Full Name</Label>
+              <div className="relative mt-1.5 flex items-center">
+                <User className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
+                <Input
+                  {...register('name')}
+                  type="text"
+                  placeholder="your full name"
+                />
+              </div>
+              {errors.name && (
+                <p className="mt-1 text-xs text-rose-600 dark:text-rose-400">
+                  {errors.name.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <Label>Family Tracker Name</Label>
+              <div className="relative mt-1.5 flex items-center">
+                <Users className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
+                <Input
+                  {...register('familyName')}
+                  type="text"
+                  placeholder="your family tracker name"
+                />
+              </div>
+              {errors.familyName && (
+                <p className="mt-1 text-xs text-rose-600 dark:text-rose-400">
+                  {errors.familyName.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <Label htmlFor='email'>Email Address</Label>
               <div className="relative mt-1.5 flex items-center">
                 <Mail className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
                 <Input
@@ -91,23 +118,15 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">
-                  Password
-                </Label>
-                <Link
-                  href="/forgot-password"
-                  className="text-xs font-medium text-heading hover:underline"
-                >
-                  Forgot password?
-                </Link>
-              </div>
+              <Label htmlFor='password'>
+                Password
+              </Label>
               <div className="relative mt-1.5 flex items-center">
                 <Lock className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
                 <Input
                   {...register('password')}
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
+                  placeholder="create password"
                 />
                 <button
                   type="button"
@@ -128,27 +147,41 @@ export default function LoginPage() {
               )}
             </div>
 
-            <Button
-              type="submit"
-              disabled={isLoading}
-            >
+            <div>
+              <Label>Confirm Password</Label>
+              <div className="relative mt-1.5 flex items-center">
+                <Lock className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
+                <Input
+                  {...register('confirmPassword')}
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="re-type password"
+                />
+              </div>
+              {errors.confirmPassword && (
+                <p className="mt-1 text-xs text-rose-600 dark:text-rose-400">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
+            </div>
+
+            <Button type="submit" disabled={isLoading}>
               {isLoading ? (
                 <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
               ) : (
                 <>
-                  Sign In <ArrowRight className="h-4 w-4" />
+                  Register Family <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </Button>
           </form>
 
           <div className="mt-6 text-center text-xs text-description">
-            Don't have an account?{' '}
+            Already have an account?{' '}
             <Link
-              href="/sign-up"
+              href="/sign-in"
               className="font-semibold text-title"
             >
-              Create Family Account
+              Sign In
             </Link>
           </div>
         </div>
