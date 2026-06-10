@@ -1,5 +1,7 @@
 'use client';
+import CardHeader from '@/components/shared/CardHeader';
 import { useFinance } from '@/context/FinanceContext';
+import { div } from 'framer-motion/client';
 import { ResponsiveContainer, PieChart, Pie, Tooltip, Cell } from 'recharts';
 
 
@@ -63,39 +65,42 @@ const CategoryBreakdownChart = () => {
     }
 
     return (
-        <div className="w-full flex flex-col items-center justify-center gap-4 mt-4">
-            <div className="w-full sm:w-1/2 h-60">
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                        <Tooltip content={<CustomTooltip prefix={currency} />} />
-                        <Pie
-                            data={chartData}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={60}
-                            outerRadius={85}
-                            paddingAngle={4}
-                            dataKey="value"
-                        >
-                            {chartData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={CATEGORY_COLORS[entry.name] || '#6366f1'} />
-                            ))}
-                        </Pie>
-                    </PieChart>
-                </ResponsiveContainer>
-            </div>
+        <div className='bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4'>
+            <CardHeader title='Category breakdown' description='Current month expenses distribution' />
+            <div className="w-full flex flex-col items-center justify-center gap-4 mt-4">
+                <div className="w-full sm:w-1/2 h-60">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                            <Tooltip content={<CustomTooltip prefix={currency} />} />
+                            <Pie
+                                data={chartData}
+                                cx="50%"
+                                cy="50%"
+                                innerRadius={60}
+                                outerRadius={85}
+                                paddingAngle={4}
+                                dataKey="value"
+                            >
+                                {chartData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={CATEGORY_COLORS[entry.name] || '#6366f1'} />
+                                ))}
+                            </Pie>
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
 
-            <div className="flex-1 w-full grid grid-cols-2 gap-2 text-xs font-semibold">
-                {chartData.map((entry) => (
-                    <div key={entry.name} className="flex items-center gap-2">
-                        <span
-                            className="h-3 w-3 rounded-full shrink-0"
-                            style={{ backgroundColor: CATEGORY_COLORS[entry.name] || '#6366f1' }}
-                        />
-                        <span className="text-white/75 truncate">{entry.name}</span>
-                        <span className="text-white">{currency}{entry.value.toLocaleString()}</span>
-                    </div>
-                ))}
+                <div className="flex-1 w-full grid grid-cols-2 gap-2 text-xs font-semibold">
+                    {chartData.map((entry) => (
+                        <div key={entry.name} className="flex items-center gap-2">
+                            <span
+                                className="h-3 w-3 rounded-full shrink-0"
+                                style={{ backgroundColor: CATEGORY_COLORS[entry.name] || '#6366f1' }}
+                            />
+                            <span className="text-white/75 truncate">{entry.name}</span>
+                            <span className="text-white">{currency}{entry.value.toLocaleString()}</span>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

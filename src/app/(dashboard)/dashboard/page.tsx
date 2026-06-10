@@ -1,39 +1,19 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import { useFinance } from '@/context/FinanceContext';
-import {
-  TrendingUp, TrendingDown, Wallet, Users, PlusCircle, ArrowUpRight, ArrowDownRight, TrendingUp as IconIncome, ArrowRight, Calendar, Sparkles, ShoppingBag, User, Crown
-} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { ExpenseCategory, IncomeCategory, RelationshipType } from '@/lib/types';
-import CategoryBadge from '@/components/CategoryBadge';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import PageHeader from '@/components/shared/PageHeader';
 import SummaryCards from '@/components/dashboard/dashboard/SummaryCards';
-import { IncomeExpenseComparison } from '@/components/dashboard/dashboard/FinancialCharts';
 import IncomeExpenseComparisonChart from '@/components/dashboard/dashboard/IncomeExpenseComparisonChart';
 import CategoryBreakdownChart from '@/components/dashboard/dashboard/CategoryBreakdownChart';
-import CardHeader from '@/components/shared/CardHeader';
+import SmartFinancialInsights from '@/components/dashboard/dashboard/SmartFinancialInsights';
+import RecentTransactions from '@/components/dashboard/dashboard/RecentTransactions';
 
 
-const ExpenseCategoryPie = dynamic(
-  () => import('@/components/dashboard/dashboard/FinancialCharts').then(mod => mod.ExpenseCategoryPie),
-  { ssr: false }
-);
-
-export default function DashboardPage() {
-  const {
-    members,
-    incomes,
-    expenses,
-    settings,
-    addExpense,
-    addIncome,
-    addMember
-  } = useFinance();
+const DashboardPage = () => {
+  const { members, incomes, expenses, settings, addExpense, addIncome, addMember } = useFinance();
 
   const currency = settings.familyInfo.currency;
 
@@ -80,33 +60,8 @@ export default function DashboardPage() {
 
   // Current Month String YYYY-MM
   const currentMonthStr = '2026-06'; // Matches mock current date
-
-  // 1. Calculations & Metrics
-  const totalIncome = incomes.reduce((sum, i) => sum + i.amount, 0);
-  const totalExpense = expenses.reduce((sum, e) => sum + e.amount, 0);
-  const remainingBalance = totalIncome - totalExpense;
-
-  const thisMonthIncomes = incomes.filter(i => i.date.startsWith(currentMonthStr));
   const thisMonthExpenses = expenses.filter(e => e.date.startsWith(currentMonthStr));
 
-  const thisMonthIncomeSum = thisMonthIncomes.reduce((sum, i) => sum + i.amount, 0);
-  const thisMonthExpenseSum = thisMonthExpenses.reduce((sum, e) => sum + e.amount, 0);
-
-  // 2. Trend Calculations (Compared to previous month: May 2026)
-  const prevMonthStr = '2026-05';
-  const prevMonthIncome = incomes.filter(i => i.date.startsWith(prevMonthStr)).reduce((sum, i) => sum + i.amount, 0);
-  const prevMonthExpense = expenses.filter(e => e.date.startsWith(prevMonthStr)).reduce((sum, e) => sum + e.amount, 0);
-
-  const incomeTrendPercentage = prevMonthIncome > 0
-    ? ((thisMonthIncomeSum - prevMonthIncome) / prevMonthIncome) * 100
-    : 0;
-
-  const expenseTrendPercentage = prevMonthExpense > 0
-    ? ((thisMonthExpenseSum - prevMonthExpense) / prevMonthExpense) * 100
-    : 0;
-
-  // 3. Dynamic Insights Calculations
-  // a) Highest spending category this month
   const categorySpending: { [key in ExpenseCategory]?: number } = {};
   thisMonthExpenses.forEach(e => {
     categorySpending[e.category] = (categorySpending[e.category] || 0) + e.amount;
@@ -133,7 +88,6 @@ export default function DashboardPage() {
       mostActiveMemberId = mId;
     }
   });
-  const mostActiveMember = members.find(m => m.id === mostActiveMemberId);
 
   // c) Highest Contributor (highest sum of income overall)
   const memberContributions: { [key: string]: number } = {};
@@ -148,41 +102,10 @@ export default function DashboardPage() {
       highestContributorId = mId;
     }
   });
-  const highestContributor = members.find(m => m.id === highestContributorId);
 
-  // 4. Combined Transaction List (Recent Activity - Top 5)
-  const combinedTransactions = [
-    ...incomes.map(i => ({ ...i, type: 'income' as const })),
-    ...expenses.map(e => ({ ...e, type: 'expense' as const }))
-  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 5);
-
-  // 5. Chart Data Formatter (Last 12 Completed Months: Jun 2025 - May 2026)
-  const comparisonChartData = Array.from({ length: 12 }).map((_, idx) => {
-    // Start from June 2025 (month index 5 of 2025)
-    const d = new Date(2025, 5 + idx, 1);
-    const monthName = d.toLocaleString('en-US', { month: 'short' });
-    const year = d.getFullYear();
-    const monthNum = String(d.getMonth() + 1).padStart(2, '0');
-    const monthPrefix = `${year}-${monthNum}`;
-
-    const monthlyInc = incomes.filter(i => i.date.startsWith(monthPrefix)).reduce((sum, i) => sum + i.amount, 0);
-    const monthlyExp = expenses.filter(e => e.date.startsWith(monthPrefix)).reduce((sum, e) => sum + e.amount, 0);
-
-    return {
-      month: monthName,
-      Income: monthlyInc,
-      Expense: monthlyExp
-    };
-  });
 
   // Category breakdown chart data for pie
   const categoriesList: ExpenseCategory[] = ['Grocery', 'Food', 'Utilities', 'Medical', 'Education', 'Transportation', 'Entertainment', 'Others'];
-  const pieChartData = categoriesList.map(cat => {
-    const amt = thisMonthExpenses.filter(e => e.category === cat).reduce((sum, e) => sum + e.amount, 0);
-    return { name: cat, value: amt };
-  }).filter(c => c.value > 0);
-
   // Form Submit Handlers
   const handleExpenseSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -246,7 +169,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Page Header Area */}
       <PageHeader title="Family Dashboard" description={`Financial health overview for ${settings?.familyInfo?.familyName}`} />
 
@@ -254,127 +177,19 @@ export default function DashboardPage() {
       <SummaryCards />
 
       {/* 2. Charts Section Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-        {/* Left Side: Trends (2/3 width) */}
-        <div className="lg:col-span-2 bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl">
-          <IncomeExpenseComparisonChart />
-        </div>
-
-        {/* Right Side: Category Breakdown (1/3 width) */}
-        <div className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-          <CardHeader title='Category breakdown' description='Current month expenses distribution' />
-          <div className="flex-1 flex items-center justify-center">
-            <CategoryBreakdownChart />
-          </div>
-        </div>
-
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <IncomeExpenseComparisonChart />
+        <CategoryBreakdownChart />
       </div>
 
       {/* 3. Bottom Row: Top Insights & Recent Transactions */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-        {/* Top Insights Card (1/3) */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-sm">
-          <div className="flex items-center gap-2 mb-6">
-            <Sparkles className="h-4.5 w-4.5 text-primary" />
-            <h2 className="text-sm font-bold text-zinc-100">Smart Financial Insights</h2>
-          </div>
-
-          <div className="space-y-4">
-
-            {/* Highest Spending Category */}
-            <div className="flex items-center gap-3.5 p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/30">
-              <span className="h-9 w-9 rounded-lg bg-rose-950/20 text-rose-400 flex items-center justify-center"><ShoppingBag className="h-4.5 w-4.5" /></span>
-              <div>
-                <p className="text-xs text-zinc-450 font-bold uppercase tracking-wider">Highest Spender Category</p>
-                <h4 className="text-sm font-bold text-zinc-200 mt-0.5">{highestSpendingCategory}</h4>
-                <span className="text-xs text-zinc-400 font-semibold">{currency}{maxCatSpent.toLocaleString()} spent this month</span>
-              </div>
-            </div>
-
-            {/* Most Active Family Member */}
-            <div className="flex items-center gap-3.5 p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/30">
-              <span className="h-9 w-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center"><User className="h-4.5 w-4.5" /></span>
-              <div>
-                <p className="text-xs text-zinc-450 font-bold uppercase tracking-wider">Most Active Member</p>
-                <h4 className="text-sm font-bold text-zinc-200 mt-0.5">
-                  {mostActiveMember ? `${mostActiveMember.avatar} ${mostActiveMember.name}` : 'None'}
-                </h4>
-                <span className="text-xs text-zinc-400 font-semibold">{maxActiveCount} transactions logged</span>
-              </div>
-            </div>
-
-            {/* Highest Contributor */}
-            <div className="flex items-center gap-3.5 p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/30">
-              <span className="h-9 w-9 rounded-lg bg-emerald-950/20 text-emerald-400 flex items-center justify-center"><Crown className="h-4.5 w-4.5" /></span>
-              <div>
-                <p className="text-xs text-zinc-450 font-bold uppercase tracking-wider">Highest Contributor</p>
-                <h4 className="text-sm font-bold text-zinc-200 mt-0.5">
-                  {highestContributor ? `${highestContributor.avatar} ${highestContributor.name}` : 'None'}
-                </h4>
-                <span className="text-xs text-zinc-400 font-semibold">{currency}{maxContributorAmt.toLocaleString()} total contributed</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        {/* Recent Transactions List (2/3) */}
-        <div className="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-5">
-            <div>
-              <h2 className="text-sm font-bold text-zinc-100">Recent Transactions</h2>
-              <p className="text-xs text-zinc-450">Latest cash ins and cash outs across the family</p>
-            </div>
-            <Link
-              href="/expenses"
-              className="text-sm font-bold text-primary hover:text-primary flex items-center gap-1"
-            >
-              View All Ledger <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-
-          <div className="divide-y divide-zinc-800/50">
-            {combinedTransactions.map((tx) => {
-              const member = members.find(m => m.id === tx.memberId);
-              const isIncome = tx.type === 'income';
-              return (
-                <div key={tx.id} className="flex items-center justify-between py-3.5 first:pt-0 last:pb-0">
-                  <div className="flex items-center gap-3">
-                    <span className="text-base h-9 w-9 rounded-xl bg-zinc-800 flex items-center justify-center">
-                      {member?.avatar || '👤'}
-                    </span>
-                    <div>
-                      <h4 className="text-xs font-bold text-zinc-250 leading-tight">
-                        {isIncome ? (tx as any).description : (tx as any).productName}
-                      </h4>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-xs font-semibold text-zinc-400">
-                          {member?.name}
-                        </span>
-                        <span className="h-1 w-1 rounded-full bg-zinc-700" />
-                        <CategoryBadge category={tx.category} type={tx.type} />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="text-right">
-                    <span className={`text-xs font-extrabold flex items-center justify-end ${isIncome ? 'text-emerald-400' : 'text-rose-400'}`}>
-                      {isIncome ? <ArrowUpRight className="h-3.5 w-3.5 mr-0.5 shrink-0" /> : <ArrowDownRight className="h-3.5 w-3.5 mr-0.5 shrink-0" />}
-                      {isIncome ? '+' : '-'}{currency}{tx.amount.toLocaleString()}
-                    </span>
-                    <span className="text-xs text-zinc-450 font-semibold mt-1 block">
-                      {tx.date}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <SmartFinancialInsights />
+        <RecentTransactions />
       </div>
+
+
+
 
       {/* ========================================================
           MODALS SECTION - React-driven Dialog wrappers
@@ -781,3 +596,6 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+
+export default DashboardPage;
