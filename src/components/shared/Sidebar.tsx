@@ -24,8 +24,8 @@ const Sidebar = () => {
     ];
 
     return (
-        <aside className="hidden lg:flex flex-col w-64 border-r border-zinc-800 bg-zinc-900/50 backdrop-blur-md sticky top-0 h-screen overflow-y-auto">
-            <Link href={"/"} className="p-6 border-b border-zinc-800 flex items-center gap-3">
+        <aside className="hidden lg:flex flex-col w-64 bg-slate-700/50 backdrop-blur-sm sticky top-0 h-screen overflow-y-auto">
+            <Link href={"/"} className="p-4 flex items-center gap-3">
                 <Image src={logo} alt='logo' width={500} height={500} />
             </Link>
 

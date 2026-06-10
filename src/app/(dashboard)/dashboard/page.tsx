@@ -14,6 +14,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 import PageHeader from '@/components/shared/PageHeader';
 import SummaryCards from '@/components/dashboard/dashboard/SummaryCards';
 import { IncomeExpenseComparison } from '@/components/dashboard/dashboard/FinancialCharts';
+import IncomeExpenseComparisonChart from '@/components/dashboard/dashboard/IncomeExpenseComparisonChart';
 
 
 const ExpenseCategoryPie = dynamic(
@@ -254,13 +255,8 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         {/* Left Side: Trends (2/3 width) */}
-        <div className="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-sm">
-          <IncomeExpenseComparison 
-            data={comparisonChartData} 
-            currency={currency} 
-            title="Income vs Expense" 
-            subtitle="Last 12 months" 
-          />
+        <div className="lg:col-span-2 bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl">
+          <IncomeExpenseComparisonChart />
         </div>
 
         {/* Right Side: Category Breakdown (1/3 width) */}

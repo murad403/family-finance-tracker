@@ -56,7 +56,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
     const unreadNotifications = notifications.filter(n => !n.read);
 
     return (
-        <header className="py-4 border-b border-zinc-800 bg-zinc-900/50 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-40">
+        <header className="py-4 bg-slate-700/50 backdrop-blur-sm flex items-center justify-between px-6 sticky top-0 z-40">
 
             {/* Header Left (Mobile menu trigger + Breadcrumb) */}
             <div className="flex items-center gap-4">
