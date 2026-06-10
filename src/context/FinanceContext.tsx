@@ -68,9 +68,38 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const savedSettings = localStorage.getItem('ff_settings');
       const savedAuth = localStorage.getItem('ff_auth');
 
+      let loadedIncomes = savedIncomes ? JSON.parse(savedIncomes) : INITIAL_INCOMES;
+      let loadedExpenses = savedExpenses ? JSON.parse(savedExpenses) : INITIAL_EXPENSES;
+
+      // Migrate Incomes if needed (ensure all mock data is seeded)
+      let needsIncomeSave = false;
+      const existingIncomeIds = new Set(loadedIncomes.map((i: any) => i.id));
+      INITIAL_INCOMES.forEach(initialInc => {
+        if (!existingIncomeIds.has(initialInc.id)) {
+          loadedIncomes.push(initialInc);
+          needsIncomeSave = true;
+        }
+      });
+      if (needsIncomeSave) {
+        localStorage.setItem('ff_incomes', JSON.stringify(loadedIncomes));
+      }
+
+      // Migrate Expenses if needed (ensure all mock data is seeded)
+      let needsExpenseSave = false;
+      const existingExpenseIds = new Set(loadedExpenses.map((e: any) => e.id));
+      INITIAL_EXPENSES.forEach(initialExp => {
+        if (!existingExpenseIds.has(initialExp.id)) {
+          loadedExpenses.push(initialExp);
+          needsExpenseSave = true;
+        }
+      });
+      if (needsExpenseSave) {
+        localStorage.setItem('ff_expenses', JSON.stringify(loadedExpenses));
+      }
+
       setMembers(savedMembers ? JSON.parse(savedMembers) : INITIAL_MEMBERS);
-      setIncomes(savedIncomes ? JSON.parse(savedIncomes) : INITIAL_INCOMES);
-      setExpenses(savedExpenses ? JSON.parse(savedExpenses) : INITIAL_EXPENSES);
+      setIncomes(loadedIncomes);
+      setExpenses(loadedExpenses);
       setBudgets(savedBudgets ? JSON.parse(savedBudgets) : INITIAL_BUDGETS);
       setNotifications(savedNotifications ? JSON.parse(savedNotifications) : INITIAL_NOTIFICATIONS);
       setSettings(savedSettings ? JSON.parse(savedSettings) : DEFAULT_SETTINGS);

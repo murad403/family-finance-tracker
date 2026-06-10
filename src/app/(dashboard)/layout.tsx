@@ -59,7 +59,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   ];
 
   return (
-    <div className="min-h-screen flex bg-zinc-950 font-sans transition-colors duration-300">
+    <div className="min-h-screen flex bg-slate-700 font-sans transition-colors duration-300">
 
       {/* 1. Desktop Sidebar */}
       <Sidebar />

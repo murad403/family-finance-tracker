@@ -22,12 +22,12 @@ import CategoryBadge from '@/components/CategoryBadge';
 
 // Dynamically import charts
 const IncomeExpenseComparison = dynamic(
-  () => import('@/components/FinancialCharts').then(mod => mod.IncomeExpenseComparison),
+  () => import('@/components/dashboard/dashboard/FinancialCharts').then(mod => mod.IncomeExpenseComparison),
   { ssr: false }
 );
 
 const ExpenseCategoryPie = dynamic(
-  () => import('@/components/FinancialCharts').then(mod => mod.ExpenseCategoryPie),
+  () => import('@/components/dashboard/dashboard/FinancialCharts').then(mod => mod.ExpenseCategoryPie),
   { ssr: false }
 );
 
@@ -76,15 +76,20 @@ export default function MemberDetailsPage({ params }: PageProps) {
   const thisMonthIncome = memberIncomes.filter(i => i.date.startsWith(currentMonthStr)).reduce((sum, i) => sum + i.amount, 0);
   const thisMonthExpense = memberExpenses.filter(e => e.date.startsWith(currentMonthStr)).reduce((sum, e) => sum + e.amount, 0);
 
-  // 2. Personal Chart Data (Jan - Jun)
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-  const personalChartData = months.map((m, idx) => {
-    const monthNum = String(idx + 1).padStart(2, '0');
-    const monthPrefix = `2026-${monthNum}`;
+  // 2. Personal Chart Data (Last 12 Completed Months: Jun 2025 - May 2026)
+  const personalChartData = Array.from({ length: 12 }).map((_, idx) => {
+    // Start from June 2025 (month index 5 of 2025)
+    const d = new Date(2025, 5 + idx, 1);
+    const monthName = d.toLocaleString('en-US', { month: 'short' });
+    const year = d.getFullYear();
+    const monthNum = String(d.getMonth() + 1).padStart(2, '0');
+    const monthPrefix = `${year}-${monthNum}`;
+
     const incSum = memberIncomes.filter(i => i.date.startsWith(monthPrefix)).reduce((sum, i) => sum + i.amount, 0);
     const expSum = memberExpenses.filter(e => e.date.startsWith(monthPrefix)).reduce((sum, e) => sum + e.amount, 0);
+
     return {
-      month: m,
+      month: monthName,
       Income: incSum,
       Expense: expSum
     };
@@ -206,13 +211,12 @@ export default function MemberDetailsPage({ params }: PageProps) {
 
         {/* Trend comparison (2/3) */}
         <div className="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-sm">
-          <div>
-            <h2 className="text-sm font-bold text-zinc-100">Personal Income vs Expense Trends</h2>
-            <p className="text-xs text-zinc-400">6-Month monthly comparison stats for {member.name}</p>
-          </div>
-          <div className="mt-6">
-            <IncomeExpenseComparison data={personalChartData} currency={currency} />
-          </div>
+          <IncomeExpenseComparison 
+            data={personalChartData} 
+            currency={currency} 
+            title="Personal Income vs Expense Trends" 
+            subtitle={`Last 12 months comparison stats for ${member.name}`}
+          />
         </div>
 
         {/* Category breakdown (1/3) */}

@@ -13,15 +13,11 @@ import CategoryBadge from '@/components/CategoryBadge';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import PageHeader from '@/components/shared/PageHeader';
 import SummaryCards from '@/components/dashboard/dashboard/SummaryCards';
+import { IncomeExpenseComparison } from '@/components/dashboard/dashboard/FinancialCharts';
 
-// Dynamically import charts to avoid hydration errors
-const IncomeExpenseComparison = dynamic(
-  () => import('@/components/FinancialCharts').then(mod => mod.IncomeExpenseComparison),
-  { ssr: false }
-);
 
 const ExpenseCategoryPie = dynamic(
-  () => import('@/components/FinancialCharts').then(mod => mod.ExpenseCategoryPie),
+  () => import('@/components/dashboard/dashboard/FinancialCharts').then(mod => mod.ExpenseCategoryPie),
   { ssr: false }
 );
 
@@ -158,15 +154,20 @@ export default function DashboardPage() {
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 5);
 
-  // 5. Chart Data Formatter (Jan - Jun)
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-  const comparisonChartData = months.map((m, idx) => {
-    const monthNum = String(idx + 1).padStart(2, '0');
-    const monthPrefix = `2026-${monthNum}`;
+  // 5. Chart Data Formatter (Last 12 Completed Months: Jun 2025 - May 2026)
+  const comparisonChartData = Array.from({ length: 12 }).map((_, idx) => {
+    // Start from June 2025 (month index 5 of 2025)
+    const d = new Date(2025, 5 + idx, 1);
+    const monthName = d.toLocaleString('en-US', { month: 'short' });
+    const year = d.getFullYear();
+    const monthNum = String(d.getMonth() + 1).padStart(2, '0');
+    const monthPrefix = `${year}-${monthNum}`;
+
     const monthlyInc = incomes.filter(i => i.date.startsWith(monthPrefix)).reduce((sum, i) => sum + i.amount, 0);
     const monthlyExp = expenses.filter(e => e.date.startsWith(monthPrefix)).reduce((sum, e) => sum + e.amount, 0);
+
     return {
-      month: m,
+      month: monthName,
       Income: monthlyInc,
       Expense: monthlyExp
     };
@@ -244,31 +245,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Page Header Area */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <PageHeader title="Family Dashboard" description={`Financial health overview for ${settings?.familyInfo?.familyName}`} />
-
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            onClick={() => setExpenseModalOpen(true)}
-            className="flex items-center gap-2 rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-rose-600/10 active:scale-[0.98] transition-all dark:bg-rose-600 dark:hover:bg-rose-500"
-          >
-            <PlusCircle className="h-4 w-4" /> Add Expense
-          </button>
-          <button
-            onClick={() => setIncomeModalOpen(true)}
-            className="flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-emerald-600/10 active:scale-[0.98] transition-all dark:bg-emerald-600 dark:hover:bg-emerald-500"
-          >
-            <PlusCircle className="h-4 w-4" /> Add Income
-          </button>
-          <button
-            onClick={() => setMemberModalOpen(true)}
-            className="flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-hover px-4 py-2.5 text-xs font-bold text-white shadow-md shadow-primary/10 active:scale-[0.98] transition-all dark:bg-primary dark:hover:bg-primary"
-          >
-            <PlusCircle className="h-4 w-4" /> Add Member
-          </button>
-        </div>
-      </div>
+      <PageHeader title="Family Dashboard" description={`Financial health overview for ${settings?.familyInfo?.familyName}`} />
 
       {/* 1. Summary Cards Matrix */}
       <SummaryCards />
@@ -278,14 +255,12 @@ export default function DashboardPage() {
 
         {/* Left Side: Trends (2/3 width) */}
         <div className="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-sm font-bold text-zinc-100">Income vs Expense Trends</h2>
-              <p className="text-xs text-zinc-400">Monthly progression over the last 6 months</p>
-            </div>
-            <span className="text-xs font-bold px-2.5 py-1 bg-primary/20 text-primary rounded-full">2026 Stats</span>
-          </div>
-          <IncomeExpenseComparison data={comparisonChartData} currency={currency} />
+          <IncomeExpenseComparison 
+            data={comparisonChartData} 
+            currency={currency} 
+            title="Income vs Expense" 
+            subtitle="Last 12 months" 
+          />
         </div>
 
         {/* Right Side: Category Breakdown (1/3 width) */}

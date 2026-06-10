@@ -51,28 +51,52 @@ export const INITIAL_BUDGETS: CategoryBudget[] = [
 ];
 
 export const INITIAL_INCOMES: Income[] = [
+  // Historical 2025
+  { id: 'i-hist-1', memberId: 'm1', amount: 9500, date: '2025-07-01', category: 'Salary', description: 'Tech Corp monthly salary' },
+  { id: 'i-hist-2', memberId: 'm2', amount: 17500, date: '2025-07-10', category: 'Freelance', description: 'Branding Project Final' },
+
+  { id: 'i-hist-3', memberId: 'm1', amount: 9500, date: '2025-08-01', category: 'Salary', description: 'Tech Corp monthly salary' },
+  { id: 'i-hist-4', memberId: 'm2', amount: 15500, date: '2025-08-12', category: 'Freelance', description: 'E-commerce website design' },
+
+  { id: 'i-hist-5', memberId: 'm1', amount: 9500, date: '2025-09-01', category: 'Salary', description: 'Tech Corp monthly salary' },
+  { id: 'i-hist-6', memberId: 'm2', amount: 15500, date: '2025-09-15', category: 'Freelance', description: 'Web app development contract' },
+
+  { id: 'i-hist-7', memberId: 'm1', amount: 9500, date: '2025-10-01', category: 'Salary', description: 'Tech Corp monthly salary' },
+  { id: 'i-hist-8', memberId: 'm2', amount: 15000, date: '2025-10-10', category: 'Freelance', description: 'Mobile design consultant retainer' },
+
+  { id: 'i-hist-9', memberId: 'm1', amount: 9500, date: '2025-11-01', category: 'Salary', description: 'Tech Corp monthly salary' },
+  { id: 'i-hist-10', memberId: 'm2', amount: 11500, date: '2025-11-12', category: 'Freelance', description: 'Shopify theme setup contract' },
+
+  { id: 'i-hist-11', memberId: 'm1', amount: 9500, date: '2025-12-01', category: 'Salary', description: 'Tech Corp monthly salary' },
+  { id: 'i-hist-12', memberId: 'm2', amount: 11500, date: '2025-12-10', category: 'Freelance', description: 'SEO optimization consulting' },
+
   // January 2026
   { id: 'i-1', memberId: 'm1', amount: 8500, date: '2026-01-01', category: 'Salary', description: 'Tech Corp monthly salary' },
   { id: 'i-2', memberId: 'm2', amount: 2500, date: '2026-01-10', category: 'Freelance', description: 'UI/UX Design Contract Work' },
   { id: 'i-3', memberId: 'm1', amount: 350, date: '2026-01-25', category: 'Investment', description: 'Dividends from Stock Portfolio' },
+  { id: 'i-boost-2026-01', memberId: 'm2', amount: 9650, date: '2026-01-28', category: 'Freelance', description: 'Mobile UI Contract' },
 
   // February 2026
   { id: 'i-4', memberId: 'm1', amount: 8500, date: '2026-02-01', category: 'Salary', description: 'Tech Corp monthly salary' },
   { id: 'i-5', memberId: 'm2', amount: 3000, date: '2026-02-12', category: 'Freelance', description: 'Web design for marketing client' },
+  { id: 'i-boost-2026-02', memberId: 'm2', amount: 12500, date: '2026-02-28', category: 'Freelance', description: 'Web App Development' },
 
   // March 2026
   { id: 'i-6', memberId: 'm1', amount: 9000, date: '2026-03-01', category: 'Salary', description: 'Tech Corp monthly salary + bonus' },
   { id: 'i-7', memberId: 'm2', amount: 2800, date: '2026-03-08', category: 'Freelance', description: 'Consultancy work' },
   { id: 'i-8', memberId: 'm1', amount: 400, date: '2026-03-24', category: 'Investment', description: 'Quarterly bond yields' },
+  { id: 'i-boost-2026-03', memberId: 'm2', amount: 10800, date: '2026-03-28', category: 'Freelance', description: 'Backend API Contract' },
 
   // April 2026
   { id: 'i-9', memberId: 'm1', amount: 9000, date: '2026-04-01', category: 'Salary', description: 'Tech Corp monthly salary' },
   { id: 'i-10', memberId: 'm2', amount: 3500, date: '2026-04-14', category: 'Freelance', description: 'Mobile App contract first milestone' },
   { id: 'i-11', memberId: 'm3', amount: 200, date: '2026-04-18', category: 'Others', description: 'Won high school programming prize' },
+  { id: 'i-boost-2026-04', memberId: 'm2', amount: 10300, date: '2026-04-28', category: 'Freelance', description: 'Mobile App Handover' },
 
   // May 2026
   { id: 'i-12', memberId: 'm1', amount: 9500, date: '2026-05-01', category: 'Salary', description: 'Tech Corp monthly salary (increment)' },
   { id: 'i-13', memberId: 'm2', amount: 4200, date: '2026-05-10', category: 'Freelance', description: 'Mobile App contract final handover' },
+  { id: 'i-boost-2026-05', memberId: 'm2', amount: 11300, date: '2026-05-28', category: 'Freelance', description: 'Retainer Fee' },
 
   // June 2026 (Current Month)
   { id: 'i-14', memberId: 'm1', amount: 9500, date: '2026-06-01', category: 'Salary', description: 'Tech Corp monthly salary' },
@@ -80,6 +104,11 @@ export const INITIAL_INCOMES: Income[] = [
 ];
 
 export const INITIAL_EXPENSES: Expense[] = [
+  // Historical 2025 (December)
+  { id: 'e-hist-1', memberId: 'm1', productName: 'Monthly Rent & Maintenance', category: 'Utilities', amount: 1200, quantity: 1, date: '2025-12-02', notes: 'Main accommodation bill' },
+  { id: 'e-hist-2', memberId: 'm3', productName: 'University Semester Tuition', category: 'Education', amount: 6000, quantity: 1, date: '2025-12-05' },
+  { id: 'e-hist-3', memberId: 'm2', productName: 'Winter Shopping & Clothes', category: 'Others', amount: 800, quantity: 1, date: '2025-12-15' },
+
   // January 2026
   { id: 'e-1', memberId: 'm1', productName: 'Monthly Rent & Maintenance', category: 'Utilities', amount: 1200, quantity: 1, date: '2026-01-02', notes: 'Main accommodation bill' },
   { id: 'e-2', memberId: 'm3', productName: 'University Semester Textbooks', category: 'Education', amount: 450, quantity: 3, date: '2026-01-05' },
@@ -91,6 +120,7 @@ export const INITIAL_EXPENSES: Expense[] = [
   { id: 'e-8', memberId: 'm1', productName: 'Weekly Organic Grocery Refill', category: 'Grocery', amount: 210, quantity: 1, date: '2026-01-21' },
   { id: 'e-9', memberId: 'm3', productName: 'Netflix & Spotify Family Premium', category: 'Entertainment', amount: 35, quantity: 1, date: '2026-01-25' },
   { id: 'e-10', memberId: 'm2', productName: 'Shopping: New Winter Clothes', category: 'Others', amount: 280, quantity: 4, date: '2026-01-28' },
+  { id: 'e-boost-2026-01', memberId: 'm1', productName: 'Living Room Sofa & Furniture', category: 'Others', amount: 7320, quantity: 1, date: '2026-01-29' },
 
   // February 2026
   { id: 'e-11', memberId: 'm1', productName: 'Monthly Rent & Maintenance', category: 'Utilities', amount: 1200, quantity: 1, date: '2026-02-02' },
@@ -103,6 +133,7 @@ export const INITIAL_EXPENSES: Expense[] = [
   { id: 'e-18', memberId: 'm2', productName: 'Weekend Family Cinema & Popcorn', category: 'Entertainment', amount: 80, quantity: 4, date: '2026-02-20' },
   { id: 'e-19', memberId: 'm2', productName: 'Broadband Fiber Internet Bill', category: 'Utilities', amount: 50, quantity: 1, date: '2026-02-20' },
   { id: 'e-20', memberId: 'm4', productName: 'Art and Craft Materials', category: 'Education', amount: 75, quantity: 1, date: '2026-02-25' },
+  { id: 'e-boost-2026-02', memberId: 'm2', productName: 'Family Vacation to Thailand', category: 'Entertainment', amount: 5830, quantity: 1, date: '2026-02-27' },
 
   // March 2026
   { id: 'e-21', memberId: 'm1', productName: 'Monthly Rent & Maintenance', category: 'Utilities', amount: 1200, quantity: 1, date: '2026-03-02' },
@@ -115,6 +146,7 @@ export const INITIAL_EXPENSES: Expense[] = [
   { id: 'e-28', memberId: 'm3', productName: 'Netflix & Spotify Family Premium', category: 'Entertainment', amount: 35, quantity: 1, date: '2026-03-25' },
   { id: 'e-29', memberId: 'm1', productName: 'Weekly Organic Grocery Refill', category: 'Grocery', amount: 180, quantity: 1, date: '2026-03-26' },
   { id: 'e-30', memberId: 'm2', productName: 'Smart Thermostat Upgrade', category: 'Others', amount: 250, quantity: 1, date: '2026-03-29' },
+  { id: 'e-boost-2026-03', memberId: 'm1', productName: 'Annual Home Insurance & Tax', category: 'Others', amount: 11790, quantity: 1, date: '2026-03-30' },
 
   // April 2026
   { id: 'e-31', memberId: 'm1', productName: 'Monthly Rent & Maintenance', category: 'Utilities', amount: 1200, quantity: 1, date: '2026-04-02' },
@@ -127,6 +159,7 @@ export const INITIAL_EXPENSES: Expense[] = [
   { id: 'e-38', memberId: 'm2', productName: 'Broadband Fiber Internet Bill', category: 'Utilities', amount: 50, quantity: 1, date: '2026-04-20' },
   { id: 'e-39', memberId: 'm1', productName: 'Weekly Organic Grocery Refill', category: 'Grocery', amount: 200, quantity: 1, date: '2026-04-25' },
   { id: 'e-40', memberId: 'm3', productName: 'Video Game Console Bundle', category: 'Entertainment', amount: 450, quantity: 1, date: '2026-04-28' },
+  { id: 'e-boost-2026-04', memberId: 'm2', productName: 'Minor Dental Surgery', category: 'Medical', amount: 3060, quantity: 1, date: '2026-04-29' },
 
   // May 2026
   { id: 'e-41', memberId: 'm1', productName: 'Monthly Rent & Maintenance', category: 'Utilities', amount: 1200, quantity: 1, date: '2026-05-02' },
@@ -140,6 +173,7 @@ export const INITIAL_EXPENSES: Expense[] = [
   { id: 'e-49', memberId: 'm3', productName: 'Netflix & Spotify Family Premium', category: 'Entertainment', amount: 35, quantity: 1, date: '2026-05-25' },
   { id: 'e-50', memberId: 'm2', productName: 'Weekend Getaway Booking', category: 'Entertainment', amount: 520, quantity: 1, date: '2026-05-28', notes: 'Resort stay for family' },
   { id: 'e-51', memberId: 'm1', productName: 'Weekly Organic Grocery Refill', category: 'Grocery', amount: 230, quantity: 1, date: '2026-05-29' },
+  { id: 'e-boost-2026-05', memberId: 'm1', productName: 'New Laptop for Murad', category: 'Education', amount: 5685, quantity: 1, date: '2026-05-30' },
 
   // June 2026 (Current Month - up to date)
   { id: 'e-52', memberId: 'm1', productName: 'Monthly Rent & Maintenance', category: 'Utilities', amount: 1200, quantity: 1, date: '2026-06-02' },

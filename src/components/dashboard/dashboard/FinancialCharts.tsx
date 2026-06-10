@@ -45,35 +45,99 @@ interface ComparisonData {
   Income: number;
   Expense: number;
 }
-export const IncomeExpenseComparison: React.FC<{ data: ComparisonData[]; currency: string }> = ({ data, currency }) => {
+export const IncomeExpenseComparison: React.FC<{
+  data: ComparisonData[];
+  currency: string;
+  title?: string;
+  subtitle?: string;
+}> = ({ data, currency, title = 'Income vs Expense', subtitle = 'Last 12 months' }) => {
+  // Format Y-axis ticks like $0k, $7k, $14k etc.
+  const formatYAxis = (value: number) => {
+    return `${currency}${Math.round(value / 1000)}k`;
+  };
+
   return (
-    <div className="w-full h-80">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.1)" />
-          <XAxis
-            dataKey="month"
-            axisLine={false}
-            tickLine={false}
-            tick={{ fill: 'rgba(156, 163, 175, 0.8)', fontSize: 11, fontWeight: 600 }}
-          />
-          <YAxis
-            axisLine={false}
-            tickLine={false}
-            tick={{ fill: 'rgba(156, 163, 175, 0.8)', fontSize: 11, fontWeight: 600 }}
-          />
-          <Tooltip content={<CustomTooltip prefix={currency} />} cursor={{ fill: 'rgba(99, 102, 241, 0.05)' }} />
-          <Legend
-            verticalAlign="top"
-            height={36}
-            iconType="circle"
-            iconSize={8}
-            wrapperStyle={{ fontSize: 12, fontWeight: 600, paddingBottom: 10 }}
-          />
-          <Bar dataKey="Income" fill="#22C55E" radius={[4, 4, 0, 0]} name="Income" maxBarSize={28} />
-          <Bar dataKey="Expense" fill="#EF4444" radius={[4, 4, 0, 0]} name="Expense" maxBarSize={28} />
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="flex flex-col w-full h-full">
+      {/* Header with Title and Legend */}
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h3 className="text-sm sm:text-base font-extrabold text-zinc-100 tracking-tight">{title}</h3>
+          <p className="text-xs text-zinc-400 mt-0.5">{subtitle}</p>
+        </div>
+        {/* Custom Legend */}
+        <div className="flex items-center gap-4 text-xs font-semibold">
+          <span className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#05B694]" />
+            <span className="text-zinc-300">Income</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FF5A79]" />
+            <span className="text-zinc-300">Expense</span>
+          </span>
+        </div>
+      </div>
+
+      {/* Chart Canvas */}
+      <div className="w-full h-80">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={data} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
+            <defs>
+              <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#05B694" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#05B694" stopOpacity={0.0} />
+              </linearGradient>
+              <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#FF5A79" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#FF5A79" stopOpacity={0.0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              vertical={true} 
+              horizontal={true} 
+              stroke="rgba(255, 255, 255, 0.05)" 
+            />
+            <XAxis
+              dataKey="month"
+              axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
+              tickLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
+              tick={{ fill: 'rgba(156, 163, 175, 0.6)', fontSize: 11, fontWeight: 500 }}
+              dy={8}
+            />
+            <YAxis
+              axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
+              tickLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
+              tickFormatter={formatYAxis}
+              tick={{ fill: 'rgba(156, 163, 175, 0.6)', fontSize: 11, fontWeight: 500 }}
+              dx={-8}
+            />
+            <Tooltip 
+              content={<CustomTooltip prefix={currency} />} 
+              cursor={{ stroke: 'rgba(255, 255, 255, 0.1)', strokeWidth: 1, strokeDasharray: '3 3' }} 
+            />
+            <Area
+              type="monotone"
+              dataKey="Income"
+              stroke="#05B694"
+              strokeWidth={3}
+              fillOpacity={1}
+              fill="url(#colorIncome)"
+              name="Income"
+              activeDot={{ r: 6, strokeWidth: 0, fill: '#05B694' }}
+            />
+            <Area
+              type="monotone"
+              dataKey="Expense"
+              stroke="#FF5A79"
+              strokeWidth={3}
+              fillOpacity={1}
+              fill="url(#colorExpense)"
+              name="Expense"
+              activeDot={{ r: 6, strokeWidth: 0, fill: '#FF5A79' }}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };

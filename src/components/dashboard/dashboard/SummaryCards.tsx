@@ -1,6 +1,6 @@
 import SummaryStatsCard from '@/components/shared/SummaryStatsCard';
 import { TSummaryStatsCard } from '@/types/dashboard.types';
-import { TrendingDown, TrendingUp, Users, Wallet } from 'lucide-react';
+import { BanknoteArrowDown, PiggyBank, TrendingDown, TrendingUp, Users, Wallet } from 'lucide-react';
 
 
 
@@ -12,7 +12,7 @@ const SummaryCards = () => {
             value: 100,
             sublabel: "Lifetime earnings",
             trendPercentage: 10,
-            color: "text-emerald-400 text-emerald-400"
+            color: "text-emerald-400 bg-emerald-950/40"
         },
         {
             label: "total expenses",
@@ -20,7 +20,7 @@ const SummaryCards = () => {
             value: 10,
             sublabel: "Lifetime spending",
             trendPercentage: 10,
-            color: "text-emerald-400 text-emerald-400"
+            color: "text-rose-400 bg-rose-950/40"
         },
         {
             label: "Net Balance",
@@ -28,7 +28,7 @@ const SummaryCards = () => {
             value: 100,
             sublabel: "Total net assets",
             trendPercentage: 10,
-            color: "bg-primary/10 text-primary"
+            color: "text-primary bg-primary/30"
         },
         {
             label: "Family Members",
@@ -36,23 +36,23 @@ const SummaryCards = () => {
             value: 5,
             sublabel: "Active profiles",
             trendPercentage: 25,
-            color: "bg-violet-950/20 text-violet-400"
+            color: "text-violet-400 bg-violet-950/30"
         },
         {
             label: "This Month Income",
-            icon: Users,
+            icon: PiggyBank,
             value: 500,
             sublabel: "June 2026 earnings",
             trendPercentage: 25,
-            color: "bg-violet-950/20 text-violet-400"
+            color: "text-yellow-400 bg-yellow-950/30"
         },
         {
             label: "This Month Exp.",
-            icon: Users,
+            icon: BanknoteArrowDown,
             value: 500,
             sublabel: "June 2026 spending",
             trendPercentage: 25,
-            color: "bg-violet-950/20 text-violet-400"
+            color: "text-rose-400 bg-rose-950/40"
         },
     ]
     return (
