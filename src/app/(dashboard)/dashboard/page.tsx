@@ -15,6 +15,8 @@ import PageHeader from '@/components/shared/PageHeader';
 import SummaryCards from '@/components/dashboard/dashboard/SummaryCards';
 import { IncomeExpenseComparison } from '@/components/dashboard/dashboard/FinancialCharts';
 import IncomeExpenseComparisonChart from '@/components/dashboard/dashboard/IncomeExpenseComparisonChart';
+import CategoryBreakdownChart from '@/components/dashboard/dashboard/CategoryBreakdownChart';
+import CardHeader from '@/components/shared/CardHeader';
 
 
 const ExpenseCategoryPie = dynamic(
@@ -260,13 +262,10 @@ export default function DashboardPage() {
         </div>
 
         {/* Right Side: Category Breakdown (1/3 width) */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-          <div>
-            <h2 className="text-sm font-bold text-zinc-100">Category breakdown</h2>
-            <p className="text-xs text-zinc-400">Current month expenses distribution</p>
-          </div>
+        <div className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+          <CardHeader title='Category breakdown' description='Current month expenses distribution' />
           <div className="flex-1 flex items-center justify-center">
-            <ExpenseCategoryPie data={pieChartData} currency={currency} />
+            <CategoryBreakdownChart />
           </div>
         </div>
 
