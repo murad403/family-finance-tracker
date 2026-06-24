@@ -31,7 +31,7 @@ const SignUpPage = () => {
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             registerContext(data.name, data.email, data.familyName);
-            router.push('/dashboard');
+            router.push('/');
         } catch (err) {
             setErrorMsg('Failed to create account. Please try again.');
         } finally {

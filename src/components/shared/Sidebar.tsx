@@ -3,7 +3,6 @@ import { BarChart3, FileText, LayoutDashboard, LogOut, Receipt, Settings, Tag, T
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
 import logo from "@/assets/logo/logo3.png"
 
 
@@ -13,7 +12,7 @@ const Sidebar = () => {
 
     // Sidebar Links Configuration
     const navItems = [
-        { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+        { name: 'Dashboard', href: '/', icon: LayoutDashboard },
         { name: 'Members', href: '/members', icon: Users },
         { name: 'Income', href: '/income', icon: TrendingUp },
         { name: 'Expenses', href: '/expenses', icon: Receipt },
@@ -30,7 +29,7 @@ const Sidebar = () => {
             </Link>
 
             {/* Navigation List */}
-            <nav className="flex-1 px-4 py-6 space-y-1.5">
+            <nav className="flex-1 px-4 py-6 space-y-2">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
                     const Icon = item.icon;
@@ -38,9 +37,9 @@ const Sidebar = () => {
                         <Link
                             key={item.name}
                             href={item.href}
-                            className={`flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200 group ${isActive
-                                ? 'bg-primary text-white shadow-md shadow-primary/15'
-                                : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                            className={`flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 group ${isActive
+                                ? 'bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-md shadow-primary/30'
+                                : 'hover:bg-white/10 hover:backdrop-blur-sm'
                                 }`}
                         >
                             <Icon className={`h-4.5 w-4.5 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-300'}`} />

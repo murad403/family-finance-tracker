@@ -37,7 +37,7 @@ const SignInPage = () => {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             const success = login(data.email, data.password);
             if (success) {
-                router.push('/dashboard');
+                router.push('/');
             } else {
                 setErrorMsg('Invalid email or password.');
             }
