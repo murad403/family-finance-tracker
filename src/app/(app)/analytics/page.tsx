@@ -17,17 +17,17 @@ import dynamic from 'next/dynamic';
 
 // Dynamic charts loading
 const FamilyContributionBar = dynamic(
-  () => import('@/components/dashboard/dashboard/FinancialCharts').then(mod => mod.FamilyContributionBar),
+  () => import('@/components/app/dashboard/FinancialCharts').then(mod => mod.FamilyContributionBar),
   { ssr: false }
 );
 
 const SavingsTrendArea = dynamic(
-  () => import('@/components/dashboard/dashboard/FinancialCharts').then(mod => mod.SavingsTrendArea),
+  () => import('@/components/app/dashboard/FinancialCharts').then(mod => mod.SavingsTrendArea),
   { ssr: false }
 );
 
 const ExpenseCategoryPie = dynamic(
-  () => import('@/components/dashboard/dashboard/FinancialCharts').then(mod => mod.ExpenseCategoryPie),
+  () => import('@/components/app/dashboard/FinancialCharts').then(mod => mod.ExpenseCategoryPie),
   { ssr: false }
 );
 

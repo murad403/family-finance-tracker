@@ -13,11 +13,7 @@ import Sidebar from '@/components/shared/Sidebar';
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const {
-    isAuthenticated,
-    logout,
-    settings
-  } = useFinance();
+  const { isAuthenticated, logout, settings } = useFinance();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 

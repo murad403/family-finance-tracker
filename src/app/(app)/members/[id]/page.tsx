@@ -22,12 +22,12 @@ import CategoryBadge from '@/components/CategoryBadge';
 
 // Dynamically import charts
 const IncomeExpenseComparison = dynamic(
-  () => import('@/components/dashboard/dashboard/FinancialCharts').then(mod => mod.IncomeExpenseComparison),
+  () => import('@/components/app/dashboard/FinancialCharts').then(mod => mod.IncomeExpenseComparison),
   { ssr: false }
 );
 
 const ExpenseCategoryPie = dynamic(
-  () => import('@/components/dashboard/dashboard/FinancialCharts').then(mod => mod.ExpenseCategoryPie),
+  () => import('@/components/app/dashboard/FinancialCharts').then(mod => mod.ExpenseCategoryPie),
   { ssr: false }
 );
 
@@ -211,10 +211,10 @@ export default function MemberDetailsPage({ params }: PageProps) {
 
         {/* Trend comparison (2/3) */}
         <div className="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-sm">
-          <IncomeExpenseComparison 
-            data={personalChartData} 
-            currency={currency} 
-            title="Personal Income vs Expense Trends" 
+          <IncomeExpenseComparison
+            data={personalChartData}
+            currency={currency}
+            title="Personal Income vs Expense Trends"
             subtitle={`Last 12 months comparison stats for ${member.name}`}
           />
         </div>
