@@ -38,7 +38,7 @@ const Sidebar = () => {
                             key={item.name}
                             href={item.href}
                             className={`flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 group ${isActive
-                                ? 'bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-md shadow-primary/30'
+                                ? 'bg-linear-to-r from-cyan-500 to-blue-500 text-white shadow-md shadow-primary/20'
                                 : 'hover:bg-white/10 hover:backdrop-blur-sm'
                                 }`}
                         >
