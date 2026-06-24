@@ -13,16 +13,14 @@ const DashboardChildrenLayout = ({ children, title, subtitle, className }: TProp
         <section className={`space-y-4 ${className}`}>
             <div>
                 {
-                    title &&
-                    <h2 className="text-2xl font-black text-heading tracking-tight">{title}</h2>
+                    title && <h2 className="text-2xl font-black text-heading tracking-tight">{title}</h2>
                 }
                 {
-                    subtitle &&
-                    <p className="text-subheading text-sm">{subtitle}</p>
+                    subtitle && <p className="text-subheading text-sm">{subtitle}</p>
                 }
             </div>
 
-            <main>
+            <main className="space-y-4">
                 {children}
             </main>
         </section>

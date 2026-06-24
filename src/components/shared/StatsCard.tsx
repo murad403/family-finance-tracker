@@ -1,8 +1,17 @@
-import { TSummaryStatsCard } from '@/types/dashboard.types';
 import { motion } from 'framer-motion';
+import { type LucideIcon } from "lucide-react";
+
+export type TStatsCard = {
+    label?: string;
+    icon?: LucideIcon;
+    value?: number;
+    sublabel?: string;
+    trendPercentage?: number;
+    color?: string;
+}
 
 
-const SummaryStatsCard = ({item}: {item: TSummaryStatsCard}) => {
+const StatsCard = ({ item }: { item: TStatsCard }) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -12,7 +21,9 @@ const SummaryStatsCard = ({item}: {item: TSummaryStatsCard}) => {
         >
             <div className="flex justify-between items-start">
                 <span className="text-xs font-bold text-title uppercase tracking-wider">{item?.label}</span>
-                <span className={`p-2 rounded-lg ${item?.color}`}><item.icon className="h-4 w-4" /></span>
+                <span className={`p-2 rounded-lg ${item?.color}`}>
+                    {item?.icon && <item.icon className="h-4 w-4" />}
+                </span>
             </div>
             <div className="mt-3">
                 <h3 className="text-lg font-extrabold text-title">${item?.value}</h3>
@@ -22,4 +33,4 @@ const SummaryStatsCard = ({item}: {item: TSummaryStatsCard}) => {
     )
 }
 
-export default SummaryStatsCard
+export default StatsCard;

@@ -1,11 +1,10 @@
-import SummaryStatsCard from '@/components/shared/SummaryStatsCard';
-import { TSummaryStatsCard } from '@/types/dashboard.types';
+import StatsCard, { TStatsCard } from '@/components/shared/StatsCard';
 import { BanknoteArrowDown, PiggyBank, TrendingDown, TrendingUp, Users, Wallet } from 'lucide-react';
 
 
 
-const SummaryCards = () => {
-    const summaryCardsData: TSummaryStatsCard[] = [
+const DashboardStats = () => {
+    const summaryCardsData: TStatsCard[] = [
         {
             label: "total income",
             icon: TrendingUp,
@@ -58,8 +57,8 @@ const SummaryCards = () => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
             {
-                summaryCardsData.map((item: TSummaryStatsCard, index: number) =>
-                    <SummaryStatsCard item={item} key={index}/>
+                summaryCardsData.map((item: TStatsCard, index: number) =>
+                    <StatsCard item={item} key={index} />
                 )
             }
         </div>
@@ -67,4 +66,4 @@ const SummaryCards = () => {
 }
 
 
-export default SummaryCards;
+export default DashboardStats;

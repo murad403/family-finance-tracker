@@ -1,32 +1,8 @@
 'use client';
-import CardHeader from '@/components/shared/CardHeader';
+import Card from '@/components/shared/Card';
+import CustomTooltip from '@/components/shared/CustomTooltip';
 import { useFinance } from '@/context/FinanceContext';
-import { div } from 'framer-motion/client';
 import { ResponsiveContainer, PieChart, Pie, Tooltip, Cell } from 'recharts';
-
-
-
-// Custom Tooltip for glass look (matching the comparison chart)
-const CustomTooltip = ({ active, payload, prefix = '$' }: any) => {
-    if (active && payload && payload.length) {
-        return (
-            <div className="bg-white/30 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-                <div className="space-y-1">
-                    {payload.map((p: any) => (
-                        <p key={p.name} style={{ color: p.color || p.fill }} className="flex justify-between items-center gap-4 text-sm font-semibold">
-                            <span className="font-medium text-white">{p.name}:</span>
-                            <span className="font-bold">{prefix}{Number(p.value).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span>
-                        </p>
-                    ))}
-                </div>
-            </div>
-        );
-    }
-    return null;
-};
-
-
-
 
 const CATEGORY_COLORS: { [key: string]: string } = {
     Grocery: 'oklch(64.6% 0.222 41.116)',
@@ -38,9 +14,6 @@ const CATEGORY_COLORS: { [key: string]: string } = {
     Entertainment: 'oklch(81.1% 0.111 293.571)',
     Others: 'oklch(93.8% 0.127 124.321)'
 };
-
-
-
 
 
 const CategoryBreakdownChart = () => {
@@ -65,8 +38,7 @@ const CategoryBreakdownChart = () => {
     }
 
     return (
-        <div className='bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4'>
-            <CardHeader title='Category breakdown' description='Current month expenses distribution' />
+        <Card title='Category breakdown' subtitle='Current month expenses distribution'>
             <div className="w-full flex flex-col items-center justify-center gap-4 mt-4">
                 <div className="w-full sm:w-1/2 h-60">
                     <ResponsiveContainer width="100%" height="100%">
@@ -102,7 +74,7 @@ const CategoryBreakdownChart = () => {
                     ))}
                 </div>
             </div>
-        </div>
+        </Card>
     );
 };
 

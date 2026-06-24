@@ -1,10 +1,9 @@
 'use client';
-
-import React from 'react';
 import { useFinance } from '@/context/FinanceContext';
 import { ArrowUpRight, ArrowDownRight, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import CategoryBadge from '@/components/CategoryBadge';
+import Card from '@/components/shared/Card';
 
 const RecentTransactions = () => {
     const { members, incomes, expenses, settings } = useFinance();
@@ -14,15 +13,11 @@ const RecentTransactions = () => {
         ...incomes.map(i => ({ ...i, type: 'income' as const })),
         ...expenses.map(e => ({ ...e, type: 'expense' as const }))
     ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 5);
+        .slice(0, 5);
 
     return (
-        <div className="lg:col-span-2 bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4 shadow-lg">
+        <Card title='Recent Transactions' subtitle='Latest cash ins and cash outs across the family' className="lg:col-span-2">
             <div className="flex items-center justify-between mb-5">
-                <div>
-                    <h2 className="text-sm font-bold text-zinc-100">Recent Transactions</h2>
-                    <p className="text-xs text-white/50">Latest cash ins and cash outs across the family</p>
-                </div>
                 <Link
                     href="/expenses"
                     className="text-sm font-bold text-white hover:text-white/80 flex items-center gap-1 transition-colors"
@@ -68,7 +63,7 @@ const RecentTransactions = () => {
                     );
                 })}
             </div>
-        </div>
+        </Card>
     );
 };
 

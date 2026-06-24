@@ -4,12 +4,12 @@ import { useFinance } from '@/context/FinanceContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExpenseCategory, IncomeCategory, RelationshipType } from '@/lib/types';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
-import SummaryCards from '@/components/app/dashboard/SummaryCards';
 import IncomeExpenseComparisonChart from '@/components/app/dashboard/IncomeExpenseComparisonChart';
 import CategoryBreakdownChart from '@/components/app/dashboard/CategoryBreakdownChart';
 import SmartFinancialInsights from '@/components/app/dashboard/SmartFinancialInsights';
 import RecentTransactions from '@/components/app/dashboard/RecentTransactions';
 import DashboardChildrenLayout from '@/components/shared/DashboardChildrenLayout';
+import DashboardStats from './DashboardStats';
 
 
 const DashboardPage = () => {
@@ -170,8 +170,9 @@ const DashboardPage = () => {
 
     return (
         <DashboardChildrenLayout title='Family Dashboard' subtitle={`Financial health overview for ${settings?.familyInfo?.familyName}`}>
-            {/* 1. Summary Cards Matrix */}
-            <SummaryCards />
+
+            {/* Dashboard Stats */}
+            <DashboardStats />
 
             {/* 2. Charts Section Layout */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -186,13 +187,6 @@ const DashboardPage = () => {
             </div>
 
 
-
-
-            {/* ========================================================
-          MODALS SECTION - React-driven Dialog wrappers
-         ======================================================== */}
-
-            {/* 1. Add Expense Modal */}
             <AnimatePresence>
                 {expenseModalOpen && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center">

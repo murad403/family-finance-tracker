@@ -1,10 +1,8 @@
 'use client';
-
-import React from 'react';
 import { useFinance } from '@/context/FinanceContext';
 import { ShoppingBag, User, Crown } from 'lucide-react';
-import CardHeader from '@/components/shared/CardHeader';
 import { ExpenseCategory } from '@/lib/types';
+import Card from '@/components/shared/Card';
 
 const SmartFinancialInsights = () => {
     const { members, incomes, expenses, settings } = useFinance();
@@ -58,9 +56,7 @@ const SmartFinancialInsights = () => {
     const highestContributor = members.find(m => m.id === highestContributorId);
 
     return (
-        <div className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-            <CardHeader title="Smart Financial Insights" />
-
+        <Card title='Smart Financial Insights' subtitle='Insights about family finance'>
             <div className="space-y-4 mt-4">
                 {/* Highest Spending Category */}
                 <div className="flex items-center gap-3.5 p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/30">
@@ -108,7 +104,7 @@ const SmartFinancialInsights = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Card>
     );
 };
 
