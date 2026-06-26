@@ -86,13 +86,13 @@ export function SelectTrigger({ children, className, ...props }: SelectTriggerPr
       ref={triggerRef}
       type="button"
       onClick={() => setOpen(!open)}
-      className={`flex h-11 w-full items-center justify-between rounded-xl border border-zinc-800 bg-zinc-950 px-3 py-2.5 text-sm text-zinc-200 outline-none transition-all placeholder:text-zinc-500 focus:border-primary focus:ring-1 focus:ring-primary/20 text-left disabled:cursor-not-allowed disabled:opacity-50 ${className || ''}`}
+      className={`flex min-w-50 w-full h-12 items-center justify-between rounded-md px-3 py-2.5 text-sm focus:outline outline-global-border border bg-white/10 backdrop-blur-sm duration-300 ${className || ''}`}
       {...props}
     >
       <div className="flex items-center gap-2 truncate pointer-events-none">
         {children}
       </div>
-      <ChevronDown className={`h-4 w-4 shrink-0 text-zinc-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+      <ChevronDown strokeWidth={3} className={`size-4 shrink-0 text-subheading transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
     </button>
   );
 }
@@ -110,7 +110,7 @@ export function SelectValue({ placeholder }: SelectValueProps) {
 
   return (
     <span className="block truncate">
-      {selectedLabel !== null && selectedLabel !== undefined ? selectedLabel : <span className="text-zinc-500">{placeholder}</span>}
+      {selectedLabel !== null && selectedLabel !== undefined ? selectedLabel : <span className="text-subheading!">{placeholder}</span>}
     </span>
   );
 }
@@ -138,7 +138,7 @@ export function SelectContent({ children, className }: SelectContentProps) {
         visibility: open ? 'visible' : 'hidden' as any
       }}
       transition={{ duration: 0.1, ease: 'easeOut' }}
-      className={`absolute left-0 right-0 z-50 mt-1.5 max-h-60 overflow-y-auto rounded-xl border border-zinc-800 bg-zinc-950 p-1 shadow-xl outline-none min-w-32 ${className || ''}`}
+      className={`absolute left-0 right-0 z-50 mt-1.5 max-h-60 overflow-y-auto rounded-md border border-global-border bg-white/20 backdrop-blur-sm p-1 shadow-lg outline-none min-w-32 ${className || ''}`}
     >
       <div className="space-y-0.5">{children}</div>
     </motion.div>
@@ -181,7 +181,7 @@ export function SelectItem({ children, value, className }: SelectItemProps) {
     <button
       type="button"
       onClick={handleSelect}
-      className={`relative flex w-full cursor-pointer select-none items-center rounded-lg py-2 pl-3 pr-9 text-sm text-zinc-300 outline-none transition-colors hover:bg-zinc-900 hover:text-zinc-50 active:bg-zinc-800 disabled:pointer-events-none disabled:opacity-50 text-left ${
+      className={`relative flex w-full cursor-pointer select-none items-center rounded-md py-2.5 pl-3 pr-9 text-sm text-title outline-none transition-colors hover:bg-white/20 hover:text-zinc-50 active:bg-zinc-800 disabled:pointer-events-none disabled:opacity-50 text-left ${
         isSelected ? 'bg-zinc-900 text-zinc-100 font-semibold' : ''
       } ${className || ''}`}
     >

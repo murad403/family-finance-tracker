@@ -194,15 +194,15 @@
   input[type="date"],
   select,
   textarea {
-    background-color: oklch(0.27 0.03 250) !important;
+    background-color: oklch(0.27 0.03 250);
     /* secondary bg */
-    color: oklch(0.96 0.01 250) !important;
+    color: oklch(0.96 0.01 250);
     /* bright text */
-    border: 1px solid oklch(1 0 0 / 15%) !important;
+    border: 1px solid oklch(1 0 0 / 15%);
     border-radius: 0.625rem;
-    padding-top: 0.625rem !important;
+    padding-top: 0.625rem;
     /* py-2.5 */
-    padding-bottom: 0.625rem !important;
+    padding-bottom: 0.625rem;
     /* py-2.5 */
     padding-left: 0.875rem;
     padding-right: 0.875rem;
@@ -280,12 +280,12 @@
 /* Global Placeholder override */
 input::placeholder,
 textarea::placeholder {
-  color: oklch(0.7 0.02 250) !important;
+  color: oklch(0.7 0.02 250);
   /* brighter, readable placeholder text */
-  opacity: 0.9 !important;
+  opacity: 0.9;
 }
 
 input:focus::placeholder,
 textarea:focus::placeholder {
-  opacity: 0.6 !important;
+  opacity: 0.6;
 }

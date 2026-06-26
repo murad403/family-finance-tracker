@@ -99,41 +99,7 @@ const MembersPage = () => {
         };
     };
 
-    const filters = [
-        {
-            placeholder: "All Relationships",
-            selectItem: {
-                label: "All Relationships",
-                value: "all"
-            },
-            items: [
-                {
-                    label: "All Relationships",
-                    value: "all"
-                },
-                {
-                    label: "Self",
-                    value: "self"
-                },
-                {
-                    label: "Spouse",
-                    value: "spouse"
-                },
-                {
-                    label: "Father",
-                    value: "father"
-                },
-                {
-                    label: "Mother",
-                    value: "mother"
-                },
-                {
-                    label: "Son",
-                    value: "son"
-                },
-            ]
-        }
-    ]
+    
 
     return (
         <DashboardChildrenLayout
@@ -144,8 +110,6 @@ const MembersPage = () => {
             <div className="space-y-6">
                 {/* Static Filter / Search Bar (inputs are interactive locally but do not filter table data) */}
                 <MembersSearchAndFilter />
-
-                <SearchAndFilter search={true} searchPlaceholder="Search member name or phone..." filters={filters}/>
                 {/* Members Table showing Static Demo Data */}
                 <MembersTable
                     members={DEMO_MEMBERS}

@@ -9,7 +9,6 @@ type TItem = {
 
 type TFilter = {
     placeholder: string;
-    selectItem: TItem;
     items: TItem[];
 }
 
@@ -28,11 +27,11 @@ const SearchAndFilter = ({ className, search, searchPlaceholder, filters }: Tpro
                 {
                     search &&
                     <div className="relative max-w-xl">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-label" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4.5 text-heading" />
                         <Input
                             type="text"
                             placeholder={searchPlaceholder}
-                            className="bg-gray-100"
+                            className="bg-white/10 backdrop-blur-sm placeholder-subheading!"
                         />
                     </div>
                 }
@@ -44,25 +43,26 @@ const SearchAndFilter = ({ className, search, searchPlaceholder, filters }: Tpro
                 {
                     filters &&
                     <div className='flex items-center gap-4'>
-                        <div className="flex items-center gap-2 text-sm font-medium text-subheading">
+                        <div className="flex items-center gap-2 text-base font-medium text-subheading">
                             <SlidersHorizontal className="size-4" />
                             <span>Filter:</span>
                         </div>
-                        {
-                            filters.map((filterItem: TFilter, index: number) =>
-                                <Select key={index}>
-                                    <SelectTrigger className="h-10">
-                                        <SelectValue placeholder={filterItem?.placeholder} />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value={filterItem?.selectItem?.value}>{filterItem?.selectItem?.label}</SelectItem>
-                                        {filterItem?.items?.map((item: TItem, index: number) =>
-                                            <SelectItem key={index} value={item?.value}>{item?.label}</SelectItem>
-                                        )}
-                                    </SelectContent>
-                                </Select>
-                            )
-                        }
+                        <div className='flex items-center gap-4'>
+                            {
+                                filters.map((filterItem: TFilter, index: number) =>
+                                    <Select key={index}>
+                                        <SelectTrigger className="h-10">
+                                            <SelectValue placeholder={filterItem?.placeholder} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {filterItem?.items?.map((item: TItem, index: number) =>
+                                                <SelectItem key={index} value={item?.value}>{item?.label}</SelectItem>
+                                            )}
+                                        </SelectContent>
+                                    </Select>
+                                )
+                            }
+                        </div>
                     </div>
                 }
             </div>
