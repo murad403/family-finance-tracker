@@ -3,18 +3,15 @@
 import DashboardChildrenLayout from '@/components/shared/DashboardChildrenLayout';
 import React, { useState } from 'react';
 import { FamilyMember, RelationshipType } from '@/lib/types';
-
-// Subcomponents
-import MembersActions from './MembersActions';
 import MembersSearchAndFilter from './MembersSearchAndFilter';
 import MembersTable from './MembersTable';
 import AddMemberModal from './AddMemberModal';
 import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
-import SearchAndFilter from '@/components/shared/SearchAndFilter';
+import { MemberHeaderActions } from './MembersActions';
 
 // Static Demo Data
-const DEMO_MEMBERS: FamilyMember[] = [
+const DEMO_MEMBERS = [
     {
         id: 'm1',
         name: 'Murad Hossain',
@@ -22,7 +19,10 @@ const DEMO_MEMBERS: FamilyMember[] = [
         phone: '+880 1711-111111',
         status: 'Active',
         joinDate: '2026-01-15',
-        avatar: '👨'
+        avatar: '👨',
+        lifeTimeIncome: 1000,
+        lifeTimeSpend: 200,
+        balance: 300
     },
     {
         id: 'm2',
@@ -31,7 +31,10 @@ const DEMO_MEMBERS: FamilyMember[] = [
         phone: '+880 1819-222222',
         status: 'Active',
         joinDate: '2026-01-18',
-        avatar: '👩'
+        avatar: '👩',
+        lifeTimeIncome: 1000,
+        lifeTimeSpend: 200,
+        balance: 300
     },
     {
         id: 'm3',
@@ -40,7 +43,10 @@ const DEMO_MEMBERS: FamilyMember[] = [
         phone: '+880 1912-333333',
         status: 'Active',
         joinDate: '2026-02-01',
-        avatar: '👦'
+        avatar: '👦',
+        lifeTimeIncome: 1000,
+        lifeTimeSpend: 200,
+        balance: 300
     },
     {
         id: 'm4',
@@ -49,7 +55,10 @@ const DEMO_MEMBERS: FamilyMember[] = [
         phone: '+880 1515-444444',
         status: 'Inactive',
         joinDate: '2026-03-10',
-        avatar: '👧'
+        avatar: '👧',
+        lifeTimeIncome: 1000,
+        lifeTimeSpend: 200,
+        balance: 300
     }
 ];
 
@@ -65,6 +74,8 @@ const DEMO_EXPENSES = [
     { id: 'e3', memberId: 'm3', amount: 4500 },
     { id: 'e4', memberId: 'm4', amount: 2000 }
 ];
+
+
 
 const MembersPage = () => {
     // Static config
@@ -99,73 +110,71 @@ const MembersPage = () => {
         };
     };
 
-    
+
 
     return (
         <DashboardChildrenLayout
             title="Family Members"
             subtitle="Add and organize your family directory & check individual balances"
-            actions={<MembersActions onAddClick={() => setAddModalOpen(true)} />}
+            actions={<MemberHeaderActions onAddClick={() => setAddModalOpen(true)} />}
         >
-            <div className="space-y-6">
-                {/* Static Filter / Search Bar (inputs are interactive locally but do not filter table data) */}
-                <MembersSearchAndFilter />
-                {/* Members Table showing Static Demo Data */}
-                <MembersTable
-                    members={DEMO_MEMBERS}
-                    currency={currency}
-                    getMemberBalances={getMemberBalances}
-                    onEditClick={(member) => {
-                        setSelectedMember(member);
-                        setEditMemberForm({ ...member });
-                        setEditModalOpen(true);
-                    }}
-                    onDeleteClick={(member) => {
-                        setSelectedMember(member);
-                        setDeleteModalOpen(true);
-                    }}
-                />
 
-                {/* Modals - fully designed and interactive but close without modifying the static data */}
-                <AddMemberModal
-                    isOpen={addModalOpen}
-                    onClose={() => setAddModalOpen(false)}
-                    newMemberForm={newMemberForm}
-                    setNewMemberForm={setNewMemberForm}
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        setAddModalOpen(false);
-                    }}
-                />
+            <MembersSearchAndFilter />
 
-                <EditMemberModal
-                    isOpen={editModalOpen}
-                    onClose={() => {
-                        setEditModalOpen(false);
-                        setSelectedMember(null);
-                    }}
-                    editMemberForm={editMemberForm}
-                    setEditMemberForm={setEditMemberForm}
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        setEditModalOpen(false);
-                        setSelectedMember(null);
-                    }}
-                />
+            <MembersTable
+                members={DEMO_MEMBERS}
+                currency={currency}
+                getMemberBalances={getMemberBalances}
+                onEditClick={(member) => {
+                    setSelectedMember(member);
+                    setEditMemberForm({ ...member });
+                    setEditModalOpen(true);
+                }}
+                onDeleteClick={(member) => {
+                    setSelectedMember(member);
+                    setDeleteModalOpen(true);
+                }}
+            />
 
-                <DeleteMemberModal
-                    isOpen={deleteModalOpen}
-                    onClose={() => {
-                        setDeleteModalOpen(false);
-                        setSelectedMember(null);
-                    }}
-                    selectedMember={selectedMember}
-                    onConfirm={() => {
-                        setDeleteModalOpen(false);
-                        setSelectedMember(null);
-                    }}
-                />
-            </div>
+
+            <AddMemberModal
+                isOpen={addModalOpen}
+                onClose={() => setAddModalOpen(false)}
+                newMemberForm={newMemberForm}
+                setNewMemberForm={setNewMemberForm}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    setAddModalOpen(false);
+                }}
+            />
+
+            <EditMemberModal
+                isOpen={editModalOpen}
+                onClose={() => {
+                    setEditModalOpen(false);
+                    setSelectedMember(null);
+                }}
+                editMemberForm={editMemberForm}
+                setEditMemberForm={setEditMemberForm}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    setEditModalOpen(false);
+                    setSelectedMember(null);
+                }}
+            />
+
+            <DeleteMemberModal
+                isOpen={deleteModalOpen}
+                onClose={() => {
+                    setDeleteModalOpen(false);
+                    setSelectedMember(null);
+                }}
+                selectedMember={selectedMember}
+                onConfirm={() => {
+                    setDeleteModalOpen(false);
+                    setSelectedMember(null);
+                }}
+            />
         </DashboardChildrenLayout>
     );
 };

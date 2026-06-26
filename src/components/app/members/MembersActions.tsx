@@ -1,14 +1,12 @@
 'use client';
-
-import React from 'react';
 import { Button } from "@/components/ui/button";
 import { UserPlus } from "lucide-react";
 
-interface MembersActionsProps {
+interface MemberHeaderActionsProps {
     onAddClick: () => void;
 }
 
-const MembersActions = ({ onAddClick }: MembersActionsProps) => {
+const MemberHeaderActions = ({ onAddClick }: MemberHeaderActionsProps) => {
     return (
         <Button onClick={onAddClick}>
             <UserPlus className="h-4 w-4" />
@@ -17,4 +15,26 @@ const MembersActions = ({ onAddClick }: MembersActionsProps) => {
     );
 };
 
-export default MembersActions;
+
+type TMemberTableActionsProps = {
+    isViewVisible?: boolean;
+    isEditVisible?: boolean;
+    isDeleteVisible?: boolean;
+    onViewClick?: () => void;
+    onEditClick?: () => void;
+    onDeleteClick?: () => void;
+}
+
+const MemberTableActions = ({ isViewVisible = true, isEditVisible = true, isDeleteVisible = true, onViewClick, onEditClick, onDeleteClick }: TMemberTableActionsProps) => {
+    return (
+        <div>
+            
+        </div>
+    )
+}
+
+
+
+export {
+    MemberHeaderActions
+};
