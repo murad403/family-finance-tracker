@@ -8,7 +8,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
       type={type}
       data-slot="input"
       className={cn(
-        "py-3 w-full rounded-md pl-10 focus:outline outline-global-border transition-colors duration-300 placeholder-label",
+        "py-3 w-full rounded-md pl-10 focus:outline outline-global-border transition-colors duration-300",
         className
       )}
       {...props}
