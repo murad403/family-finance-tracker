@@ -32,7 +32,7 @@ const CustomTable = ({ path, thead, tbody }: TProps) => {
               <tr>
                 {
                   thead.map((th: string, index: number) =>
-                    <th className='text-title text-sm font-medium uppercase pb-6' key={index}>
+                    <th className={`text-title text-sm font-medium uppercase pb-6 ${index === 0 && "pl-4"}`} key={index}>
                       {th}
                     </th>
                   )
@@ -42,13 +42,13 @@ const CustomTable = ({ path, thead, tbody }: TProps) => {
           }
           {
             tbody &&
-            <tbody className="divide-y divide-global-border/30 px-4">
+            <tbody className="divide-y divide-global-border/30">
               {
                 tbody.map((td: TBody, index: number) =>
-                  <tr key={index} className="hover:backdrop-blur-sm text-sm text-subheading">
+                  <tr key={index} className="hover:backdrop-blur-sm text-sm text-subheading w-full">
                     {
                       (thead?.includes("profile")) &&
-                      <td className="py-4">
+                      <td className="py-4 px-4">
                         <div className="flex items-center gap-4">
                           <span className="text-xl bg-white/10 size-10 rounded-md flex items-center justify-center">
                             {td?.avatar}
