@@ -1,14 +1,14 @@
 'use client';
-
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { RelationshipType } from '@/lib/types';
 
+
 const relationships: RelationshipType[] = ['Self', 'Spouse', 'Father', 'Mother', 'Son', 'Daughter', 'Sibling', 'Other'];
 
+
 const MembersSearchAndFilter = () => {
-    // Keep search and filter states local so inputs are still interactive, but do not affect the parent table
     const [searchQuery, setSearchQuery] = useState('');
     const [relFilter, setRelFilter] = useState<string>('All');
     const [statusFilter, setStatusFilter] = useState<string>('All');

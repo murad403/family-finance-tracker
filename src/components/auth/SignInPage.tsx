@@ -59,7 +59,7 @@ const SignInPage = () => {
                 <div>
                     <Label htmlFor="email">Email address</Label>
                     <div className="relative mt-1.5 flex items-center">
-                        <Mail className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
+                        <Mail className="absolute left-3 size-4 text-label" />
                         <Input
                             {...register('email')}
                             type="email"
@@ -86,7 +86,7 @@ const SignInPage = () => {
                         </Link>
                     </div>
                     <div className="relative mt-1.5 flex items-center">
-                        <Lock className="absolute left-3 h-4 w-4 text-slate-400 dark:text-slate-400" />
+                        <Lock className="absolute left-3 size-4 text-label" />
                         <Input
                             {...register('password')}
                             type={showPassword ? 'text' : 'password'}
@@ -98,9 +98,9 @@ const SignInPage = () => {
                             className="absolute right-3 text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-zinc-300"
                         >
                             {showPassword ? (
-                                <EyeOff className="h-4 w-4" />
+                                <EyeOff className="size-4" />
                             ) : (
-                                <Eye className="h-4 w-4" />
+                                <Eye className="size-4" />
                             )}
                         </button>
                     </div>
@@ -116,10 +116,10 @@ const SignInPage = () => {
                     disabled={isLoading}
                 >
                     {isLoading ? (
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                        <div className="size-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
                     ) : (
                         <>
-                            Sign In <ArrowRight className="h-4 w-4" />
+                            Sign In <ArrowRight className="size-4" />
                         </>
                     )}
                 </Button>

@@ -11,6 +11,7 @@ import MembersTable from './MembersTable';
 import AddMemberModal from './AddMemberModal';
 import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
+import SearchAndFilter from '@/components/shared/SearchAndFilter';
 
 // Static Demo Data
 const DEMO_MEMBERS: FamilyMember[] = [
@@ -108,6 +109,7 @@ const MembersPage = () => {
                 {/* Static Filter / Search Bar (inputs are interactive locally but do not filter table data) */}
                 <MembersSearchAndFilter />
 
+                <SearchAndFilter search={true} searchPlaceholder="Search member name or phone..." />
                 {/* Members Table showing Static Demo Data */}
                 <MembersTable
                     members={DEMO_MEMBERS}
