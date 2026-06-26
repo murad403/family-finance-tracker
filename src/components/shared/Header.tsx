@@ -4,6 +4,7 @@ import { AlertTriangle, Bell, CheckCircle2, ChevronDown, Info, LogOut, Menu, Sea
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
+import { Input } from '../ui/input';
 
 interface HeaderProps {
     onMenuClick: () => void;
@@ -82,8 +83,8 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                 {/* Global Search Bar */}
                 <div className="relative" ref={searchRef}>
                     <div className="relative hidden md:flex items-center">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-                        <input
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4.5 text-heading" />
+                        <Input
                             type="text"
                             placeholder="Global search..."
                             value={searchQuery}
@@ -92,7 +93,7 @@ const Header = ({ onMenuClick }: HeaderProps) => {
                                 setSearchOpen(true);
                             }}
                             onFocus={() => setSearchOpen(true)}
-                            className="w-56 lg:w-64 rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 pl-9 pr-4 text-sm outline-none transition-all placeholder:text-zinc-400 focus:border-primary focus:bg-zinc-900 focus:w-72 text-zinc-200"
+                            className="w-56 lg:w-64 bg-white/10 backdrop-blur-sm placeholder-subheading! transition-all focus-visible:border-primary focus-visible:w-72 text-zinc-200"
                         />
                     </div>
                     <button
