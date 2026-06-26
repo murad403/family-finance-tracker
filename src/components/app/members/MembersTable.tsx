@@ -205,7 +205,7 @@ const MembersTable = ({ members, currency, getMemberBalances, onEditClick, onDel
                 </div>
             </div>
 
-            <CustomTable thead={thead} tbody={DEMO_MEMBERS} />
+            <CustomTable thead={thead} tbody={DEMO_MEMBERS} path='members'/>
         </div>
     );
 };

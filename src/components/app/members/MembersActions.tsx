@@ -16,25 +16,4 @@ const MemberHeaderActions = ({ onAddClick }: MemberHeaderActionsProps) => {
 };
 
 
-type TMemberTableActionsProps = {
-    isViewVisible?: boolean;
-    isEditVisible?: boolean;
-    isDeleteVisible?: boolean;
-    onViewClick?: () => void;
-    onEditClick?: () => void;
-    onDeleteClick?: () => void;
-}
-
-const MemberTableActions = ({ isViewVisible = true, isEditVisible = true, isDeleteVisible = true, onViewClick, onEditClick, onDeleteClick }: TMemberTableActionsProps) => {
-    return (
-        <div>
-            
-        </div>
-    )
-}
-
-
-
-export {
-    MemberHeaderActions
-};
+export default MemberHeaderActions;

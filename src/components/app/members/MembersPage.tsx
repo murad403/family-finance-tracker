@@ -8,7 +8,7 @@ import MembersTable from './MembersTable';
 import AddMemberModal from './AddMemberModal';
 import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
-import { MemberHeaderActions } from './MembersActions';
+import MemberHeaderActions from './MembersActions';
 
 // Static Demo Data
 const DEMO_MEMBERS = [

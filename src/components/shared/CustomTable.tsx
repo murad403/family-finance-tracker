@@ -1,4 +1,5 @@
 import formatCurrency from "@/utils/formatCurrency";
+import TableActions from "./TableActions";
 
 type TBody = {
   id?: string;
@@ -14,11 +15,13 @@ type TBody = {
 }
 
 type TProps = {
+  path: string;
   thead?: string[];
   tbody?: TBody[];
 }
 
-const CustomTable = ({ thead, tbody }: TProps) => {
+const CustomTable = ({ path, thead, tbody }: TProps) => {
+  console.log(path)
   return (
     <div className='p-6 bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl shadow-lg w-full h-full'>
       <div className="overflow-x-auto">
@@ -42,7 +45,7 @@ const CustomTable = ({ thead, tbody }: TProps) => {
             <tbody className="divide-y divide-global-border/30 px-4">
               {
                 tbody.map((td: TBody, index: number) =>
-                  <tr key={index} className="hover:bg-white/20 hover:backdrop-blur-sm text-sm text-subheading">
+                  <tr key={index} className="hover:backdrop-blur-sm text-sm text-subheading">
                     {
                       (thead?.includes("profile")) &&
                       <td className="py-4">
@@ -86,6 +89,13 @@ const CustomTable = ({ thead, tbody }: TProps) => {
                     {
                       (thead?.includes("balance") && td?.balance) &&
                       <td className="py-4 text-yellow-500 font-semibold">{formatCurrency(td?.balance)}</td>
+                    }
+
+                    {
+                      (thead?.includes("actions")) &&
+                      <td className="py-4">
+                        <TableActions viewPath={`/${path}/${td.id}`}/>
+                      </td>
                     }
 
                   </tr>
