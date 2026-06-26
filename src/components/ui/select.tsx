@@ -9,7 +9,7 @@ import React, {
   ReactNode
 } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 // 1. Select Context Definition
 interface SelectContextType {
