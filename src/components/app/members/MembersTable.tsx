@@ -69,7 +69,7 @@ const MembersTable = ({ members, currency, getMemberBalances, onEditClick, onDel
     ];
     return (
         <div>
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl shadow-sm overflow-hidden">
+            {/* <div className="bg-zinc-900 border border-zinc-800 rounded-2xl shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
@@ -96,7 +96,7 @@ const MembersTable = ({ members, currency, getMemberBalances, onEditClick, onDel
                                     const bal = getMemberBalances(m.id);
                                     return (
                                         <tr key={m.id} className="hover:bg-zinc-800/40 transition-colors">
-                                            {/* Name & Avatar */}
+                                            
                                             <td className="py-4 px-6">
                                                 <div className="flex items-center gap-3">
                                                     <span className="text-xl bg-zinc-800 h-10 w-10 rounded-xl flex items-center justify-center">
@@ -109,14 +109,14 @@ const MembersTable = ({ members, currency, getMemberBalances, onEditClick, onDel
                                                 </div>
                                             </td>
 
-                                            {/* Relationship */}
+                                            
                                             <td className="py-4 px-4">
                                                 <span className="text-sm font-bold px-2 py-0.5 rounded-full bg-primary/20 text-primary">
                                                     {m.relationship}
                                                 </span>
                                             </td>
 
-                                            {/* Status */}
+                                           
                                             <td className="py-4 px-4">
                                                 <span className={`text-sm font-bold px-2 py-0.5 rounded-full ${m.status === 'Active'
                                                     ? 'bg-emerald-950/20 text-emerald-400'
@@ -126,27 +126,27 @@ const MembersTable = ({ members, currency, getMemberBalances, onEditClick, onDel
                                                 </span>
                                             </td>
 
-                                            {/* Phone */}
+                                          
                                             <td className="py-4 px-4 text-xs font-semibold text-zinc-300">
                                                 {m.phone || 'No phone logged'}
                                             </td>
 
-                                            {/* Income */}
+                                            
                                             <td className="py-4 px-4 text-right text-xs font-bold text-emerald-400">
                                                 +{currency}{bal.income.toLocaleString()}
                                             </td>
 
-                                            {/* Expense */}
+                                           
                                             <td className="py-4 px-4 text-right text-xs font-bold text-rose-400">
                                                 -{currency}{bal.expense.toLocaleString()}
                                             </td>
 
-                                            {/* Balance */}
+                                           
                                             <td className="py-4 px-4 text-right text-xs font-bold text-zinc-200">
                                                 {currency}{bal.balance.toLocaleString()}
                                             </td>
 
-                                            {/* Actions */}
+                                           
                                             <td className="py-4 px-6 text-right">
                                                 <div className="flex items-center justify-end gap-1.5">
                                                     <Link
@@ -182,7 +182,7 @@ const MembersTable = ({ members, currency, getMemberBalances, onEditClick, onDel
                     </table>
                 </div>
 
-                {/* Static Pagination Toolbar */}
+              
                 <div className="px-6 py-4 border-t border-zinc-800 flex items-center justify-between">
                     <span className="text-xs font-semibold text-zinc-400">
                         Showing 1 to {members.length} of {members.length} members
@@ -203,7 +203,7 @@ const MembersTable = ({ members, currency, getMemberBalances, onEditClick, onDel
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <CustomTable thead={thead} tbody={DEMO_MEMBERS} path='members'/>
         </div>

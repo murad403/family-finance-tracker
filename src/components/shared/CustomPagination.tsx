@@ -2,7 +2,9 @@ import React from 'react'
 
 const CustomPagination = () => {
   return (
-    <div>CustomPagination</div>
+    <div className='flex justify-center items-center mt-10'>
+        dssdsds
+    </div>
   )
 }
 

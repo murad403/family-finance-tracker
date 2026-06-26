@@ -138,7 +138,7 @@ export function SelectContent({ children, className }: SelectContentProps) {
         visibility: open ? 'visible' : 'hidden' as any
       }}
       transition={{ duration: 0.1, ease: 'easeOut' }}
-      className={`absolute left-0 right-0 z-50 mt-1.5 max-h-60 overflow-y-auto rounded-md border border-global-border bg-white/20 backdrop-blur-sm p-1 shadow-lg outline-none min-w-32 ${className || ''}`}
+      className={`absolute left-0 right-0 z-50 mt-1.5 max-h-60 overflow-y-auto rounded-md border border-global-border bg-white/40 backdrop-blur-sm p-1 shadow-lg outline-none min-w-32 ${className || ''}`}
     >
       <div className="space-y-0.5">{children}</div>
     </motion.div>
@@ -181,7 +181,7 @@ export function SelectItem({ children, value, className }: SelectItemProps) {
     <button
       type="button"
       onClick={handleSelect}
-      className={`relative flex w-full cursor-pointer select-none items-center rounded-md py-2.5 pl-3 pr-9 text-sm text-title outline-none transition-colors hover:bg-white/20 hover:text-zinc-50 active:bg-zinc-800 disabled:pointer-events-none disabled:opacity-50 text-left ${
+      className={`relative flex w-full cursor-pointer select-none items-center rounded-md py-2.5 pl-3 pr-9 text-sm text-white outline-none transition-colors hover:bg-white/20 hover:text-zinc-50 active:bg-zinc-800 disabled:pointer-events-none disabled:opacity-50 text-left ${
         isSelected ? 'bg-zinc-900 text-zinc-100 font-semibold' : ''
       } ${className || ''}`}
     >
