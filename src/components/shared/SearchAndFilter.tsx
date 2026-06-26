@@ -21,7 +21,7 @@ type Tprops = {
 
 const SearchAndFilter = ({ className, search, searchPlaceholder, filters }: Tprops) => {
     return (
-        <div className={`${className} p-4 bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl shadow-lg w-full flex justify-between items-center`}>
+        <div className={`${className} relative z-10 p-4 bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl shadow-lg w-full flex justify-between items-center`}>
             {/* search */}
             <div className='w-full'>
                 {

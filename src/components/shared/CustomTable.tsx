@@ -24,7 +24,7 @@ type TProps = {
 const CustomTable = ({ path, thead, tbody }: TProps) => {
   return (
     <div>
-      <div className='p-6 bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl shadow-lg w-full h-full'>
+      <div className='p-6 bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl shadow-lg w-full h-full overflow-hidden'>
         <div className="overflow-x-auto">
           <table className='w-full text-left border-collapse'>
             {
