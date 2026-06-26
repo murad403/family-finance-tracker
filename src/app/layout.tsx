@@ -1,22 +1,17 @@
 import type { Metadata } from "next";
-import { Roboto, Roboto_Mono, Geist } from "next/font/google";
+import { Sora } from "next/font/google";
 import "./globals.css";
 import { FinanceProvider } from "@/context/FinanceContext";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
-const roboto = Roboto({
-  variable: "--font-roboto",
+const sora = Sora({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700", "900"],
-});
+  variable: "--font-sans",
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+})
 
-const robotoMono = Roboto_Mono({
-  variable: "--font-roboto-mono",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+
 
 export const metadata: Metadata = {
   title: "Family Finance Tracker",
@@ -31,7 +26,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", roboto.variable, robotoMono.variable, "font-sans", geist.variable)}
+      className={cn("h-full", "antialiased", sora.variable)}
     >
       <body className="min-h-full flex flex-col">
         <FinanceProvider>
