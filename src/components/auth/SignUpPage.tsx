@@ -56,6 +56,7 @@ const SignUpPage = () => {
                             {...register('name')}
                             type="text"
                             placeholder="your full name"
+                             className='pl-10'
                         />
                     </div>
                     {errors.name && (
@@ -73,6 +74,7 @@ const SignUpPage = () => {
                             {...register('familyName')}
                             type="text"
                             placeholder="your family tracker name"
+                             className='pl-10'
                         />
                     </div>
                     {errors.familyName && (
@@ -90,6 +92,7 @@ const SignUpPage = () => {
                             {...register('email')}
                             type="email"
                             placeholder="info@gmail.com"
+                             className='pl-10'
                         />
                     </div>
                     {errors.email && (
@@ -109,6 +112,7 @@ const SignUpPage = () => {
                             {...register('password')}
                             type={showPassword ? 'text' : 'password'}
                             placeholder="create password"
+                             className='pl-10'
                         />
                         <button
                             type="button"
@@ -137,6 +141,7 @@ const SignUpPage = () => {
                             {...register('confirmPassword')}
                             type={showPassword ? 'text' : 'password'}
                             placeholder="re-type password"
+                             className='pl-10'
                         />
                     </div>
                     {errors.confirmPassword && (

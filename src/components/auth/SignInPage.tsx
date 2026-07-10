@@ -64,6 +64,7 @@ const SignInPage = () => {
                             {...register('email')}
                             type="email"
                             placeholder="info@gmail.com"
+                            className='pl-10'
                         />
                     </div>
                     {errors.email && (
@@ -91,6 +92,7 @@ const SignInPage = () => {
                             {...register('password')}
                             type={showPassword ? 'text' : 'password'}
                             placeholder="••••••••"
+                             className='pl-10'
                         />
                         <button
                             type="button"

@@ -6,7 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-label: oklch(55.4% 0.046 257.417);
+  --color-label: oklch(88.2% 0.059 254.128);
   --color-title: oklch(86.9% 0.022 252.894);
   --color-description: oklch(70.4% 0.04 256.788);
   --color-global-border: oklch(82.8% 0.111 230.318);
@@ -278,7 +278,6 @@
 }
 
 /* Global Placeholder override */
-input::placeholder,
 textarea::placeholder {
   color: oklch(0.7 0.02 250);
   /* brighter, readable placeholder text */
