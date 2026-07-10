@@ -1,5 +1,4 @@
 'use client';
-
 import DashboardChildrenLayout from '@/components/shared/DashboardChildrenLayout';
 import React, { useState } from 'react';
 import { FamilyMember, RelationshipType } from '@/lib/types';
@@ -10,78 +9,8 @@ import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
 import MemberHeaderActions from './MembersActions';
 
-// Static Demo Data
-const DEMO_MEMBERS = [
-    {
-        id: 'm1',
-        name: 'Murad Hossain',
-        relationship: 'Self',
-        phone: '+880 1711-111111',
-        status: 'Active',
-        joinDate: '2026-01-15',
-        avatar: '👨',
-        lifeTimeIncome: 1000,
-        lifeTimeSpend: 200,
-        balance: 300
-    },
-    {
-        id: 'm2',
-        name: 'Fariha Yasmin',
-        relationship: 'Spouse',
-        phone: '+880 1819-222222',
-        status: 'Active',
-        joinDate: '2026-01-18',
-        avatar: '👩',
-        lifeTimeIncome: 1000,
-        lifeTimeSpend: 200,
-        balance: 300
-    },
-    {
-        id: 'm3',
-        name: 'Ayaan Hossain',
-        relationship: 'Son',
-        phone: '+880 1912-333333',
-        status: 'Active',
-        joinDate: '2026-02-01',
-        avatar: '👦',
-        lifeTimeIncome: 1000,
-        lifeTimeSpend: 200,
-        balance: 300
-    },
-    {
-        id: 'm4',
-        name: 'Sara Hossain',
-        relationship: 'Daughter',
-        phone: '+880 1515-444444',
-        status: 'Inactive',
-        joinDate: '2026-03-10',
-        avatar: '👧',
-        lifeTimeIncome: 1000,
-        lifeTimeSpend: 200,
-        balance: 300
-    }
-];
-
-const DEMO_INCOMES = [
-    { id: 'i1', memberId: 'm1', amount: 95000 },
-    { id: 'i2', memberId: 'm2', amount: 45000 },
-    { id: 'i3', memberId: 'm3', amount: 5000 }
-];
-
-const DEMO_EXPENSES = [
-    { id: 'e1', memberId: 'm1', amount: 32000 },
-    { id: 'e2', memberId: 'm2', amount: 18000 },
-    { id: 'e3', memberId: 'm3', amount: 4500 },
-    { id: 'e4', memberId: 'm4', amount: 2000 }
-];
-
-
 
 const MembersPage = () => {
-    // Static config
-    const currency = '$';
-
-    // Modals state
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -99,18 +28,6 @@ const MembersPage = () => {
 
     const [editMemberForm, setEditMemberForm] = useState<FamilyMember | null>(null);
 
-    // Math helper: Get member details (Income/Expense sums)
-    const getMemberBalances = (memberId: string) => {
-        const memberIncomes = DEMO_INCOMES.filter(i => i.memberId === memberId).reduce((sum, i) => sum + i.amount, 0);
-        const memberExpenses = DEMO_EXPENSES.filter(e => e.memberId === memberId).reduce((sum, e) => sum + e.amount, 0);
-        return {
-            income: memberIncomes,
-            expense: memberExpenses,
-            balance: memberIncomes - memberExpenses
-        };
-    };
-
-
 
     return (
         <DashboardChildrenLayout
@@ -121,21 +38,7 @@ const MembersPage = () => {
 
             <MembersSearchAndFilter />
 
-            <MembersTable
-                members={DEMO_MEMBERS}
-                currency={currency}
-                getMemberBalances={getMemberBalances}
-                onEditClick={(member) => {
-                    setSelectedMember(member);
-                    setEditMemberForm({ ...member });
-                    setEditModalOpen(true);
-                }}
-                onDeleteClick={(member) => {
-                    setSelectedMember(member);
-                    setDeleteModalOpen(true);
-                }}
-            />
-
+            <MembersTable />
 
             <AddMemberModal
                 isOpen={addModalOpen}
