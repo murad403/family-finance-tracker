@@ -1,6 +1,7 @@
 import formatCurrency from "@/utils/formatCurrency";
 import TableActions from "./TableActions";
 import CustomPagination from "./CustomPagination";
+import { Dispatch, SetStateAction } from "react";
 
 type TBody = {
   id?: string;
@@ -16,12 +17,14 @@ type TBody = {
 }
 
 type TProps = {
-  path: string;
+  path?: string;
   thead?: string[];
   tbody?: TBody[];
+  onEditClick?: (item: TBody) => void;
+  onDeleteClick?: (item: TBody) => void;
 }
 
-const CustomTable = ({ path, thead, tbody }: TProps) => {
+const CustomTable = ({ path, thead, tbody, onEditClick, onDeleteClick }: TProps) => {
   return (
     <div className="space-y-8">
       <div className='p-6 bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl shadow-lg w-full h-full overflow-hidden'>
@@ -95,7 +98,11 @@ const CustomTable = ({ path, thead, tbody }: TProps) => {
                       {
                         (thead?.includes("actions")) &&
                         <td className="py-4">
-                          <TableActions viewPath={`/${path}/${td.id}`} />
+                          <TableActions 
+                            viewPath={`/${path}/${td.id}`} 
+                            onEditClick={() => onEditClick?.(td)}
+                            onDeleteClick={() => onDeleteClick?.(td)}
+                          />
                         </td>
                       }
 

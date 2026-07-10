@@ -34,13 +34,13 @@ const TableActions = ({ isViewVisible = true, isEditVisible = true, isDeleteVisi
                     }
                     {
                         isEditVisible &&
-                        <button className="text-subheading hover:text-heading transition-colors duration-200 hover:scale-[1.1]">
+                        <button onClick={onEditClick} className="text-subheading hover:text-heading transition-colors duration-200 hover:scale-[1.1]">
                             <ClipboardPen size={18} strokeWidth={2} />
                         </button>
                     }
                     {
                         isDeleteVisible &&
-                        <button className="text-subheading hover:text-heading transition-colors duration-200 hover:scale-[1.1]">
+                        <button onClick={onDeleteClick} className="text-subheading hover:text-heading transition-colors duration-200 hover:scale-[1.1]">
                             <Trash2 size={18} strokeWidth={2} />
                         </button>
                     }

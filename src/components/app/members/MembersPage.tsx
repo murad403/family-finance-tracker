@@ -38,7 +38,16 @@ const MembersPage = () => {
 
             <MembersSearchAndFilter />
 
-            <MembersTable />
+            <MembersTable 
+                onEditMember={(member) => {
+                    setEditMemberForm(member);
+                    setEditModalOpen(true);
+                }}
+                onDeleteMember={(member) => {
+                    setSelectedMember(member);
+                    setDeleteModalOpen(true);
+                }}
+            />
 
             <AddMemberModal
                 isOpen={addModalOpen}
@@ -55,14 +64,14 @@ const MembersPage = () => {
                 isOpen={editModalOpen}
                 onClose={() => {
                     setEditModalOpen(false);
-                    setSelectedMember(null);
+                    setEditMemberForm(null);
                 }}
                 editMemberForm={editMemberForm}
                 setEditMemberForm={setEditMemberForm}
                 onSubmit={(e) => {
                     e.preventDefault();
                     setEditModalOpen(false);
-                    setSelectedMember(null);
+                    setEditMemberForm(null);
                 }}
             />
 

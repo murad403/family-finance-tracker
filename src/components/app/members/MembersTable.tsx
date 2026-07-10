@@ -1,8 +1,13 @@
 'use client';
 import CustomTable from '@/components/shared/CustomTable';
+import { FamilyMember } from '@/lib/types';
 
+type TProps = {
+    onEditMember: (member: FamilyMember) => void;
+    onDeleteMember: (member: FamilyMember) => void;
+}
 
-const MembersTable = () => {
+const MembersTable = ({ onEditMember, onDeleteMember }: TProps) => {
     const thead = [
         "profile", "relationship", "status", "phone", "lifetime income", "lifetime spend", "balance", "actions"
     ]
@@ -57,7 +62,13 @@ const MembersTable = () => {
         }
     ];
     return (
-        <CustomTable thead={thead} tbody={DEMO_MEMBERS} path='members' />
+        <CustomTable 
+            thead={thead} 
+            tbody={DEMO_MEMBERS} 
+            path='members' 
+            onEditClick={(member) => onEditMember(member as FamilyMember)}
+            onDeleteClick={(member) => onDeleteMember(member as FamilyMember)}
+        />
     );
 };
 
