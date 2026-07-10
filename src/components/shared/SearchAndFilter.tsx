@@ -31,7 +31,7 @@ const SearchAndFilter = ({ className, search, searchPlaceholder, filters }: Tpro
                         <Input
                             type="text"
                             placeholder={searchPlaceholder}
-                            className="bg-white/10 backdrop-blur-sm placeholder-subheading!"
+                            className="bg-white/10 backdrop-blur-sm placeholder-subheading! pl-10"
                         />
                     </div>
                 }

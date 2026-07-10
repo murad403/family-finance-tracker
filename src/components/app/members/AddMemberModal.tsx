@@ -5,6 +5,7 @@ import { RelationshipType } from '@/lib/types';
 import Modal from '@/components/shared/Modal';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 interface AddMemberModalProps {
     isOpen: boolean;
@@ -111,20 +112,21 @@ const AddMemberModal = ({ isOpen, onClose, newMemberForm, setNewMemberForm, onSu
                     </div>
                 </div>
 
-                <div className="flex gap-2.5 pt-2">
-                    <button
+                <div className="flex gap-1">
+                    <Button
+                        variant={'outline'}
+                        className='w-1/2'
                         type="button"
                         onClick={onClose}
-                        className="flex-1 rounded-xl bg-zinc-800 hover:bg-zinc-700 py-2.5 text-sm font-bold text-zinc-200 transition-colors"
                     >
                         Cancel
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                         type="submit"
-                        className="flex-1 rounded-xl bg-primary hover:bg-primary-hover py-2.5 text-sm font-bold text-white transition-colors"
+                        className='w-1/2'
                     >
                         Create Profile
-                    </button>
+                    </Button>
                 </div>
             </form>
         </Modal>
