@@ -27,8 +27,8 @@ const Modal = ({ children, isOpen, onClose, title, description }: TProps) => {
                         exit={{ scale: 0.95, opacity: 0 }}
                         className="bg-white/10 backdrop-blur-sm border border-global-border rounded-xl shadow-lg w-full max-w-lg relative z-10 p-6"
                     >
-                        <h3 className="text-lg font-semibold text-white">{title}</h3>
-                        <p className="text-title text-sm">{description}</p>
+                        {title && <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>}
+                        {description && <p className="text-title text-sm">{description}</p>}
                         {children}
                     </motion.div>
                 </div>

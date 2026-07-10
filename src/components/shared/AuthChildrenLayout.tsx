@@ -14,7 +14,7 @@ const AuthChildrenLayout = ({ children, title, subtitle }: TProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
         >
-            <div className="rounded-2xl p-4 sm:p-6 lg:p-8 shadow-md shadow-heading/50 hover:scale-105 transition-all duration-500 space-y-4 md:space-y-6">
+            <div className="rounded-2xl p-4 sm:p-6 lg:p-8 shadow-md shadow-heading/50 hover:scale-102 transition-all duration-500 space-y-4 md:space-y-6">
                 <div className="text-center">
                     {
                         title && <h2 className="text-xl md:text-2xl font-semibold text-title">{title}</h2>
