@@ -64,7 +64,7 @@
     {
       "name": "Members",
       "short_name": "Members",
-      "url": "http://localhost:3001/members"
+      "url": "/members"
     }
   ],
   "iarc_rating_id": "",
