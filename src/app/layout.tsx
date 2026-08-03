@@ -16,6 +16,7 @@ const sora = Sora({
 export const metadata: Metadata = {
   title: "Family Finance Tracker",
   description: "A private, premium finance tracking system for managing family members, monthly incomes, and daily expenses.",
+  manifest: "./manifest.json"
 };
 
 export default function RootLayout({
